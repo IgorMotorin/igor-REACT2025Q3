@@ -4,7 +4,6 @@ import Result from './component/Result';
 import Spinner from './component/Spinner';
 import Error from './component/Error';
 import ButtonErr from './component/ButtonErr';
-import ErrorBoundary from './component/ErrorBoundary.tsx';
 
 class App extends Component {
   state = {
@@ -78,18 +77,13 @@ class App extends Component {
       <>
         <Error run={this.state.error} text={this.state.errorText}></Error>
         <Spinner run={this.state.spinner}></Spinner>
-        <ErrorBoundary>
-          <Search
-            onChange={this.inputChange}
-            onSearch={this.inputSearch}
-            value={this.state.inputSearch}
-            buttonError={this.state.buttonError}
-          ></Search>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <Result cards={this.state.pets}></Result>
-        </ErrorBoundary>
-
+        <Search
+          onChange={this.inputChange}
+          onSearch={this.inputSearch}
+          value={this.state.inputSearch}
+          buttonError={this.state.buttonError}
+        ></Search>
+        <Result cards={this.state.pets}></Result>
         <ButtonErr onError={this.onError}></ButtonErr>
       </>
     );

@@ -111,18 +111,15 @@ describe('Search: User Interaction Tests', () => {
     render(app.render());
 
     const input = screen.getByRole('searchbox');
-    //   const button = screen.getAllByRole('button');
 
     const user = userEvent.setup();
 
     await user.click(input);
     await user.clear(input);
     await user.keyboard('test');
-    //   await user.click(button[0]);
 
     expect(input).toBeInTheDocument();
 
-    //   expect(input).toHaveValue('test');
     expect(buySpy).toHaveBeenCalled();
   });
 });

@@ -5,7 +5,7 @@ describe('Loading Component Tests', () => {
   it('Renders loading indicator (spinner, skeleton, etc.)', () => {
     render(<Spinner run={true}></Spinner>);
 
-    const spinner = screen.getByRole('progressbar');
+    const spinner = screen.getByTestId('spinner');
     expect(spinner).toBeInTheDocument();
     expect(spinner).toHaveTextContent('Loading');
     expect(spinner).toHaveClass('visible');
@@ -14,7 +14,7 @@ describe('Loading Component Tests', () => {
   it('Shows/hides based on loading prop', () => {
     render(<Spinner run={false}></Spinner>);
 
-    const spinner = screen.getByRole('progressbar');
+    const spinner = screen.getByTestId('spinner');
     expect(spinner).toBeInTheDocument();
     expect(spinner).toHaveTextContent('Loading');
     expect(spinner).toHaveClass('invisible');

@@ -3,7 +3,7 @@ import { Component } from 'react';
 class Spinner extends Component<{ run: boolean }> {
   render() {
     return (
-      <div
+      <progress
         className={
           this.props.run
             ? 'absolute p-10 w-full h-full bg-white opacity-90 z-10 visible'
@@ -33,7 +33,7 @@ class Spinner extends Component<{ run: boolean }> {
             ></path>
           </svg>
         </div>
-      </div>
+      </progress>
     );
   }
 }

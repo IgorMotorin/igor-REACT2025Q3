@@ -64,8 +64,11 @@ class App extends Component {
 
   inputSearch: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
-    const regex = new RegExp(this.state.inputSearch);
-    localStorage.setItem('appkey', this.state.inputSearch);
+    this.setState((prevState: { inputSearch: string }) => ({
+      inputSearch: prevState.inputSearch.trim(),
+    }));
+    const regex = new RegExp(this.state.inputSearch.trim());
+    localStorage.setItem('appkey', this.state.inputSearch.trim());
     this.updateData(regex);
   };
 

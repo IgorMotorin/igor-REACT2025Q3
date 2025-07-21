@@ -105,7 +105,7 @@ describe('Search: User Interaction Tests', () => {
   });
 
   it('Triggers search callback with correct parameters', async () => {
-    const app = new App({ state: {} });
+    const app = new App({});
     const buySpy = vi.spyOn(app, 'inputChange');
 
     render(app.render());
@@ -122,21 +122,4 @@ describe('Search: User Interaction Tests', () => {
 
     expect(buySpy).toHaveBeenCalled();
   });
-});
-
-describe('CardList: Error Handling Tests', () => {
-  it('Shows loading state while fetching data', async () => {
-    // beforeEach(() => {
-    //   vi.clearAllMocks();
-    // });
-    // const mockData = { id: 1, name: 'Example' };
-    // vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(new Response());
-    // const data = await fetchDataFromApi('/example');
-    // expect(data).toEqual(mockData);
-    // expect(fetch).toHaveBeenCalledWith('/example');
-    // render(<App />);
-  });
-
-  it('Displays error message when API call fails', () => {});
-  it('Shows appropriate error for different HTTP status codes (4xx, 5xx)', () => {});
 });

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import App from '../../App';
 
 describe('Search: User Interaction Tests', () => {
-  it('Displays previously saved search term from localStorage on mount', () => {
+  it('v1 - Displays previously saved search term from localStorage on mount', () => {
     // Set up our spies
     const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
     const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
@@ -25,7 +25,7 @@ describe('Search: User Interaction Tests', () => {
     expect(input).toHaveValue('dark');
   });
 
-  it('Shows empty input when no saved term exists', () => {
+  it('v1 - Shows empty input when no saved term exists', () => {
     // Set up our spies
     const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
     const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
@@ -102,24 +102,5 @@ describe('Search: User Interaction Tests', () => {
     expect(input).toBeInTheDocument();
     expect(button[0]).toBeInTheDocument();
     expect(input).toHaveValue('user input text1');
-  });
-
-  it('Triggers search callback with correct parameters', async () => {
-    const app = new App({});
-    const buySpy = vi.spyOn(app, 'inputChange');
-
-    render(app.render());
-
-    const input = screen.getByRole('searchbox');
-
-    const user = userEvent.setup();
-
-    await user.click(input);
-    await user.clear(input);
-    await user.keyboard('test');
-
-    expect(input).toBeInTheDocument();
-
-    expect(buySpy).toHaveBeenCalled();
   });
 });

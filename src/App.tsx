@@ -1,35 +1,96 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg?url';
-import './App.css';
+import { Component, type MouseEventHandler } from 'react';
+import Search from './component/Search';
+import Result from './component/Result';
+import Spinner from './component/Spinner';
+import Error from './component/Error';
+import ButtonErr from './component/ButtonErr';
 
-function App() {
-  const [count, setCount] = useState(0);
+class App extends Component {
+  state = {
+    pets: [],
+    inputSearch: localStorage.getItem('appkey') || '',
+    url: 'https://catfact.ninja/facts?max_length=100&limit=100',
+    spinner: false,
+    error: false,
+    errorText: 'Ошибка в приложении...',
+    buttonError: false,
+  };
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+  componentDidMount(): void {
+    const regex = new RegExp(this.state.inputSearch);
+    this.updateData(regex);
+  }
+
+  updateData = (regex: RegExp) => {
+    this.setState({ spinner: true });
+    fetch(this.state.url)
+      .then((req) => {
+        if (req.ok) {
+          this.setState({ spinner: false });
+          return req.json();
+        } else {
+          this.setState({
+            spinner: false,
+            error: true,
+            errorText: `Ошибка связи !!! Статус: ${req.status}`,
+          });
+          return [];
+        }
+      })
+      .then((req) => {
+        this.setState({
+          pets: req.data.filter((item: { fact: string }) => {
+            if (regex.test(item.fact?.toLowerCase())) {
+              return true;
+            } else {
+              return false;
+            }
+          }),
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          spinner: false,
+          error: true,
+          errorText: 'Ошибка связи !',
+        });
+        console.log(err);
+      });
+  };
+
+  inputChange = (e: { target: { value: string } }): void => {
+    this.setState({ inputSearch: e.target.value });
+  };
+
+  inputSearch: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    this.setState((prevState: { inputSearch: string }) => ({
+      inputSearch: prevState.inputSearch.trim(),
+    }));
+    const regex = new RegExp(this.state.inputSearch.trim());
+    localStorage.setItem('appkey', this.state.inputSearch.trim());
+    this.updateData(regex);
+  };
+
+  onError = () => {
+    this.setState({ buttonError: true });
+  };
+  render() {
+    return (
+      <>
+        <Error run={this.state.error} text={this.state.errorText}></Error>
+        <Spinner run={this.state.spinner}></Spinner>
+        <Search
+          onChange={this.inputChange}
+          onSearch={this.inputSearch}
+          value={this.state.inputSearch}
+          buttonError={this.state.buttonError}
+        ></Search>
+        <Result cards={this.state.pets}></Result>
+        <ButtonErr onError={this.onError}></ButtonErr>
+      </>
+    );
+  }
 }
 
 export default App;

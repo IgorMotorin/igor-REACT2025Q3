@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import App from '../../App';
+import App from '../../App.old';
 
 describe('Search: User Interaction Tests', () => {
   it('v1 - Displays previously saved search term from localStorage on mount', () => {

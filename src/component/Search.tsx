@@ -5,11 +5,13 @@ export default function Search({
   onSearch,
   value,
   buttonError,
+  number,
 }: Readonly<{
   onChange: (e: { target: { value: string } }) => void;
   onSearch: MouseEventHandler<HTMLButtonElement>;
   value: string;
   buttonError: boolean;
+  number: number;
 }>) {
   if (buttonError) {
     throw new Error('I crashed!');
@@ -36,6 +38,10 @@ export default function Search({
           >
             Поиск
           </button>
+
+          <div className="relative right-4 bottom-5 -mr-6 inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-gray-400 text-white">
+            {number}
+          </div>
         </form>
       </div>
     </div>

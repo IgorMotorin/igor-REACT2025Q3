@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Error from '../../component/Error';
+import Error from '../../component/ErrorScreen';
 
 describe('Error Component Tests', () => {
   it('Renders Error component', () => {

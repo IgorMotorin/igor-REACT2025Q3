@@ -2,7 +2,7 @@ import { Component, type MouseEventHandler } from 'react';
 import Search from './component/Search';
 import Result from './component/Result';
 import Spinner from './component/Spinner';
-import Error from './component/Error';
+import ErrorScreen from './component/ErrorScreen';
 import ButtonErr from './component/ButtonErr';
 
 class App extends Component {
@@ -79,7 +79,10 @@ class App extends Component {
   render() {
     return (
       <>
-        <Error run={this.state.error} text={this.state.errorText}></Error>
+        <ErrorScreen
+          run={this.state.error}
+          text={this.state.errorText}
+        ></ErrorScreen>
         <Spinner run={this.state.spinner}></Spinner>
         <Search
           onChange={this.inputChange}

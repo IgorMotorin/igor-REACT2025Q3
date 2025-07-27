@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router';
 import Search from '../../component/Search';
 import userEvent from '@testing-library/user-event';
 
@@ -9,8 +10,13 @@ describe('component Search Renders', () => {
       onSearch: () => {},
       value: 'inputText',
       buttonError: false,
+      number: 1,
     };
-    render(<Search {...searchProp} />);
+    render(
+      <BrowserRouter>
+        <Search {...searchProp} />
+      </BrowserRouter>
+    );
 
     const input = screen.getByRole('searchbox');
     expect(input).toBeInTheDocument();
@@ -23,8 +29,13 @@ describe('component Search Renders', () => {
       onSearch: () => {},
       value: 'inputText',
       buttonError: false,
+      number: 1,
     };
-    render(<Search {...searchProp} />);
+    render(
+      <BrowserRouter>
+        <Search {...searchProp} />
+      </BrowserRouter>
+    );
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
@@ -38,9 +49,14 @@ describe('component Search Renders', () => {
       onSearch: () => {},
       value: localStorage.getItem('appkey') || '',
       buttonError: false,
+      number: 1,
     };
 
-    render(<Search {...searchProp} />);
+    render(
+      <BrowserRouter>
+        <Search {...searchProp} />
+      </BrowserRouter>
+    );
     const input = screen.getByRole('searchbox');
     expect(input).toBeInTheDocument();
     expect(input).toHaveValue('local');
@@ -53,9 +69,14 @@ describe('component Search Renders', () => {
       onSearch: () => {},
       value: localStorage.getItem('appkey') || '',
       buttonError: false,
+      number: 1,
     };
 
-    render(<Search {...searchProp} />);
+    render(
+      <BrowserRouter>
+        <Search {...searchProp} />
+      </BrowserRouter>
+    );
     const input = screen.getByRole('searchbox');
     expect(input).toBeInTheDocument();
     expect(input).toHaveValue('');
@@ -66,9 +87,10 @@ describe('component Search Renders', () => {
       onSearch: () => {},
       value: '',
       buttonError: false,
+      number: 1,
     };
-    const app = new Search(searchProp);
-    render(app.render());
+    const app = Search(searchProp);
+    render(<BrowserRouter>{app}</BrowserRouter>);
 
     const input = screen.getByRole('searchbox');
 
@@ -77,7 +99,7 @@ describe('component Search Renders', () => {
     await user.click(input);
     await user.keyboard(test);
 
-    expect(app.props.onChange).toHaveBeenCalledTimes(test.length);
+    expect(searchProp.onChange).toHaveBeenCalledTimes(test.length);
   });
   it('Triggers search callback Button', async () => {
     const searchProp = {
@@ -85,9 +107,10 @@ describe('component Search Renders', () => {
       onSearch: vi.fn(),
       value: '',
       buttonError: false,
+      number: 1,
     };
-    const app = new Search(searchProp);
-    render(app.render());
+    const app = Search(searchProp);
+    render(<BrowserRouter>{app}</BrowserRouter>);
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
@@ -98,6 +121,6 @@ describe('component Search Renders', () => {
     await user.click(button);
     await user.click(button);
 
-    expect(app.props.onSearch).toHaveBeenCalledTimes(2);
+    expect(searchProp.onSearch).toHaveBeenCalledTimes(2);
   });
 });

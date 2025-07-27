@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router';
 import Card from '../../component/Card';
 
 describe('Card/Item Component Tests', () => {
@@ -6,8 +7,14 @@ describe('Card/Item Component Tests', () => {
     const cardProp = {
       name: 'namecard',
       text: 'textcard',
+      page: 1,
+      details: 0,
     };
-    render(<Card {...cardProp}></Card>);
+    render(
+      <BrowserRouter>
+        <Card {...cardProp}></Card>
+      </BrowserRouter>
+    );
 
     const heading = screen.getByRole('heading');
     const paragraph = screen.getByRole('paragraph');
@@ -21,8 +28,14 @@ describe('Card/Item Component Tests', () => {
     const cardProp = {
       name: '',
       text: '',
+      page: 1,
+      details: 0,
     };
-    render(<Card {...cardProp}></Card>);
+    render(
+      <BrowserRouter>
+        <Card {...cardProp}></Card>
+      </BrowserRouter>
+    );
 
     const heading = screen.getByRole('heading');
     expect(heading).toBeInTheDocument();

@@ -33,7 +33,7 @@ class ErrorBoundary extends Component<
             onClick={() => {
               window.location.reload();
             }}
-            className="max-w-42 min-w-24 py-2 px-2 font-medium rounded-lg transition-colors focus:outline-none bg-red-600 hover:bg-red-700 text-white active:bg-red-600"
+            className="max-w-42 min-w-24 py-2 px-2 font-medium rounded-lg transition-colors focus:outline-none bg-indigo-600 hover:bg-indigo-700 text-white active:bg-indigo-600"
           >
             Обновить страницу
           </button>

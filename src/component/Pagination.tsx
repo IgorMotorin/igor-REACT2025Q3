@@ -1,14 +1,21 @@
 import { Link } from 'react-router';
 
-export default function Pagination({ length }: Readonly<{ length: number }>) {
-  const arr = new Array(Math.ceil(length / 5)).fill('');
+export default function Pagination({
+  length,
+  numPagination,
+}: Readonly<{
+  length: number;
+  numPagination: number;
+}>) {
+  const num = Math.ceil(length / 10);
+  const arr = new Array(num).fill('');
 
   return (
     <ol className="flex justify-center text-xs font-medium space-x-1 mb-6">
       <li>
         <Link
-          to="page=1"
-          className="inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded"
+          to={'?page=' + (numPagination < 2 ? 1 : numPagination - 1)}
+          className="inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded  active:text-white active:bg-blue-600 active:border-blue-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -28,8 +35,12 @@ export default function Pagination({ length }: Readonly<{ length: number }>) {
         return (
           <li key={'f' + item + idx}>
             <Link
-              to={'page=' + (idx + 1)}
-              className="block w-8 h-8 text-center border border-gray-100 rounded leading-8"
+              to={'?page=' + (idx + 1)}
+              className={
+                idx + 1 == numPagination
+                  ? 'block w-8 h-8 text-center border rounded leading-8 text-white bg-blue-600 border-blue-600'
+                  : 'block w-8 h-8 text-center border border-gray-100 rounded leading-8'
+              }
             >
               {' '}
               {idx + 1}{' '}
@@ -39,9 +50,9 @@ export default function Pagination({ length }: Readonly<{ length: number }>) {
       })}
 
       <li>
-        <a
-          href="/?page=3"
-          className="inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded"
+        <Link
+          to={'?page=' + (numPagination > num - 1 ? num : numPagination + 1)}
+          className="inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded active:text-white active:bg-blue-600 active:border-blue-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +66,7 @@ export default function Pagination({ length }: Readonly<{ length: number }>) {
               clipRule="evenodd"
             />
           </svg>
-        </a>
+        </Link>
       </li>
     </ol>
   );

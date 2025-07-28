@@ -5,7 +5,7 @@ import Spinner from './component/Spinner';
 import ErrorScreen from './component/ErrorScreen';
 import ButtonErr from './component/ButtonErr';
 import { useLocalStorage } from './component/hooks';
-import { Outlet, Route, Routes, useLocation } from 'react-router';
+import { Outlet, Route, Routes, useLocation, useNavigate } from 'react-router';
 import Layout from './routes/Layout';
 import Home from './routes/Home';
 import Pagination from './component/Pagination';
@@ -23,6 +23,7 @@ export default function App() {
   const limit = 10;
   const location = useLocation();
   const [details, setDetails] = useState(0);
+  const navigate = useNavigate();
 
   const onUpdateData = useCallback(
     (regex: RegExp) => {
@@ -73,6 +74,9 @@ export default function App() {
     const details = url.get('details');
     if (page !== null) {
       setNumPagination(parseInt(page));
+      if (details !== null) {
+        onUpdateData(new RegExp(inputSearch));
+      }
     } else {
       setNumPagination(1);
     }
@@ -81,7 +85,7 @@ export default function App() {
     } else {
       setDetails(0);
     }
-  }, [location]);
+  }, [location, inputSearch, onUpdateData]);
 
   return (
     <Routes>
@@ -94,7 +98,10 @@ export default function App() {
               <ErrorScreen run={error} text={errorText}></ErrorScreen>
               <Spinner run={spinner}></Spinner>
               <Search
-                onChange={(e) => setInputSearch(e.target.value)}
+                onChange={(e) => {
+                  setInputSearch(e.target.value);
+                  navigate('/cards');
+                }}
                 onSearch={(e) => {
                   e.preventDefault();
                   setInputSearch((prev: string) => prev.trim());

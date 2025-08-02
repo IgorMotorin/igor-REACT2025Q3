@@ -9,8 +9,8 @@ export default function ErrorScreen({
     <div
       className={
         run
-          ? 'absolute p-10 w-full h-screen bg-white opacity-90 z-10 visible'
-          : 'absolute p-10 w-full h-screen bg-white opacity-90 z-10 invisible'
+          ? 'absolute p-10 w-full h-full bg-white opacity-90 z-10 visible'
+          : 'absolute p-10 w-full h-full bg-white opacity-90 z-10 invisible'
       }
     >
       <div className="flex items-center justify-center">

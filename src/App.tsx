@@ -1,91 +1,71 @@
 import { useCallback, useEffect, useState } from 'react';
-import Search from './component/Search';
 import Result from './component/Result';
-import Spinner from './component/Spinner';
 import ErrorScreen from './component/ErrorScreen';
-import ButtonErr from './component/ButtonErr';
 import { useLocalStorage } from './component/hooks';
-import { Outlet, Route, Routes, useLocation, useNavigate } from 'react-router';
+import { Route, Routes, useSearchParams } from 'react-router';
 import Layout from './routes/Layout';
 import Home from './routes/Home';
-import Pagination from './component/Pagination';
+
 import About from './routes/About';
+import Cards from './routes/Cards';
+import { BASE_URL } from './routes/URL';
 
 export default function App() {
   const [pets, setPets] = useState([]);
-  const [key, setKey] = useLocalStorage('appkey', '');
-  const [inputSearch, setInputSearch] = useState(key);
   const [spinner, setSpinner] = useState(false);
   const [error, setError] = useState(false);
   const [errorText, setErrorText] = useState('Ошибка в приложении...');
-  const [buttonError, setButtonError] = useState(false);
-  const [numPagination, setNumPagination] = useState(1);
-  const limit = 10;
-  const location = useLocation();
-  const [details, setDetails] = useState(0);
-  const navigate = useNavigate();
-
-  const onUpdateData = useCallback(
-    (regex: RegExp) => {
-      const url = 'https://catfact.ninja/facts?max_length=100&limit=100';
-      setSpinner(true);
-      fetch(url)
-        .then((req) => {
-          if (req.ok) {
-            setSpinner(false);
-            return req.json();
-          } else {
-            setSpinner(false);
-            setError(true);
-            setErrorText(`Ошибка связи !!! Статус: ${req.status}`);
-
-            return [];
-          }
-        })
-        .then((req) => {
-          setPets(
-            req.data.filter((item: { fact: string }) => {
-              if (regex.test(item.fact?.toLowerCase())) {
-                return true;
-              } else {
-                return false;
-              }
-            })
-          );
-        })
-        .catch((err) => {
-          setSpinner(false);
-          setError(true);
-          setErrorText(`Ошибка связи !`);
-
-          console.log(err);
-        });
-    },
-    [setSpinner, setError, setErrorText, setPets]
+  const [count, setCount] = useState(0);
+  const [search, setSearch] = useSearchParams();
+  const [key, setKey] = useLocalStorage('appkey', '');
+  const [inputSearch, setInputSearch] = useState(
+    search.get('search')?.toLowerCase() || key
   );
+  const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    onUpdateData(new RegExp(inputSearch));
-  }, [inputSearch, onUpdateData]);
-
-  useEffect(() => {
-    const url = new URLSearchParams(location.search);
-    const page = url.get('page');
-    const details = url.get('details');
-    if (page !== null) {
-      setNumPagination(parseInt(page));
-      if (details !== null) {
-        onUpdateData(new RegExp(inputSearch));
+  const fetchData = useCallback(async (url: string) => {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        return res.json();
       }
-    } else {
-      setNumPagination(1);
+      const out = await res.json();
+      return out;
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new Error(err.message);
+      } else {
+        throw new Error('Fetch error occurred.');
+      }
     }
-    if (details !== null) {
-      setDetails(parseInt(details));
-    } else {
-      setDetails(0);
+  }, []);
+
+  useEffect(() => {
+    const load = async () => {
+      setSpinner(true);
+      try {
+        const pageParam = '?page=' + (search.get('page') || '1');
+        const searchGet = search.get('search');
+        const searchParam = searchGet ? '&search=' + searchGet : '';
+        const url = BASE_URL + pageParam + searchParam;
+
+        const data = await fetchData(url);
+        setPets(data.results);
+        setCount(data.count);
+        setPage(Number(search.get('page') || 1));
+        setSpinner(false);
+      } catch (error) {
+        setSpinner(false);
+        setError(true);
+        console.log(error);
+      }
+    };
+
+    if (Number(search.get('page')) == page) {
+      return;
     }
-  }, [location, inputSearch, onUpdateData]);
+    load();
+  }, [fetchData, setPets, setErrorText, setError, setSpinner, search, page]);
 
   return (
     <Routes>
@@ -94,45 +74,34 @@ export default function App() {
         <Route
           path="cards"
           element={
-            <>
-              <ErrorScreen run={error} text={errorText}></ErrorScreen>
-              <Spinner run={spinner}></Spinner>
-              <Search
-                onChange={(e) => {
-                  setInputSearch(e.target.value);
-                  navigate('/cards');
-                }}
-                onSearch={(e) => {
-                  e.preventDefault();
-                  setInputSearch((prev: string) => prev.trim());
+            <Cards
+              onChange={(e: { target: { value: string } }) => {
+                setInputSearch(e.target.value.toLowerCase());
+              }}
+              onSearch={(e) => {
+                e.preventDefault();
+                setInputSearch((prev: string) => prev.trim());
 
-                  const input = inputSearch.trim();
-                  setKey(input);
-                  onUpdateData(new RegExp(input));
-                }}
-                value={inputSearch}
-                buttonError={buttonError}
-                number={pets.length}
-              ></Search>
-              <Pagination
-                length={pets.length}
-                numPagination={numPagination}
-              ></Pagination>
-              <Outlet></Outlet>
-              <ButtonErr onError={() => setButtonError(true)}></ButtonErr>
-            </>
+                const input = inputSearch.trim();
+                setKey(input);
+                setSearch(input ? 'search=' + input : '');
+              }}
+              pagination={count}
+              input={inputSearch}
+              number={count}
+              numPagination={page}
+            ></Cards>
           }
         >
           <Route
             path=""
             element={
               <Result
-                cards={pets.slice(
-                  limit * numPagination - 10,
-                  limit * numPagination
-                )}
-                page={numPagination}
-                details={details}
+                cards={pets}
+                page={page}
+                error={error}
+                spinner={spinner}
+                errorText={errorText}
               ></Result>
             }
           />

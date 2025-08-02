@@ -4,18 +4,13 @@ export default function Search({
   onChange,
   onSearch,
   value,
-  buttonError,
   number,
 }: Readonly<{
   onChange: (e: { target: { value: string } }) => void;
   onSearch: MouseEventHandler<HTMLButtonElement>;
   value: string;
-  buttonError: boolean;
   number: number;
 }>) {
-  if (buttonError) {
-    throw new Error('I crashed!');
-  }
   return (
     <div className="flex flex-1 items-center justify-center p-6">
       <div className="w-full max-w-lg">

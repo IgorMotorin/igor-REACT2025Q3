@@ -1,4 +1,11 @@
+import { useState } from 'react';
+import ButtonErr from '../component/ButtonErr';
+
 export default function Home() {
+  const [buttonError, setButtonError] = useState(false);
+  if (buttonError) {
+    throw new Error('I crashed!');
+  }
   return (
     <div>
       <h1 className="mt-5 self-center text-xl font-semibold whitespace-nowrap dark:text-white">
@@ -19,6 +26,7 @@ export default function Home() {
         <li>Create custom hooks for shared logic</li>
         <li>Add pagination with URL synchronization</li>
       </ul>
+      <ButtonErr onError={() => setButtonError(true)}></ButtonErr>
     </div>
   );
 }

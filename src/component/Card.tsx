@@ -4,19 +4,21 @@ export default function Card({
   name = '',
   text = '',
   page,
-  details,
+  id,
 }: Readonly<{
   name: string;
   text: string;
   page: number;
-  details: number;
+  id: number;
 }>) {
   return (
-    <Link to={`?page=${page}&details=${details}`}>
-      <li className="relative m-1 w-60 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5 shadow-lg">
-        <div className="bg-white p-5 rounded-md">
-          <h1 className="font-bold text-xl mb-2">{name}</h1>
-          <p>{text}</p>
+    <Link to={`?page=${page}&details=${id}`}>
+      <li className="relative m-1  h-40 w-60 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5 shadow-lg">
+        <div className="bg-white h-35 p-5 rounded-md">
+          <h1 className="font-bold text-xl mb-2">
+            {name.length < 20 ? name : name.slice(0, 20) + ' ...'}
+          </h1>
+          <p>{text.length < 45 ? text : text.slice(0, 45) + ' ...'}</p>
         </div>
       </li>
     </Link>

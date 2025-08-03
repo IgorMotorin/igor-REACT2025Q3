@@ -10,6 +10,8 @@ import About from './routes/About';
 import Cards from './routes/Cards';
 import { BASE_URL } from './routes/URL';
 import { ThemeContext } from './component/Context';
+import { useDispatch } from 'react-redux';
+import { addPage } from './checkSlice';
 
 export default function App() {
   const [pets, setPets] = useState([]);
@@ -24,6 +26,8 @@ export default function App() {
   );
   const [page, setPage] = useState(1);
   const [theme, setTheme] = useState('light');
+
+  const dispatch = useDispatch();
 
   const fetchData = useCallback(async (url: string) => {
     try {
@@ -53,6 +57,15 @@ export default function App() {
 
         const data = await fetchData(url);
         setPets(data.results);
+        const arr = data.results.map((item) => {
+          item.flag = true;
+          return item;
+        });
+        dispatch(
+          addPage({
+            [search.get('page') || '1']: arr,
+          })
+        );
         setCount(Number(data.count) || 0);
         setPage(Number(search.get('page') || 1));
         setSpinner(false);
@@ -67,7 +80,16 @@ export default function App() {
       return;
     }
     load();
-  }, [fetchData, setPets, setErrorText, setError, setSpinner, search, page]);
+  }, [
+    fetchData,
+    setPets,
+    setErrorText,
+    setError,
+    setSpinner,
+    search,
+    page,
+    dispatch,
+  ]);
 
   return (
     <ThemeContext value={theme}>
@@ -105,6 +127,7 @@ export default function App() {
                   error={error}
                   spinner={spinner}
                   errorText={errorText}
+                  search={inputSearch}
                 ></Result>
               }
             />

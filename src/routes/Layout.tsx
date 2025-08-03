@@ -22,7 +22,7 @@ export default function Layout({
               alt="Landwind Logo"
             ></img>
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              Hooks and Routing
+              State Management and Context API
             </span>
           </a>
           <div className="flex items-center lg:order-2"></div>

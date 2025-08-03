@@ -11,12 +11,14 @@ export default function Result({
   error = false,
   spinner = false,
   errorText = '',
+  inputSearch = 'key',
 }: Readonly<{
   page: number;
   cards: { title: string; id: number; authors: { name: string }[] }[];
   error: boolean;
   spinner: boolean;
   errorText: string;
+  inputSearch: string;
 }>) {
   const theme = useContext(ThemeContext);
   return (
@@ -36,17 +38,12 @@ export default function Result({
                 text={itm.title}
                 id={itm.id}
                 page={page}
+                arr={idx}
+                inputSearch={inputSearch}
               ></Card>
             );
           })
         ) : (
-          // <Card
-          //   key={'a1'}
-          //   name={'no result'}
-          //   text={'no result'}
-          //   page={1}
-          //   id={0}
-          // ></Card>
           <div className=" items-center p-5 rounded-md w-80">
             <h1 className="font-bold text-xl mb-2">No result...</h1>
           </div>

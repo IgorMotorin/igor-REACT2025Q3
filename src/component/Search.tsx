@@ -1,4 +1,5 @@
-import { type MouseEventHandler } from 'react';
+import { useContext, type MouseEventHandler } from 'react';
+import { ThemeContext } from './Context';
 
 export default function Search({
   onChange,
@@ -11,8 +12,12 @@ export default function Search({
   value: string;
   number: number;
 }>) {
+  const theme = useContext(ThemeContext);
   return (
-    <div className="flex flex-1 items-center justify-center p-6">
+    <div
+      className="flex flex-1 items-center justify-center p-6 dark:bg-cyan-950 dark:text-white"
+      data-theme={theme}
+    >
       <div className="w-full max-w-lg">
         <form className="mt-5 sm:flex sm:items-center">
           <input

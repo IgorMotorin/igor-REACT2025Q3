@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { useSearchParams } from 'react-router';
+import { ThemeContext } from './Context';
 
 export default function Pagination({
   length = 0,
@@ -11,9 +13,13 @@ export default function Pagination({
   const arr = new Array(num > 10 ? 10 : num).fill('');
   const [, setSearch] = useSearchParams();
   const numPag = numPagination % 10 ? numPagination % 10 : 10;
+  const theme = useContext(ThemeContext);
 
   return (
-    <ol className="flex justify-center text-xs font-medium space-x-1 mb-6">
+    <ol
+      className="flex justify-center text-xs font-medium space-x-1 pb-6 dark:bg-cyan-950 dark:text-white"
+      data-theme={theme}
+    >
       <li>
         <button
           onClick={() => {

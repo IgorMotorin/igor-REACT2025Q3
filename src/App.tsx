@@ -9,6 +9,7 @@ import Home from './routes/Home';
 import About from './routes/About';
 import Cards from './routes/Cards';
 import { BASE_URL } from './routes/URL';
+import { ThemeContext } from './component/Context';
 
 export default function App() {
   const [pets, setPets] = useState([]);
@@ -22,6 +23,7 @@ export default function App() {
     search.get('search')?.toLowerCase() || key
   );
   const [page, setPage] = useState(1);
+  const [theme, setTheme] = useState('light');
 
   const fetchData = useCallback(async (url: string) => {
     try {
@@ -68,55 +70,57 @@ export default function App() {
   }, [fetchData, setPets, setErrorText, setError, setSpinner, search, page]);
 
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route
-          path="cards"
-          element={
-            <Cards
-              onChange={(e: { target: { value: string } }) => {
-                setInputSearch(e.target.value.toLowerCase());
-              }}
-              onSearch={(e) => {
-                e.preventDefault();
-                setInputSearch((prev: string) => prev.trim());
-
-                const input = inputSearch.trim();
-                setKey(input);
-                setSearch(input ? 'search=' + input : '');
-              }}
-              pagination={count}
-              input={inputSearch}
-              number={count}
-              numPagination={page}
-            ></Cards>
-          }
-        >
+    <ThemeContext value={theme}>
+      <Routes>
+        <Route element={<Layout setTheme={setTheme} />}>
+          <Route index element={<Home />} />
           <Route
-            path=""
+            path="cards"
             element={
-              <Result
-                cards={pets}
-                page={page}
-                error={error}
-                spinner={spinner}
-                errorText={errorText}
-              ></Result>
+              <Cards
+                onChange={(e: { target: { value: string } }) => {
+                  setInputSearch(e.target.value.toLowerCase());
+                }}
+                onSearch={(e) => {
+                  e.preventDefault();
+                  setInputSearch((prev: string) => prev.trim());
+
+                  const input = inputSearch.trim();
+                  setKey(input);
+                  setSearch(input ? 'search=' + input : '');
+                }}
+                pagination={count}
+                input={inputSearch}
+                number={count}
+                numPagination={page}
+              ></Cards>
+            }
+          >
+            <Route
+              path=""
+              element={
+                <Result
+                  cards={pets}
+                  page={page}
+                  error={error}
+                  spinner={spinner}
+                  errorText={errorText}
+                ></Result>
+              }
+            />
+          </Route>
+          <Route path="about" element={<About></About>}></Route>
+          <Route
+            path="*"
+            element={
+              <ErrorScreen
+                run={true}
+                text={'Ошибка 404 - Такой страницы не существует...'}
+              ></ErrorScreen>
             }
           />
         </Route>
-        <Route path="about" element={<About></About>}></Route>
-        <Route
-          path="*"
-          element={
-            <ErrorScreen
-              run={true}
-              text={'Ошибка 404 - Такой страницы не существует...'}
-            ></ErrorScreen>
-          }
-        />
-      </Route>
-    </Routes>
+      </Routes>
+    </ThemeContext>
   );
 }

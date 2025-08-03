@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import MinSpinner from './MinSpinner';
 import { BASE_URL } from '../routes/URL';
+import { ThemeContext } from './Context';
 
 export default function Details({ page }: Readonly<{ page: number }>) {
   const [search] = useSearchParams();
@@ -14,6 +15,7 @@ export default function Details({ page }: Readonly<{ page: number }>) {
   const [spinner, setSpinner] = useState(false);
   const [on, setOn] = useState(false);
   const [error, setError] = useState(false);
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
     const searchTerm = search.get('details') || '';
@@ -48,7 +50,8 @@ export default function Details({ page }: Readonly<{ page: number }>) {
     <div className="text-1xl p-2 text-red-500">Error connection!</div>
   ) : (
     <div
-      className={`${on ? '' : 'hidden'} relative m-1 p-3 h-full  rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 shadow-lg`}
+      data-theme={theme}
+      className={`${on ? '' : 'hidden'} relative m-1 p-3 h-full  rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 shadow-lg dark:bg-cyan-950 dark:text-white`}
     >
       {spinner ? (
         <MinSpinner></MinSpinner>

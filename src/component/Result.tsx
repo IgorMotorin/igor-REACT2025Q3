@@ -1,7 +1,9 @@
+import { useContext } from 'react';
 import Card from './Card';
 import Details from './Details';
 import ErrorScreen from './ErrorScreen';
 import Spinner from './Spinner';
+import { ThemeContext } from './Context';
 
 export default function Result({
   page = 1,
@@ -16,11 +18,15 @@ export default function Result({
   spinner: boolean;
   errorText: string;
 }>) {
+  const theme = useContext(ThemeContext);
   return (
-    <div className="flex ">
+    <div data-theme={theme} className="flex dark:bg-cyan-950 dark:text-white">
       <ErrorScreen run={error} text={errorText}></ErrorScreen>
       <Spinner run={spinner}></Spinner>
-      <ul className="flex justify-center content-start flex-wrap">
+      <ul
+        className="flex justify-center content-start flex-wrap dark:bg-cyan-950 dark:text-white"
+        data-theme={theme}
+      >
         {cards.length > 0 ? (
           cards.map((itm, idx) => {
             return (

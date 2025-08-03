@@ -1,13 +1,18 @@
-export default function minSpinner() {
+import { useContext } from 'react';
+import { ThemeContext } from './Context';
+
+export default function MinSpinner() {
+  const theme = useContext(ThemeContext);
   return (
     <div
+      data-theme={theme}
       data-testid="spinner"
-      className="p-10 w-80 h-full bg-white opacity-90 z-10 visible"
+      className="p-10 w-80 h-full bg-white opacity-90 z-10 visible dark:bg-cyan-950 dark:text-white"
     >
       <div className="flex items-center justify-center">
         <span className="text-2xl mr-4">Loading</span>
         <svg
-          className="animate-spin h-8 w-8 text-gray-800"
+          className="animate-spin h-8 w-8 text-gray-800 dark:bg-cyan-950 dark:text-white"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

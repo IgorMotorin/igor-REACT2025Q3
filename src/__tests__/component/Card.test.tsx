@@ -8,7 +8,7 @@ describe('Card/Item Component Tests', () => {
       name: 'namecard',
       text: 'textcard',
       page: 1,
-      details: 0,
+      id: 0,
     };
     render(
       <BrowserRouter>
@@ -29,7 +29,7 @@ describe('Card/Item Component Tests', () => {
       name: '',
       text: '',
       page: 1,
-      details: 0,
+      id: 0,
     };
     render(
       <BrowserRouter>

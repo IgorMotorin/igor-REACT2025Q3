@@ -1,13 +1,13 @@
 import { useSearchParams } from 'react-router';
 
 export default function Pagination({
-  length,
-  numPagination,
+  length = 0,
+  numPagination = 0,
 }: Readonly<{
   length: number;
   numPagination: number;
 }>) {
-  const num = Math.ceil(length / 32);
+  const num = Math.ceil(length / 32) || 0;
   const arr = new Array(num > 10 ? 10 : num).fill('');
   const [, setSearch] = useSearchParams();
   const numPag = numPagination % 10 ? numPagination % 10 : 10;

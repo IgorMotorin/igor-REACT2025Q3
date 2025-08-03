@@ -51,7 +51,7 @@ export default function App() {
 
         const data = await fetchData(url);
         setPets(data.results);
-        setCount(data.count);
+        setCount(Number(data.count) || 0);
         setPage(Number(search.get('page') || 1));
         setSpinner(false);
       } catch (error) {

@@ -26,7 +26,6 @@ describe('Search: User Interaction Tests', () => {
     );
 
     const link = screen.getByRole('link', { name: 'Cards' });
-    console.log(link);
     const user = userEvent.setup();
     await user.click(link);
 
@@ -122,7 +121,9 @@ describe('Search: User Interaction Tests', () => {
     const ls = localStorage.getItem('appkey');
     expect(ls).toBe('"userinputtext"');
   });
+});
 
+describe('User Interaction Tests: Search', () => {
   it('Trims whitespace from search input before saving', async () => {
     render(
       <BrowserRouter>
@@ -147,3 +148,64 @@ describe('Search: User Interaction Tests', () => {
     expect(input).toHaveValue('user input text1');
   });
 });
+describe('User Interaction Tests: About page', () => {
+  it('About page', async () => {
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    const link = screen.getByRole('link', { name: 'About' });
+
+    const user = userEvent.setup();
+    await user.click(link);
+    const text = screen.getByText('Hi, my name is Igor!');
+
+    expect(text).toBeInTheDocument();
+  });
+});
+
+// describe('User Interaction Tests: Cards', () => {
+//   it('Cards page Pagination', async () => {
+//     const fetchSpy = vi.spyOn(globalThis, 'fetch');
+//     const data = {
+//       results: [
+//         { title: 'string', id: 1, authors: [{ name: 'string' }] },
+//         { title: 'string', id: 2, authors: [{ name: 'string' }] },
+//       ],
+//       count: '52',
+//     };
+
+//     const mockedImplementation = () =>
+//       Promise.resolve({
+//         json() {
+//           return data;
+//         },
+//         status: 200,
+//         ok: true,
+//       });
+
+//     fetchSpy.mockImplementation(mockedImplementation);
+
+//     render(
+//       <BrowserRouter>
+//         <App />
+//       </BrowserRouter>
+//     );
+//     const link = screen.getByRole('link', { name: 'Cards' });
+//     const user = userEvent.setup();
+//     await user.click(link);
+
+//     const button = screen.getByRole('button', { name: '2' });
+
+//     expect(button).toBeInTheDocument();
+
+//     await user.click(button);
+
+//     expect(window.location.search).toMatch('?page=2');
+
+//     afterAll(() => {
+//       fetchSpy.mockRestore();
+//     });
+//   });
+// });

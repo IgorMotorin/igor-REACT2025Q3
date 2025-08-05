@@ -81,8 +81,8 @@ export default function Popup() {
                         checked={check[Number(item[0])]}
                       ></input>
                     </label>
-                    <div className="font-bold">id: {item[0]}</div>
-                    <div>: {tmp[0]?.authors[0]?.name}</div>
+                    <p className="font-bold">id: {item[0]}</p>
+                    <p>: {tmp[0]?.authors[0]?.name}</p>
                   </li>
                 );
               })}

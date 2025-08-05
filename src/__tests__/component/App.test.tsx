@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 import App from '../../App';
 
@@ -21,7 +23,9 @@ describe('Search: User Interaction Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -50,7 +54,9 @@ describe('Search: User Interaction Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -65,7 +71,9 @@ describe('Search: User Interaction Tests', () => {
   it('should Updates input value when user types', async () => {
     render(
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -94,7 +102,9 @@ describe('Search: User Interaction Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
     localStorage.setItem('appkey', 'userinputtext');
@@ -127,7 +137,9 @@ describe('User Interaction Tests: Search', () => {
   it('Trims whitespace from search input before saving', async () => {
     render(
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
     const link = screen.getByRole('link', { name: 'Cards' });
@@ -152,7 +164,9 @@ describe('User Interaction Tests: About page', () => {
   it('About page', async () => {
     render(
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
     const link = screen.getByRole('link', { name: 'About' });
@@ -164,48 +178,3 @@ describe('User Interaction Tests: About page', () => {
     expect(text).toBeInTheDocument();
   });
 });
-
-// describe('User Interaction Tests: Cards', () => {
-//   it('Cards page Pagination', async () => {
-//     const fetchSpy = vi.spyOn(globalThis, 'fetch');
-//     const data = {
-//       results: [
-//         { title: 'string', id: 1, authors: [{ name: 'string' }] },
-//         { title: 'string', id: 2, authors: [{ name: 'string' }] },
-//       ],
-//       count: '52',
-//     };
-
-//     const mockedImplementation = () =>
-//       Promise.resolve({
-//         json() {
-//           return data;
-//         },
-//         status: 200,
-//         ok: true,
-//       });
-
-//     fetchSpy.mockImplementation(mockedImplementation);
-
-//     render(
-//       <BrowserRouter>
-//         <App />
-//       </BrowserRouter>
-//     );
-//     const link = screen.getByRole('link', { name: 'Cards' });
-//     const user = userEvent.setup();
-//     await user.click(link);
-
-//     const button = screen.getByRole('button', { name: '2' });
-
-//     expect(button).toBeInTheDocument();
-
-//     await user.click(button);
-
-//     expect(window.location.search).toMatch('?page=2');
-
-//     afterAll(() => {
-//       fetchSpy.mockRestore();
-//     });
-//   });
-// });

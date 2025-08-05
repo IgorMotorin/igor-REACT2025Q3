@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import Result from '../../component/Result';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 describe('Results/CardList Component Tests', () => {
   describe('Rendering Tests', () => {
@@ -14,13 +16,15 @@ describe('Results/CardList Component Tests', () => {
 
       render(
         <BrowserRouter>
-          <Result
-            cards={cards}
-            page={page}
-            error={false}
-            spinner={false}
-            errorText=""
-          />
+          <Provider store={store}>
+            <Result
+              cards={cards}
+              page={page}
+              error={false}
+              spinner={false}
+              errorText=""
+            />
+          </Provider>
         </BrowserRouter>
       );
 
@@ -38,13 +42,15 @@ describe('Results/CardList Component Tests', () => {
 
       render(
         <BrowserRouter>
-          <Result
-            cards={cards}
-            page={page}
-            error={false}
-            spinner={false}
-            errorText=""
-          />
+          <Provider store={store}>
+            <Result
+              cards={cards}
+              page={page}
+              error={false}
+              spinner={false}
+              errorText=""
+            />
+          </Provider>
         </BrowserRouter>
       );
 
@@ -63,13 +69,15 @@ describe('Results/CardList Component Tests', () => {
 
       render(
         <BrowserRouter>
-          <Result
-            cards={cards}
-            page={page}
-            error={false}
-            spinner={false}
-            errorText=""
-          />
+          <Provider store={store}>
+            <Result
+              cards={cards}
+              page={page}
+              error={false}
+              spinner={false}
+              errorText=""
+            />
+          </Provider>
         </BrowserRouter>
       );
 
@@ -84,17 +92,19 @@ describe('Results/CardList Component Tests', () => {
 
       render(
         <BrowserRouter>
-          <Result
-            cards={cards}
-            page={page}
-            error={false}
-            spinner={false}
-            errorText=""
-          />
+          <Provider store={store}>
+            <Result
+              cards={cards}
+              page={page}
+              error={false}
+              spinner={false}
+              errorText=""
+            />
+          </Provider>
         </BrowserRouter>
       );
 
-      const input = await screen.findAllByRole('listitem');
+      const input = await screen.findAllByRole('link');
       expect(input[0]).toBeInTheDocument();
       expect(input[0]).toHaveTextContent('');
     });

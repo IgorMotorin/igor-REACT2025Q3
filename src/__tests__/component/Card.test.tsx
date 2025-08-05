@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import Card from '../../component/Card';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 describe('Card/Item Component Tests', () => {
   it('Displays item name and description correctly', () => {
@@ -12,7 +14,9 @@ describe('Card/Item Component Tests', () => {
     };
     render(
       <BrowserRouter>
-        <Card {...cardProp}></Card>
+        <Provider store={store}>
+          <Card {...cardProp}></Card>
+        </Provider>
       </BrowserRouter>
     );
 
@@ -31,9 +35,12 @@ describe('Card/Item Component Tests', () => {
       page: 1,
       id: 0,
     };
+
     render(
       <BrowserRouter>
-        <Card {...cardProp}></Card>
+        <Provider store={store}>
+          <Card {...cardProp}></Card>
+        </Provider>
       </BrowserRouter>
     );
 

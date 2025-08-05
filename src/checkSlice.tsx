@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface CheckState {
   value: { [id: number]: boolean };
-  books: [];
+  books: { id: number; title: string; authors: [{ name: string }] }[];
 }
 
 const initialState: CheckState = {

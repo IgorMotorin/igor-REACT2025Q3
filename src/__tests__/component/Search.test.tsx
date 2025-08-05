@@ -2,6 +2,9 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import Search from '../../component/Search';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
+import { ThemeContext } from '../../component/Context';
 
 describe('component Search Renders', () => {
   it('should Renders search input', () => {
@@ -14,7 +17,9 @@ describe('component Search Renders', () => {
     };
     render(
       <BrowserRouter>
-        <Search {...searchProp} />
+        <Provider store={store}>
+          <Search {...searchProp} />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -33,7 +38,9 @@ describe('component Search Renders', () => {
     };
     render(
       <BrowserRouter>
-        <Search {...searchProp} />
+        <Provider store={store}>
+          <Search {...searchProp} />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -54,7 +61,9 @@ describe('component Search Renders', () => {
 
     render(
       <BrowserRouter>
-        <Search {...searchProp} />
+        <Provider store={store}>
+          <Search {...searchProp} />
+        </Provider>
       </BrowserRouter>
     );
     const input = screen.getByRole('searchbox');
@@ -74,7 +83,9 @@ describe('component Search Renders', () => {
 
     render(
       <BrowserRouter>
-        <Search {...searchProp} />
+        <Provider store={store}>
+          <Search {...searchProp} />
+        </Provider>
       </BrowserRouter>
     );
     const input = screen.getByRole('searchbox');
@@ -86,11 +97,19 @@ describe('component Search Renders', () => {
       onChange: vi.fn(),
       onSearch: () => {},
       value: '',
-      buttonError: false,
       number: 1,
     };
-    const app = Search(searchProp);
-    render(<BrowserRouter>{app}</BrowserRouter>);
+
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          {' '}
+          <ThemeContext value="light">
+            <Search {...searchProp}></Search>
+          </ThemeContext>
+        </Provider>
+      </BrowserRouter>
+    );
 
     const input = screen.getByRole('searchbox');
 
@@ -109,8 +128,16 @@ describe('component Search Renders', () => {
       buttonError: false,
       number: 1,
     };
-    const app = Search(searchProp);
-    render(<BrowserRouter>{app}</BrowserRouter>);
+
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <ThemeContext value="light">
+            <Search {...searchProp}></Search>
+          </ThemeContext>
+        </Provider>
+      </BrowserRouter>
+    );
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();

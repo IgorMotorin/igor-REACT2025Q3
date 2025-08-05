@@ -3,54 +3,50 @@ import { ThemeContext } from './Context';
 import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { on } from '../checkSlice';
+import { type CheckState } from '../checkSlice';
 
 export default function Card({
   name = '',
   text = '',
   page = 1,
   id,
-  arr = 0,
-  inputSearch = 'key',
 }: Readonly<{
   name: string;
   text: string;
   page: number;
   id: number;
-  arr: number;
-  inputSearch: string;
 }>) {
   const theme = useContext(ThemeContext);
-  const check = useSelector((state) => state.check.value[page][arr].flag);
+  const check = !useSelector((state: CheckState) => state.value[id]);
   const dispatch = useDispatch();
   return (
     <li
       data-theme={theme}
-      className="relative m-1  h-44 w-60 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5 shadow-lg hover:opacity-80"
+      className={`relative m-1  h-44 w-60 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300  p-0.5 shadow-lg hover:opacity-80 ${
+        !check ? 'from-pink-600 to-blue-600' : ''
+      }`}
     >
-      <div className="bg-white h-35 p-5 rounded-md  dark:bg-cyan-950 dark:text-white">
-        <Link to={`?page=${page}&details=${id}`} data-theme={theme}>
+      <Link to={`?page=${page}&details=${id}`} data-theme={theme}>
+        <div className="bg-white h-35 p-5 rounded-md dark:bg-cyan-950 dark:text-white">
           <h1 className="font-bold text-xl mb-2">
             {name.length < 20 ? name : name.slice(0, 20) + ' ...'}
           </h1>
 
           <p>{text.length < 45 ? text : text.slice(0, 45) + ' ...'}</p>
-        </Link>
-      </div>
-
+        </div>
+      </Link>
       <label
         className="inline-flex items-center ml-2 pt-1"
-        htmlFor={String(arr)}
+        htmlFor={String(id)}
       >
         <input
-          id={String(arr)}
+          id={String(id)}
           type="checkbox"
-          className="w-4 h-4 accent-indigo-700"
-          onChange={() =>
-            dispatch(on({ page: page, book: arr, search: inputSearch }))
-          }
-          checked={check}
+          className="w-4 h-4 accent-blue-600"
+          onChange={() => dispatch(on({ id: id }))}
+          checked={!check}
         ></input>
-        <span className="ml-2">checkbox</span>
+        <span className="ml-2">save book</span>
       </label>
     </li>
   );

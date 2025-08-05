@@ -51,24 +51,24 @@ export default function Details({ page }: Readonly<{ page: number }>) {
   ) : (
     <div
       data-theme={theme}
-      className={`${on ? '' : 'hidden'} relative m-1 p-3 h-full  rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 shadow-lg dark:bg-cyan-950 dark:text-white`}
+      className={`${on ? '' : 'hidden'} fixed overflow-y-scroll top-1 right-1  m-1 p-3 h-11/12 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 shadow-lg dark:bg-cyan-950 dark:text-white`}
     >
       {spinner ? (
         <MinSpinner></MinSpinner>
       ) : (
         <div>
           <div className=" p-5 rounded-md w-80">
-            <h1 className="font-bold text-xl mb-2">id:{books.id}</h1>
+            <h1 className="font-bold text-xl mb-2">id:{books?.id}</h1>
             <h2 className="font-medium text-2xl mb-2">
-              {books.authors[0].name}
+              {books.authors[0]?.name}
             </h2>
-            <p className="text-xl mb-2">{books.title}</p>
-            <p className="text-sm mb-2">{books.summaries}</p>
+            <p className="text-xl mb-2">{books?.title}</p>
+            <p className="text-sm mb-2">{books?.summaries}</p>
           </div>
 
           <Link
             to={`?page=${page}`}
-            className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           >
             Close
           </Link>

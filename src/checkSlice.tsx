@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface CheckState {
-  value: { '1': { title: string; id: number; authors: { name: string }[] }[] };
+  value: { [id: number]: boolean };
+  books: [];
 }
 
 const initialState: CheckState = {
-  value: { '1': [{ title: 'string', id: 1, authors: [{ name: 'string' }] }] },
+  value: {},
+  books: [],
 };
 
 export const checkSlice = createSlice({
@@ -13,16 +15,24 @@ export const checkSlice = createSlice({
   initialState,
   reducers: {
     on: (state, action) => {
-      state.value[action.payload.page][action.payload.book].flag =
-        !state.value[action.payload.page][action.payload.book].flag;
+      if (state.value[action.payload.id]) {
+        const arr = Object.entries(state.value);
+        const arrFilter = arr.filter(
+          (item) => item[0] !== String(action.payload.id)
+        );
+
+        state.value = Object.fromEntries(arrFilter);
+        return;
+      }
+      state.value[action.payload.id] = !state.value[action.payload.id];
     },
 
-    addPage: (state, action) => {
-      state.value = { ...action.payload, ...state.value };
+    addBooks: (state, action) => {
+      state.books = [...state.books, ...action.payload];
     },
   },
 });
 
-export const { on, addPage } = checkSlice.actions;
+export const { on, addBooks } = checkSlice.actions;
 
 export default checkSlice.reducer;

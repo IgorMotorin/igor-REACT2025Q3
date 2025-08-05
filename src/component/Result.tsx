@@ -11,14 +11,12 @@ export default function Result({
   error = false,
   spinner = false,
   errorText = '',
-  inputSearch = 'key',
 }: Readonly<{
   page: number;
   cards: { title: string; id: number; authors: { name: string }[] }[];
   error: boolean;
   spinner: boolean;
   errorText: string;
-  inputSearch: string;
 }>) {
   const theme = useContext(ThemeContext);
   return (
@@ -38,8 +36,6 @@ export default function Result({
                 text={itm.title}
                 id={itm.id}
                 page={page}
-                arr={idx}
-                inputSearch={inputSearch}
               ></Card>
             );
           })

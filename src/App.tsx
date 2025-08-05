@@ -11,7 +11,7 @@ import Cards from './routes/Cards';
 import { BASE_URL } from './routes/URL';
 import { ThemeContext } from './component/Context';
 import { useDispatch } from 'react-redux';
-import { addPage } from './checkSlice';
+import { addBooks } from './checkSlice';
 
 export default function App() {
   const [pets, setPets] = useState([]);
@@ -20,13 +20,13 @@ export default function App() {
   const [errorText, setErrorText] = useState('Ошибка в приложении...');
   const [count, setCount] = useState(0);
   const [search, setSearch] = useSearchParams();
-  const [key, setKey] = useLocalStorage('appkey', '');
+  const [key, setKey] = useLocalStorage('appKey', '');
+  const tmp = search.get('search') || '';
   const [inputSearch, setInputSearch] = useState(
-    search.get('search')?.toLowerCase() || key
+    tmp.toLowerCase() || String(key)
   );
   const [page, setPage] = useState(1);
   const [theme, setTheme] = useState('light');
-
   const dispatch = useDispatch();
 
   const fetchData = useCallback(async (url: string) => {
@@ -57,15 +57,8 @@ export default function App() {
 
         const data = await fetchData(url);
         setPets(data.results);
-        const arr = data.results.map((item) => {
-          item.flag = true;
-          return item;
-        });
-        dispatch(
-          addPage({
-            [search.get('page') || '1']: arr,
-          })
-        );
+
+        dispatch(addBooks(data.results));
         setCount(Number(data.count) || 0);
         setPage(Number(search.get('page') || 1));
         setSpinner(false);
@@ -79,6 +72,9 @@ export default function App() {
     if (Number(search.get('page')) == page) {
       return;
     }
+    if (!Number(search.get('page')) && pets.length !== 0) {
+      return;
+    }
     load();
   }, [
     fetchData,
@@ -88,6 +84,7 @@ export default function App() {
     setSpinner,
     search,
     page,
+    pets,
     dispatch,
   ]);
 
@@ -127,7 +124,6 @@ export default function App() {
                   error={error}
                   spinner={spinner}
                   errorText={errorText}
-                  search={inputSearch}
                 ></Result>
               }
             />

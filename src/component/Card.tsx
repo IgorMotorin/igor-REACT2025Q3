@@ -1,9 +1,9 @@
 import { Link } from 'react-router';
-import { ThemeContext } from './Context';
+import { ThemeContext } from '../Context';
 import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { on } from '../checkSlice';
-import { type CheckState } from '../checkSlice';
+import { on } from '../store/checkSlice';
+import { type CheckState } from '../store/checkSlice';
 
 export default function Card({
   name = '',
@@ -46,7 +46,7 @@ export default function Card({
           onChange={() => dispatch(on({ id: id }))}
           checked={!check}
         ></input>
-        <span className="ml-2">save book</span>
+        <span className="ml-2">add cart</span>
       </label>
     </li>
   );

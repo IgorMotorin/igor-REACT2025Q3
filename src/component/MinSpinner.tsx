@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ThemeContext } from './Context';
+import { ThemeContext } from '../Context';
 
 export default function MinSpinner() {
   const theme = useContext(ThemeContext);

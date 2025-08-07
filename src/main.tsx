@@ -4,7 +4,7 @@ import './index.css';
 import App from './App.tsx';
 import ErrorBoundary from './component/ErrorBoundary.tsx';
 import { BrowserRouter } from 'react-router';
-import { store } from './store.tsx';
+import { store } from './store/store';
 import { Provider } from 'react-redux';
 
 const container = document.getElementById('root');

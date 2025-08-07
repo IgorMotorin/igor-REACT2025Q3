@@ -8,7 +8,7 @@ const checkSlice1 = createSlice({
   name: 'check',
   initialState: {
     value: { 1: false, 2: true },
-    books: [{ id: 1, title: 'title1', authors: [{ name: 'name1' }] }],
+    books: { 1: { id: 1, title: 'title1', authors: [{ name: 'name1' }] } },
   },
   reducers: {},
 });
@@ -17,7 +17,7 @@ const checkSlice2 = createSlice({
   name: 'check',
   initialState: {
     value: {},
-    books: [],
+    books: {},
   },
   reducers: {},
 });
@@ -61,7 +61,30 @@ describe('Popup Component Tests', () => {
     const list = screen.getByRole('list');
     expect(list).toBeInTheDocument();
 
-    const button = screen.getByRole('button', { name: 'Download' });
+    const button = screen.getByRole('link', { name: 'Download' });
+
+    expect(button).toBeInTheDocument();
+  });
+});
+
+describe('user interaction', async () => {
+  it('should', () => {
+    render(
+      <BrowserRouter>
+        <Provider store={store1}>
+          <Popup></Popup>
+        </Provider>
+      </BrowserRouter>
+    );
+
+    const list = screen.getAllByRole('checkbox');
+    expect(list[0]).toBeInTheDocument();
+    expect(list[1]).toBeInTheDocument();
+
+    expect(list[0]).not.toBeChecked();
+    expect(list[1]).toBeChecked();
+
+    const button = screen.getByRole('button', { name: 'Unselect all' });
 
     expect(button).toBeInTheDocument();
   });

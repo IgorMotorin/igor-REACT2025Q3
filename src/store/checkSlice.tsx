@@ -2,12 +2,24 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface CheckState {
   value: { [id: number]: boolean };
-  books: { id: number; title: string; authors: [{ name: string }] }[];
+  books: {
+    [key: number]: { id: number; title: string; authors: [{ name: string }] };
+  };
+}
+
+export type type_books = {
+  id: number;
+  title: string;
+  authors: [{ name: string }];
+};
+
+export interface Ibooks {
+  [key: number]: type_books;
 }
 
 const initialState: CheckState = {
   value: {},
-  books: [],
+  books: { 0: { id: 0, title: 'string', authors: [{ name: 'string' }] } },
 };
 
 export const checkSlice = createSlice({
@@ -28,7 +40,14 @@ export const checkSlice = createSlice({
     },
 
     addBooks: (state, action) => {
-      state.books = [...state.books, ...action.payload];
+      const obj: Ibooks = {
+        0: { id: 0, title: 'string', authors: [{ name: 'string' }] },
+      };
+      action.payload.map((item: type_books) => {
+        obj[item.id] = item;
+      });
+
+      state.books = { ...state.books, ...obj };
     },
   },
 });

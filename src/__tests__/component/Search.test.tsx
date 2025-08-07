@@ -3,8 +3,8 @@ import { BrowserRouter } from 'react-router';
 import Search from '../../component/Search';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { store } from '../../store';
-import { ThemeContext } from '../../component/Context';
+import { store } from '../../store/store';
+import { ThemeContext } from '../../Context';
 
 describe('component Search Renders', () => {
   it('should Renders search input', () => {
@@ -46,7 +46,7 @@ describe('component Search Renders', () => {
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent(/поиск/i);
+    expect(button).toHaveTextContent(/search/i);
   });
 
   it('v2 - Displays previously saved search term from localStorage on mount', () => {
@@ -141,7 +141,7 @@ describe('component Search Renders', () => {
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent(/поиск/i);
+    expect(button).toHaveTextContent(/search/i);
 
     const user = userEvent.setup();
 

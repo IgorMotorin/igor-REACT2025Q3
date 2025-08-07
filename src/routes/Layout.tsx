@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { NavLink, Outlet } from 'react-router';
-import { ThemeContext } from '../component/Context';
+import { ThemeContext } from '../Context';
 import Popup from '../component/Popup';
 
 export default function Layout({

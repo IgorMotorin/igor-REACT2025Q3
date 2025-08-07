@@ -3,7 +3,7 @@ import Card from './Card';
 import Details from './Details';
 import ErrorScreen from './ErrorScreen';
 import Spinner from './Spinner';
-import { ThemeContext } from './Context';
+import { ThemeContext } from '../Context';
 
 export default function Result({
   page = 1,

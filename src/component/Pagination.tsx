@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useSearchParams } from 'react-router';
-import { ThemeContext } from './Context';
+import { ThemeContext } from '../Context';
 
 export default function Pagination({
   length = 0,

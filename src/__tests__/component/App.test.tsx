@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { store } from '../../store';
+import { store } from '../../store/store';
 
 import App from '../../App';
 
@@ -79,9 +79,9 @@ describe('Search: User Interaction Tests', () => {
 
     const link = screen.getByRole('link', { name: 'Cards' });
 
-    const input = screen.getByRole('searchbox');
     const user = userEvent.setup();
     await user.click(link);
+    const input = screen.getByRole('searchbox');
     await user.click(input);
     await user.clear(input);
     await user.keyboard('userinput');
@@ -107,7 +107,7 @@ describe('Search: User Interaction Tests', () => {
         </Provider>
       </BrowserRouter>
     );
-    localStorage.setItem('appkey', 'userinputtext');
+    localStorage.setItem('appKey', 'userinputtext');
     const link = screen.getByRole('link', { name: 'Cards' });
 
     const user = userEvent.setup();
@@ -125,10 +125,10 @@ describe('Search: User Interaction Tests', () => {
     expect(input).toHaveValue('userinputtext');
     expect(button[0]).toBeInTheDocument();
 
-    expect(setItemSpy).toHaveBeenCalledWith('appkey', 'userinputtext');
+    expect(setItemSpy).toHaveBeenCalledWith('appKey', 'userinputtext');
 
     getItemSpy.mockReturnValue('"userinputtext"');
-    const ls = localStorage.getItem('appkey');
+    const ls = localStorage.getItem('appKey');
     expect(ls).toBe('"userinputtext"');
   });
 });

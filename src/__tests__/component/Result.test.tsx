@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import Result from '../../component/Result';
 import { Provider } from 'react-redux';
-import { store } from '../../store';
+import { store } from '../../store/store';
 
 describe('Results/CardList Component Tests', () => {
   describe('Rendering Tests', () => {

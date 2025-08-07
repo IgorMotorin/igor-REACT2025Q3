@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import MinSpinner from './MinSpinner';
 import { BASE_URL } from '../routes/URL';
-import { ThemeContext } from './Context';
+import { ThemeContext } from '../Context';
 
 export default function Details({ page }: Readonly<{ page: number }>) {
   const [search] = useSearchParams();

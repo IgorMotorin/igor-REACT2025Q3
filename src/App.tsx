@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Result from './component/Result';
 import ErrorScreen from './component/ErrorScreen';
-import { useLocalStorage } from './component/hooks';
+import { useLocalStorage } from './hooks/hooks';
 import { Route, Routes, useSearchParams } from 'react-router';
 import Layout from './routes/Layout';
 import Home from './routes/Home';
@@ -9,9 +9,9 @@ import Home from './routes/Home';
 import About from './routes/About';
 import Cards from './routes/Cards';
 import { BASE_URL } from './routes/URL';
-import { ThemeContext } from './component/Context';
+import { ThemeContext } from './Context';
 import { useDispatch } from 'react-redux';
-import { addBooks } from './checkSlice';
+import { addBooks } from './store/checkSlice';
 
 export default function App() {
   const [pets, setPets] = useState([]);

@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import ButtonErr from '../component/ButtonErr';
-import { ThemeContext } from '../component/Context';
+import { ThemeContext } from '../Context';
 
 export default function Home() {
   const [buttonError, setButtonError] = useState(false);

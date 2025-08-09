@@ -2,14 +2,14 @@ import { Link } from 'react-router';
 import { ThemeContext } from '../Context';
 import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { on } from '../store/checkSlice';
+import { onCheck } from '../store/checkSlice';
 import { type CheckState } from '../store/checkSlice';
 
 export default function Card({
   name = '',
   text = '',
   page = 1,
-  id,
+  id = 0,
 }: Readonly<{
   name: string;
   text: string;
@@ -17,7 +17,9 @@ export default function Card({
   id: number;
 }>) {
   const theme = useContext(ThemeContext);
-  const check = !useSelector((state: CheckState) => state.value[id]);
+  const check = !useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.value[id]
+  );
   const dispatch = useDispatch();
   return (
     <li
@@ -43,7 +45,7 @@ export default function Card({
           id={String(id)}
           type="checkbox"
           className="w-4 h-4 accent-blue-600"
-          onChange={() => dispatch(on({ id: id }))}
+          onChange={() => dispatch(onCheck({ id: id }))}
           checked={!check}
         ></input>
         <span className="ml-2">add cart</span>

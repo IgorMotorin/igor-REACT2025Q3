@@ -1,18 +1,31 @@
-import { useContext, type MouseEventHandler } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from '../Context';
+import { onInput, type CheckState } from '../store/checkSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetBooksQuery } from '../services/booksApi';
+import { useLocalStorage } from '../hooks/hooks';
+import { useSearchParams } from 'react-router';
 
-export default function Search({
-  onChange,
-  onSearch,
-  value,
-  number,
-}: Readonly<{
-  onChange: (e: { target: { value: string } }) => void;
-  onSearch: MouseEventHandler<HTMLButtonElement>;
-  value: string;
-  number: number;
-}>) {
+export default function Search() {
   const theme = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const [key, setKey] = useLocalStorage('appKey', '');
+  const input = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.input
+  );
+  const search = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.search
+  );
+  const page = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.page
+  );
+
+  const { data } = useGetBooksQuery({
+    page: page,
+    search: search,
+  });
+  const [, setSearch] = useSearchParams();
+
   return (
     <div
       className="flex flex-1 items-center justify-center p-6 dark:bg-cyan-950 dark:text-white"
@@ -27,20 +40,33 @@ export default function Search({
             placeholder="Search..."
             type="search"
             autoFocus={false}
-            onChange={onChange}
-            value={value}
+            onChange={(e) => {
+              dispatch(onInput(e.target.value.toLowerCase()));
+              setKey(e.target.value.toLowerCase().trim());
+            }}
+            value={input || key}
           ></input>
 
           <button
             type="submit"
             className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-            onClick={onSearch}
+            onClick={(e) => {
+              e.preventDefault();
+              const inputParam = input.trim();
+              dispatch(onInput(inputParam));
+              setKey(inputParam);
+              setSearch((prev) => {
+                prev.set('search', inputParam);
+
+                return prev;
+              });
+            }}
           >
             Search
           </button>
 
           <div className="relative right-4 bottom-5 -mr-6 inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-gray-400 text-white">
-            {number}
+            {data?.count || 0}
           </div>
         </form>
       </div>

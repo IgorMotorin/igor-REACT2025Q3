@@ -1,13 +1,27 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { on } from '../store/checkSlice';
-import { type CheckState, type Ibooks } from '../store/checkSlice';
+import { onCheck } from '../store/checkSlice';
+import { type CheckState } from '../store/checkSlice';
 import { useCallback } from 'react';
+import { useGetBooksQuery } from '../services/booksApi';
 
 export default function Popup() {
-  const check = useSelector((state: CheckState) => state.value);
-  const books: Ibooks = useSelector((state: CheckState) => state.books);
-  const arr = Object.entries(check);
-  const arrBooks = Object.entries(books);
+  const check = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.value
+  );
+  const search = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.search
+  );
+  const pageStr = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.page
+  );
+
+  const { data } = useGetBooksQuery({
+    page: pageStr,
+    search: search,
+  });
+  const arr = Object.entries(check || {});
+  const books = data?.results || [];
+  const arrBooks = Object.entries(data?.results || {});
   const dispatch = useDispatch();
 
   const toCSV = useCallback(() => {
@@ -50,7 +64,7 @@ export default function Popup() {
                       type="checkbox"
                       className="w-4 h-4 accent-blue-600 mr-2"
                       onChange={() => {
-                        dispatch(on({ id: item[0] }));
+                        dispatch(onCheck({ id: item[0] }));
                       }}
                       checked={check[Number(item[0])]}
                     ></input>
@@ -74,7 +88,7 @@ export default function Popup() {
           <button
             disabled={arr.length == 0}
             onClick={() => {
-              arr.forEach((item) => dispatch(on({ id: item[0] })));
+              arr.forEach((item) => dispatch(onCheck({ id: item[0] })));
             }}
             className=" hover:opacity-80 disabled:opacity-30 active:cursor-pointer m-1 rounded-full dark:bg-gray-800 dark:text-white bg-gray-200 px-4 py-2 text-black"
           >

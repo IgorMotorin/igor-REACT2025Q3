@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { NavLink, Outlet } from 'react-router';
 import { ThemeContext } from '../Context';
-import Popup from '../component/Popup';
 
 export default function Layout({
   setTheme,
@@ -107,7 +106,6 @@ export default function Layout({
         data-theme={theme}
       >
         <Outlet />
-        <Popup></Popup>
       </main>
     </>
   );

@@ -1,19 +1,25 @@
 import { useContext } from 'react';
 import { useSearchParams } from 'react-router';
 import { ThemeContext } from '../Context';
+import { useGetBooksQuery } from '../services/booksApi';
+import { useSelector } from 'react-redux';
+import type { CheckState } from '../store/checkSlice';
 
-export default function Pagination({
-  length = 0,
-  numPagination = 0,
-}: Readonly<{
-  length: number;
-  numPagination: number;
-}>) {
+export default function Pagination() {
+  const theme = useContext(ThemeContext);
+  const search = useSelector((state: CheckState) => state.checkReducer.search);
+  const pageStr = useSelector((state: CheckState) => state.checkReducer.page);
+  const { data } = useGetBooksQuery({
+    page: pageStr,
+    search: search,
+  });
+  const page = Number(pageStr);
+  const length = data?.count || 0;
+
   const num = Math.ceil(length / 32) || 0;
   const arr = new Array(num > 10 ? 10 : num).fill('');
   const [, setSearch] = useSearchParams();
-  const numPag = numPagination % 10 ? numPagination % 10 : 10;
-  const theme = useContext(ThemeContext);
+  const numPag = page % 10 ? page % 10 : 10;
 
   return (
     <ol
@@ -24,10 +30,7 @@ export default function Pagination({
         <button
           onClick={() => {
             setSearch((prev) => {
-              prev.set(
-                'page',
-                String(numPagination < 2 ? 1 : numPagination - 1)
-              );
+              prev.set('page', String(page < 2 ? 1 : Number(page) - 1));
               const searchParam = prev.get('search');
 
               if (searchParam) {
@@ -37,8 +40,8 @@ export default function Pagination({
               return prev;
             });
           }}
-          disabled={numPagination < 2}
-          className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${numPagination < 2 ? '' : 'hover:bg-blue-200  active:text-white active:bg-blue-600 active:border-blue-600'} `}
+          disabled={page < 2}
+          className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${page < 2 ? '' : 'hover:bg-blue-200  active:text-white active:bg-blue-600 active:border-blue-600'} `}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +66,7 @@ export default function Pagination({
                   const searchParam = prev.get('search');
                   prev.set(
                     'page',
-                    String(Math.floor((numPagination - 1) / 10) * 10 + idx + 1)
+                    String(Math.floor((page - 1) / 10) * 10 + idx + 1)
                   );
                   if (searchParam) {
                     prev.set('search', searchParam);
@@ -80,7 +83,7 @@ export default function Pagination({
               }
             >
               {' '}
-              {Math.floor((numPagination - 1) / 10) * 10 + idx + 1}{' '}
+              {Math.floor((page - 1) / 10) * 10 + idx + 1}{' '}
             </button>
           </li>
         );
@@ -90,10 +93,7 @@ export default function Pagination({
         <button
           onClick={() => {
             setSearch((prev) => {
-              prev.set(
-                'page',
-                String(numPagination > num - 1 ? num : numPagination + 1)
-              );
+              prev.set('page', String(page > num - 1 ? num : Number(page) + 1));
               const searchParam = prev.get('search');
 
               if (searchParam) {
@@ -103,8 +103,8 @@ export default function Pagination({
               return prev;
             });
           }}
-          disabled={numPagination > num - 1}
-          className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${numPagination > num - 1 ? '' : 'hover:bg-blue-200 active:text-white active:bg-blue-600 active:border-blue-600'} `}
+          disabled={page > num - 1}
+          className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${page > num - 1 ? '' : 'hover:bg-blue-200 active:text-white active:bg-blue-600 active:border-blue-600'} `}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

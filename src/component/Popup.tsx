@@ -2,46 +2,38 @@ import { useDispatch, useSelector } from 'react-redux';
 import { onCheck } from '../store/checkSlice';
 import { type CheckState } from '../store/checkSlice';
 import { useCallback } from 'react';
-import { useGetBooksQuery } from '../services/booksApi';
 
 export default function Popup() {
   const check = useSelector(
     (state: { checkReducer: CheckState }) => state.checkReducer.value
   );
-  const search = useSelector(
-    (state: { checkReducer: CheckState }) => state.checkReducer.search
-  );
-  const pageStr = useSelector(
-    (state: { checkReducer: CheckState }) => state.checkReducer.page
-  );
 
-  const { data } = useGetBooksQuery({
-    page: pageStr,
-    search: search,
-  });
-  const arr = Object.entries(check || []);
-  const books = data?.results || [];
+  const allBooks = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.books
+  );
 
   const dispatch = useDispatch();
 
+  const arr = Object.entries(check || []);
+
   const toCSV = useCallback(() => {
     const arr = Object.entries(check || []);
-    const arrBooks = data?.results || [];
+    const arrBooks = Object.entries(allBooks || []);
 
     const csvString = [
       ['id:', 'Title:', 'Authors:'],
       ...arrBooks
         .filter((item) =>
-          [...new Set(arr.join(',').split(','))].includes(String(item.id))
+          [...new Set(arr.join(',').split(','))].includes(String(item[0]))
         )
-        .map((item) => [item.id, item.title, item.authors[0]?.name]),
+        .map((item) => [item[1].id, item[1].title, item[1].authors[0]?.name]),
     ]
       .map((row) => row.join(';'))
       .join('\n');
 
     const url = 'data:text/csv;charset=utf-8,' + csvString;
     return url;
-  }, [check, data]);
+  }, [check, allBooks]);
 
   return (
     <div
@@ -57,7 +49,7 @@ export default function Popup() {
           <div className="flex justify-center rounded-lg">
             <ul className=" rounded-lg w-auto bg-gray-800 text-white dark:bg-white dark:text-gray-900 ">
               {arr.map((item, idx) => {
-                const obj = books.filter((itm) => itm.id == item[0]);
+                const obj = allBooks[Number(item[0])];
 
                 return (
                   <li
@@ -82,7 +74,7 @@ export default function Popup() {
                     </label>
 
                     <p className="font-bold">id: {item[0]}</p>
-                    <p>: {obj[0]?.authors[0].name}</p>
+                    <p>: {obj?.authors[0]?.name}</p>
                   </li>
                 );
               })}

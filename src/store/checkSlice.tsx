@@ -5,6 +5,7 @@ export interface CheckState {
   page: string;
   search: string;
   input: string;
+  books: Ibooks;
 }
 
 export type type_books = {
@@ -22,6 +23,7 @@ const initialState: CheckState = {
   page: '1',
   search: '',
   input: '',
+  books: { 0: { id: '0', title: '', authors: [{ name: '' }] } },
 };
 
 export const checkSlice = createSlice({
@@ -50,9 +52,13 @@ export const checkSlice = createSlice({
     onInput: (state, action) => {
       state.input = action.payload;
     },
+    onBooks: (state, action) => {
+      state.books = { ...state.books, ...action.payload };
+    },
   },
 });
 
-export const { onCheck, onPage, onSearch, onInput } = checkSlice.actions;
+export const { onCheck, onPage, onSearch, onInput, onBooks } =
+  checkSlice.actions;
 
 export default checkSlice.reducer;

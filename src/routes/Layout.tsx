@@ -8,6 +8,10 @@ export default function Layout({
   setTheme: React.Dispatch<React.SetStateAction<string>>;
 }>) {
   const theme = useContext(ThemeContext);
+  const classActLink =
+    'block py-2 pl-3 pr-4 text-white rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white bg-purple-700';
+  const classPendLink =
+    'block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700';
   return (
     <>
       <nav
@@ -16,11 +20,31 @@ export default function Layout({
       >
         <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
           <a href="/" className="flex items-center">
-            <img
-              src="https://www.svgrepo.com/show/499962/music.svg"
-              className="h-6 mr-3 sm:h-9"
-              alt="Landwind Logo"
-            ></img>
+            <svg
+              width="80px"
+              height="80px"
+              viewBox="0 0 1024 1024"
+              className="h-6 w-10 mr-3 sm:h-9"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M209.11128 258.0742c20.523667-7.860128 148.469083 191.699787 299.121535 191.699787s267.681023-206.110021 283.837953-195.193177-65.501066 208.730064-54.147548 279.034542c20.523667 145.849041 118.338593 102.181663 127.072069 288.204691 3.49339 80.347974-74.671215 205.236674-364.185928 201.743283S158.893796 906.098081 158.893796 822.256716c0-151.089126 80.784648-131.002132 105.675053-289.951386 10.480171-66.374414-72.92452-262.440938-55.457569-274.23113z"
+                fill="#434A54"
+              />
+              <path
+                d="M660.195289 596.496375H566.310427V134.058849a43.667377 43.667377 0 0 0 40.610661-43.667378V43.667377a43.667377 43.667377 0 0 0-43.667377-43.667377H458.888679a43.667377 43.667377 0 0 0-43.667378 43.667377v48.470789a43.667377 43.667377 0 0 0 40.610661 43.667378v460.690831h-87.334754a20.960341 20.960341 0 0 0-20.960341 20.960341v229.690406a20.960341 20.960341 0 0 0 20.960341 20.960341h292.134754a20.960341 20.960341 0 0 0 22.270363-20.960341v-229.690406a20.960341 20.960341 0 0 0-22.707036-20.960341z"
+                fill="#D46882"
+              />
+              <path
+                d="M423.518103 653.70064l189.953092 0 0 67.684435-189.953092 0 0-67.684435Z"
+                fill="#E6E9ED"
+              />
+              <path
+                d="M423.518103 755.882303l189.953092 0 0 67.684435-189.953092 0 0-67.684435Z"
+                fill="#E6E9ED"
+              />
+            </svg>
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               API Querying in React
             </span>
@@ -30,11 +54,13 @@ export default function Layout({
             className="items-center justify-between w-full lg:flex lg:w-auto lg:order-1"
             id="mobile-menu-2"
           >
-            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+            <ul className="flex flex-col mt-4 font-medium lg:flex-row gap-0.5 lg:space-x-8 lg:mt-0">
               <li>
                 <NavLink
                   to="/"
-                  className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
+                  className={({ isActive }) =>
+                    isActive ? classActLink : classPendLink
+                  }
                   aria-current="page"
                 >
                   Home
@@ -43,7 +69,9 @@ export default function Layout({
               <li>
                 <NavLink
                   to="/cards"
-                  className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
+                  className={({ isActive }) =>
+                    isActive ? classActLink : classPendLink
+                  }
                 >
                   Cards
                 </NavLink>
@@ -51,14 +79,16 @@ export default function Layout({
               <li>
                 <NavLink
                   to="/about"
-                  className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className={({ isActive }) =>
+                    isActive ? classActLink : classPendLink
+                  }
                 >
                   About
                 </NavLink>
               </li>
               <li>
                 <button
-                  className=""
+                  className="ml-3"
                   onClick={() =>
                     setTheme((prev: string) =>
                       prev === 'dark' ? 'light' : 'dark'

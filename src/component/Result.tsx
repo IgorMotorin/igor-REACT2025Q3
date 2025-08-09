@@ -1,18 +1,19 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import Card from './Card';
 import Details from './Details';
 import ErrorScreen from './ErrorScreen';
 import Spinner from './Spinner';
 import { ThemeContext } from '../Context';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetBooksQuery } from '../services/booksApi';
-import type { CheckState, type_books } from '../store/checkSlice';
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import type { SerializedError } from '@reduxjs/toolkit';
+import { onBooks, type CheckState, type type_books } from '../store/checkSlice';
 import Popup from './Popup';
+import { errorHandler } from '../function/errorHandler';
 
 export default function Result() {
   const theme = useContext(ThemeContext);
+  const dispatch = useDispatch();
+
   const search = useSelector(
     (state: { checkReducer: CheckState }) => state.checkReducer.search
   );
@@ -25,21 +26,18 @@ export default function Result() {
     page: pageStr,
     search: search,
   });
-  const cards = data?.results || [];
+  const cards = useMemo(() => data?.results || [], [data]);
 
-  const errorHandler = (
-    error: FetchBaseQueryError | SerializedError | undefined
-  ) => {
-    if (!error) return '';
-
-    if ('status' in error) {
-      const fetchError = error;
-      const out = 'Ошибка запроса:' + fetchError.status;
-      const data = typeof fetchError.data === 'string' && fetchError.data;
-
-      return out + data;
+  useEffect(() => {
+    interface IObj {
+      [key: string]: { id: string; title: string; authors: [{ name: string }] };
     }
-  };
+    const obj: IObj = {};
+    cards.forEach((itm) => {
+      obj[itm.id] = itm;
+    });
+    dispatch(onBooks(obj));
+  }, [cards, dispatch]);
 
   return (
     <div data-theme={theme} className="flex dark:bg-cyan-950 dark:text-white">

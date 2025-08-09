@@ -57,6 +57,7 @@ export default function Search() {
               setKey(inputParam);
               setSearch((prev) => {
                 prev.set('search', inputParam);
+                prev.set('page', '1');
 
                 return prev;
               });
@@ -65,7 +66,7 @@ export default function Search() {
             Search
           </button>
 
-          <div className="relative right-4 bottom-5 -mr-6 inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-gray-400 text-white">
+          <div className="relative right-4 bottom-5 -mr-6 inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-400 text-white">
             {data?.count || 0}
           </div>
         </form>

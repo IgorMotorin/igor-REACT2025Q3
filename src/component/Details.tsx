@@ -3,8 +3,7 @@ import { Link, useSearchParams } from 'react-router';
 import MinSpinner from './MinSpinner';
 import { ThemeContext } from '../Context';
 import { useGetBookQuery } from '../services/booksApi';
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import type { SerializedError } from '@reduxjs/toolkit';
+import { errorHandler } from '../function/errorHandler';
 
 export default function Details() {
   const theme = useContext(ThemeContext);
@@ -13,9 +12,12 @@ export default function Details() {
   const details = searchParam.get('details') || '';
   const page = searchParam.get('page') || '';
   const search = searchParam.get('search') || '';
-  const { data, error, isError, isFetching } = useGetBookQuery(details, {
-    skip: !details,
-  });
+  const { data, error, isError, isFetching, refetch } = useGetBookQuery(
+    details,
+    {
+      skip: !details,
+    }
+  );
 
   useEffect(() => {
     if (!details) {
@@ -24,21 +26,6 @@ export default function Details() {
       setOn(true);
     }
   }, [details]);
-
-  const errorHandler = (
-    error: FetchBaseQueryError | SerializedError | undefined
-  ) => {
-    if (!error) return '';
-
-    if ('status' in error) {
-      const fetchError = error;
-      const out = 'Ошибка:' + fetchError.status;
-      const data =
-        typeof fetchError.data === 'object' && JSON.stringify(fetchError.data);
-
-      return out + ' ' + data;
-    }
-  };
 
   const err = (
     <div className="text-1xl p-5 text-red-500">{errorHandler(error)}</div>
@@ -59,7 +46,7 @@ export default function Details() {
             <div className=" p-5 rounded-md w-80">
               <h1 className="font-bold text-xl mb-2">id:{data?.id}</h1>
               <h2 className="font-medium text-2xl mb-2">
-                {data?.authors[0].name}
+                {data?.authors[0]?.name}
               </h2>
               <p className="text-xl mb-2">{data?.title}</p>
               <p className="text-sm mb-2">{data?.summaries}</p>
@@ -72,6 +59,14 @@ export default function Details() {
           >
             Close
           </Link>
+          <button
+            onClick={() => {
+              refetch();
+            }}
+            className="mt-3 flex-inline w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+          >
+            update cache
+          </button>
         </div>
       )}
     </div>

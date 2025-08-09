@@ -7,9 +7,13 @@ import type { CheckState } from '../store/checkSlice';
 
 export default function Pagination() {
   const theme = useContext(ThemeContext);
-  const search = useSelector((state: CheckState) => state.checkReducer.search);
-  const pageStr = useSelector((state: CheckState) => state.checkReducer.page);
-  const { data } = useGetBooksQuery({
+  const search = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.search
+  );
+  const pageStr = useSelector(
+    (state: { checkReducer: CheckState }) => state.checkReducer.page
+  );
+  const { data, refetch } = useGetBooksQuery({
     page: pageStr,
     search: search,
   });
@@ -77,8 +81,7 @@ export default function Pagination() {
               }}
               className={
                 idx + 1 == numPag
-                  ? // idx + 1 == numPagination % 10 || idx + 1 == 10
-                    'block w-8 h-8 text-center border rounded leading-8 text-white bg-blue-600 border-blue-600'
+                  ? 'block w-8 h-8 text-center border rounded leading-8 text-white bg-blue-600 border-blue-600'
                   : 'block w-8 h-8 text-center border border-gray-100 rounded leading-8 hover:bg-blue-200'
               }
             >
@@ -118,6 +121,16 @@ export default function Pagination() {
               clipRule="evenodd"
             />
           </svg>
+        </button>
+      </li>
+      <li>
+        <button
+          onClick={() => {
+            refetch();
+          }}
+          className={`inline-flex p-1 items-center justify-center w-auto h-8 border border-gray-100 rounded hover:bg-blue-200 active:text-white active:bg-blue-600 active:border-blue-600`}
+        >
+          update cache
         </button>
       </li>
     </ol>

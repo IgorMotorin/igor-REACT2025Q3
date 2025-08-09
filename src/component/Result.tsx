@@ -58,6 +58,7 @@ export default function Result() {
                 text={itm.title}
                 id={Number(itm.id)}
                 page={page}
+                search={search}
               ></Card>
             );
           })
@@ -67,7 +68,7 @@ export default function Result() {
           </div>
         )}
       </ul>
-      <Details page={page}></Details>
+      <Details></Details>
       <Popup></Popup>
     </div>
   );

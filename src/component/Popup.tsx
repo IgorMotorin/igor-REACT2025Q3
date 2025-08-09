@@ -57,6 +57,8 @@ export default function Popup() {
           <div className="flex justify-center rounded-lg">
             <ul className=" rounded-lg w-auto bg-gray-800 text-white dark:bg-white dark:text-gray-900 ">
               {arr.map((item, idx) => {
+                const obj = books.filter((itm) => itm.id == item[0]);
+
                 return (
                   <li
                     key={'s' + idx}
@@ -80,7 +82,7 @@ export default function Popup() {
                     </label>
 
                     <p className="font-bold">id: {item[0]}</p>
-                    <p>: {books[Number(item[0])]?.authors[0]?.name}</p>
+                    <p>: {obj[0]?.authors[0].name}</p>
                   </li>
                 );
               })}

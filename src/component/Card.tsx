@@ -10,11 +10,13 @@ export default function Card({
   text = '',
   page = 1,
   id = 0,
+  search = '',
 }: Readonly<{
   name: string;
   text: string;
   page: number;
   id: number;
+  search: string;
 }>) {
   const theme = useContext(ThemeContext);
   const check = !useSelector(
@@ -28,7 +30,10 @@ export default function Card({
         !check ? 'from-pink-600 to-blue-600' : ''
       }`}
     >
-      <Link to={`?page=${page}&details=${id}`} data-theme={theme}>
+      <Link
+        to={`?page=${page}&search=${search}&details=${id}`}
+        data-theme={theme}
+      >
         <div className="bg-white h-35 p-5 rounded-md dark:bg-cyan-950 dark:text-white">
           <h1 className="font-bold text-xl mb-2">
             {name.length < 20 ? name : name.slice(0, 20) + ' ...'}

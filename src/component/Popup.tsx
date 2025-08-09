@@ -19,26 +19,29 @@ export default function Popup() {
     page: pageStr,
     search: search,
   });
-  const arr = Object.entries(check || {});
+  const arr = Object.entries(check || []);
   const books = data?.results || [];
-  const arrBooks = Object.entries(data?.results || {});
+
   const dispatch = useDispatch();
 
   const toCSV = useCallback(() => {
+    const arr = Object.entries(check || []);
+    const arrBooks = data?.results || [];
+
     const csvString = [
       ['id:', 'Title:', 'Authors:'],
       ...arrBooks
         .filter((item) =>
-          [...new Set(arr.join(',').split(','))].includes(String(item[0]))
+          [...new Set(arr.join(',').split(','))].includes(String(item.id))
         )
-        .map((item) => [item[1].id, item[1].title, item[1].authors[0]?.name]),
+        .map((item) => [item.id, item.title, item.authors[0]?.name]),
     ]
       .map((row) => row.join(';'))
       .join('\n');
 
     const url = 'data:text/csv;charset=utf-8,' + csvString;
     return url;
-  }, [arrBooks, arr]);
+  }, [check, data]);
 
   return (
     <div

@@ -5,18 +5,31 @@ import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { ThemeContext } from '../../Context';
+import { onInput } from '../../store/checkSlice';
+import type { useSelector as OriginalUseSelector } from 'react-redux';
+import type { useGetBooksQuery } from '../../services/booksApi';
 
-const onInput = vi.fn();
+const onInputMock = vi.fn();
+
 vi.mock<typeof import('../../store/checkSlice')>(
   import('../../store/checkSlice.tsx'),
   async (importOriginal) => {
     const actual = await importOriginal();
     return {
       ...actual,
-      onInput: () => onInput,
+      onInput: (() => onInputMock) as unknown as typeof onInput,
     };
   }
 );
+
+type UseGetBooksQueryReturn = {
+  data: {
+    count: number;
+  };
+  isError?: boolean;
+  isFetching?: boolean;
+  refetch: () => void;
+};
 
 vi.mock<typeof import('../../services/booksApi')>(
   import('../../services/booksApi.tsx'),
@@ -26,18 +39,25 @@ vi.mock<typeof import('../../services/booksApi')>(
     const actual = await importOriginal();
     return {
       ...actual,
-      useGetBooksQuery: () => ({ data: { count: 40 }, refetch: () => {} }),
+      useGetBooksQuery: ((): UseGetBooksQueryReturn => ({
+        data: { count: 40 },
+        refetch: () => {},
+      })) as typeof useGetBooksQuery,
     };
   }
 );
 
-vi.mock(import('react-redux'), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    useSelector: () => 'inputText',
-  };
-});
+vi.mock<typeof import('react-redux')>(
+  import('react-redux'),
+  async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useSelector: (() => 'inputText') as unknown as typeof OriginalUseSelector,
+    };
+  }
+);
+
 vi.mock(import('../../hooks/hooks.tsx'), async (importOriginal) => {
   const actual = await importOriginal();
   return {
@@ -107,7 +127,7 @@ describe('component Search Renders', () => {
     await user.click(input);
     await user.keyboard(test);
 
-    expect(onInput).toHaveBeenCalledTimes(2);
+    expect(onInputMock).toHaveBeenCalledTimes(2);
   });
   it('Triggers search callback Button', async () => {
     render(
@@ -129,6 +149,6 @@ describe('component Search Renders', () => {
     await user.click(button);
     await user.click(button);
 
-    expect(onInput).toHaveBeenCalledTimes(4);
+    expect(onInputMock).toHaveBeenCalledTimes(4);
   });
 });

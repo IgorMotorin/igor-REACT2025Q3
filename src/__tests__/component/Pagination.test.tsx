@@ -4,14 +4,30 @@ import { BrowserRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
+import { useGetBooksQuery } from '../../services/booksApi';
 
-vi.mock(import('../../services/booksApi.tsx'), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    useGetBooksQuery: () => ({ data: { count: 40 }, refetch: () => {} }),
+type UseGetBooksQueryReturn = {
+  data: {
+    count: number;
   };
-});
+  isError?: boolean;
+  isFetching?: boolean;
+  refetch: () => void;
+};
+
+vi.mock<typeof import('../../services/booksApi')>(
+  import('../../services/booksApi.tsx'),
+  async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useGetBooksQuery: ((): UseGetBooksQueryReturn => ({
+        data: { count: 40 },
+        refetch: () => {},
+      })) as typeof useGetBooksQuery,
+    };
+  }
+);
 
 describe('Pagination Component Tests', () => {
   it('Renders Pagination', () => {

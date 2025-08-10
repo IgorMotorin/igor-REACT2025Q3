@@ -11,6 +11,7 @@ describe('Card/Item Component Tests', () => {
       text: 'textcard',
       page: 1,
       id: 0,
+      search: '',
     };
     render(
       <BrowserRouter>
@@ -34,6 +35,7 @@ describe('Card/Item Component Tests', () => {
       text: '',
       page: 1,
       id: 0,
+      search: '',
     };
 
     render(
@@ -58,6 +60,7 @@ describe('Card/Item Component Tests', () => {
       text: '123456789012345678901234567890123456789012345678901234567890',
       page: 1,
       id: 0,
+      search: '',
     };
     render(
       <BrowserRouter>

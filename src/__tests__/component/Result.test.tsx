@@ -3,6 +3,8 @@ import { BrowserRouter } from 'react-router';
 import Result from '../../component/Result';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
+import { useGetBooksQuery } from '../../services/booksApi';
+
 type Author = { name: string };
 type Book = { id: number; title: string; authors: Author[] };
 
@@ -23,7 +25,7 @@ vi.mock<typeof import('../../services/booksApi')>(
     const actual = await importOriginal();
     return {
       ...actual,
-      useGetBooksQuery: (): UseGetBooksQueryReturn => ({
+      useGetBooksQuery: ((): UseGetBooksQueryReturn => ({
         data: {
           count: 1,
           results: [
@@ -34,7 +36,7 @@ vi.mock<typeof import('../../services/booksApi')>(
         },
         isError: false,
         isFetching: false,
-      }),
+      })) as typeof useGetBooksQuery,
     };
   }
 );

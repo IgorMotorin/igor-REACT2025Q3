@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router';
 import Result from '../../component/Result.tsx';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store.tsx';
+import type { useGetBooksQuery } from '../../services/booksApi';
 
 type UseGetBooksQueryReturn = {
   data: {
@@ -21,14 +22,14 @@ vi.mock<typeof import('../../services/booksApi')>(
     const actual = await importOriginal();
     return {
       ...actual,
-      useGetBooksQuery: (): UseGetBooksQueryReturn => ({
+      useGetBooksQuery: ((): UseGetBooksQueryReturn => ({
         data: {
           count: 1,
           results: [],
         },
         isError: false,
         isFetching: false,
-      }),
+      })) as typeof useGetBooksQuery,
     };
   }
 );

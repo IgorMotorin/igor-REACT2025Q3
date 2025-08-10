@@ -3,25 +3,41 @@ import { BrowserRouter } from 'react-router';
 import Result from '../../component/Result';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
+type Author = { name: string };
+type Book = { id: number; title: string; authors: Author[] };
 
-vi.mock(import('../../services/booksApi.tsx'), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    useGetBooksQuery: () => ({
-      data: {
-        count: 1,
-        results: [
-          { id: 1, title: 'test item', authors: [{ name: 'test item' }] },
-          { title: '', id: 2, authors: [{ name: '' }] },
-          { title: '', id: 3, authors: [{ name: '' }] },
-        ],
-      },
-      isError: false,
-      isFetching: false,
-    }),
+type UseGetBooksQueryReturn = {
+  data: {
+    count: number;
+    results: Book[];
   };
-});
+  isError: boolean;
+  isFetching: boolean;
+};
+
+vi.mock<typeof import('../../services/booksApi')>(
+  import('../../services/booksApi.tsx'),
+  async (
+    importOriginal: () => Promise<typeof import('../../services/booksApi')>
+  ): Promise<Partial<typeof import('../../services/booksApi')>> => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useGetBooksQuery: (): UseGetBooksQueryReturn => ({
+        data: {
+          count: 1,
+          results: [
+            { id: 1, title: 'test item', authors: [{ name: 'test item' }] },
+            { title: '', id: 2, authors: [{ name: '' }] },
+            { title: '', id: 3, authors: [{ name: '' }] },
+          ],
+        },
+        isError: false,
+        isFetching: false,
+      }),
+    };
+  }
+);
 describe('Results/CardList Component Tests', () => {
   describe('Rendering Tests', () => {
     it('Renders correct number of items when data is provided', async () => {

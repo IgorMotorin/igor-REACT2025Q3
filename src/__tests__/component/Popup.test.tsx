@@ -1,19 +1,32 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import Popup from '../../component/Popup';
-import { Provider } from 'react-redux';
 import { store } from '../../store/store';
+import { Provider } from 'react-redux';
+import type { useSelector as OriginalUseSelector } from 'react-redux';
 
-vi.mock(import('react-redux'), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    useSelector: () => ({
-      1: { id: 1, title: '', authors: [{ name: 'name' }] },
-      2: { id: 2, title: '', authors: [{ name: 'name' }] },
-    }),
-  };
-});
+type Author = { name: string };
+type Book = { id: number; title: string; authors: Author[] };
+
+type MockedState = {
+  [key: number]: Book;
+};
+
+export const mockedState: MockedState = {
+  1: { id: 1, title: '', authors: [{ name: 'name' }] },
+  2: { id: 2, title: '', authors: [{ name: 'name' }] },
+};
+
+vi.mock<typeof import('react-redux')>(
+  import('react-redux'),
+  async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useSelector: (() => mockedState) as unknown as typeof OriginalUseSelector,
+    };
+  }
+);
 
 describe('Popup Component Tests', () => {
   it('Displays item name and description correctly', () => {

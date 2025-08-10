@@ -1,12 +1,14 @@
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { errorHandler } from '../../function/errorHandler';
 
 describe('group', () => {
   it('should', () => {
-    const newError = {
-      status: 'FETCH_ERROR',
-      data: { info: 'FETCH_ERROR' },
+    const newError: FetchBaseQueryError = {
+      status: 'CUSTOM_ERROR',
+      data: { info: 'CUSTOM_ERROR' },
+      error: 'string',
     };
     const out = errorHandler(newError);
-    expect(out).toBe('Ошибка:FETCH_ERROR {"info":"FETCH_ERROR"}');
+    expect(out).toBe('Ошибка:CUSTOM_ERROR {"info":"CUSTOM_ERROR"}');
   });
 });

@@ -7,21 +7,29 @@ import { store } from '../../store/store';
 import { ThemeContext } from '../../Context';
 
 const onInput = vi.fn();
-vi.mock(import('../../store/checkSlice.tsx'), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    onInput: () => onInput,
-  };
-});
+vi.mock<typeof import('../../store/checkSlice')>(
+  import('../../store/checkSlice.tsx'),
+  async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      onInput: () => onInput,
+    };
+  }
+);
 
-vi.mock(import('../../services/booksApi.tsx'), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    useGetBooksQuery: () => ({ data: { count: 40 }, refetch: () => {} }),
-  };
-});
+vi.mock<typeof import('../../services/booksApi')>(
+  import('../../services/booksApi.tsx'),
+  async (
+    importOriginal: () => Promise<typeof import('../../services/booksApi')>
+  ): Promise<Partial<typeof import('../../services/booksApi')>> => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useGetBooksQuery: () => ({ data: { count: 40 }, refetch: () => {} }),
+    };
+  }
+);
 
 vi.mock(import('react-redux'), async (importOriginal) => {
   const actual = await importOriginal();

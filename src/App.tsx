@@ -1,35 +1,49 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg?url';
-import './App.css';
+import { useEffect, useState } from 'react';
+import Result from './component/Result';
+import ErrorScreen from './component/ErrorScreen';
+import { Route, Routes, useSearchParams } from 'react-router';
+import Layout from './routes/Layout';
+import Home from './routes/Home';
+import About from './routes/About';
+import Cards from './routes/Cards';
+import { ThemeContext } from './Context';
+import { useDispatch } from 'react-redux';
+import { onPage, onSearch } from './store/checkSlice';
 
-function App() {
-  const [count, setCount] = useState(0);
+export default function App() {
+  const [theme, setTheme] = useState('light');
+  const [search] = useSearchParams();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const searchParam = search.get('search') || '';
+    const pageParam = search.get('page') || '1';
+
+    dispatch(onPage(pageParam));
+    dispatch(onSearch(searchParam));
+  }, [search, dispatch]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ThemeContext value={theme}>
+      <Routes>
+        <Route element={<Layout setTheme={setTheme} />}>
+          <Route index element={<Home />} />
+          <Route path="cards" element={<Cards></Cards>}>
+            <Route path="" element={<Result></Result>} />
+          </Route>
+          <Route path="about" element={<About></About>}></Route>
+          <Route
+            path="*"
+            element={
+              <ErrorScreen
+                run={true}
+                text={'Ошибка 404 - Такой страницы не существует...'}
+              ></ErrorScreen>
+            }
+          />
+        </Route>
+      </Routes>
+    </ThemeContext>
   );
 }
-
-export default App;

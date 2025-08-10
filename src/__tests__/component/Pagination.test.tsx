@@ -2,14 +2,24 @@ import { render, screen } from '@testing-library/react';
 import Pagination from '../../component/Pagination';
 import { BrowserRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
+
+vi.mock(import('../../services/booksApi.tsx'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useGetBooksQuery: () => ({ data: { count: 40 }, refetch: () => {} }),
+  };
+});
 
 describe('Pagination Component Tests', () => {
   it('Renders Pagination', () => {
-    const length = 32;
-    const numPagination = 1;
     render(
       <BrowserRouter>
-        <Pagination length={length} numPagination={numPagination}></Pagination>
+        <Provider store={store}>
+          <Pagination></Pagination>
+        </Provider>
       </BrowserRouter>
     );
 
@@ -18,33 +28,49 @@ describe('Pagination Component Tests', () => {
     expect(button[1]).toHaveTextContent('1');
   });
   it('Renders Pagination', () => {
-    const length = 32;
-    const numPagination = 1;
     render(
       <BrowserRouter>
-        <Pagination length={length} numPagination={numPagination}></Pagination>
+        <Provider store={store}>
+          <Pagination></Pagination>
+        </Provider>
       </BrowserRouter>
     );
 
     const button = screen.getAllByRole('button');
-    expect(button.length).toBe(3);
+    expect(button.length).toBe(5);
   });
   it('Route test', async () => {
-    const length = 32;
-    const numPagination = 1;
-
     render(
       <BrowserRouter>
-        <Pagination length={length} numPagination={numPagination}></Pagination>
+        <Provider store={store}>
+          <Pagination></Pagination>
+        </Provider>
       </BrowserRouter>
     );
 
     const button = screen.getAllByRole('button');
-    expect(button.length).toBe(3);
+    expect(button.length).toBe(5);
 
     const user = userEvent.setup();
     await user.click(button[1]);
 
     expect(window.location.search).toMatch('?page=1');
+  });
+  it('Route test', async () => {
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <Pagination></Pagination>
+        </Provider>
+      </BrowserRouter>
+    );
+
+    const button = screen.getAllByRole('button');
+    expect(button.length).toBe(5);
+
+    const user = userEvent.setup();
+    await user.click(button[2]);
+
+    expect(window.location.search).toMatch('?page=2');
   });
 });

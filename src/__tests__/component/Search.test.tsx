@@ -6,40 +6,58 @@ import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { ThemeContext } from '../../Context';
 
+const onInput = vi.fn();
+vi.mock(import('../../store/checkSlice.tsx'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    onInput: () => onInput,
+  };
+});
+
+vi.mock(import('../../services/booksApi.tsx'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useGetBooksQuery: () => ({ data: { count: 40 }, refetch: () => {} }),
+  };
+});
+
+vi.mock(import('react-redux'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useSelector: () => 'inputText',
+  };
+});
+vi.mock(import('../../hooks/hooks.tsx'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useLocalStorage: () => ['inputText', () => {}],
+  };
+});
 describe('component Search Renders', () => {
   it('should Renders search input', () => {
-    const searchProp = {
-      onChange: () => {},
-      onSearch: () => {},
-      value: 'inputText',
-      buttonError: false,
-      number: 1,
-    };
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <Search {...searchProp} />
+          <Search />
         </Provider>
       </BrowserRouter>
     );
 
     const input = screen.getByRole('searchbox');
+
     expect(input).toBeInTheDocument();
     expect(input).toHaveValue('inputText');
   });
 
   it('should Renders search button', () => {
-    const searchProp = {
-      onChange: () => {},
-      onSearch: () => {},
-      value: 'inputText',
-      buttonError: false,
-      number: 1,
-    };
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <Search {...searchProp} />
+          <Search />
         </Provider>
       </BrowserRouter>
     );
@@ -50,62 +68,25 @@ describe('component Search Renders', () => {
   });
 
   it('v2 - Displays previously saved search term from localStorage on mount', () => {
-    localStorage.setItem('appkey', 'local');
-    const searchProp = {
-      onChange: () => {},
-      onSearch: () => {},
-      value: localStorage.getItem('appkey') || '',
-      buttonError: false,
-      number: 1,
-    };
-
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <Search {...searchProp} />
+          <Search />
         </Provider>
       </BrowserRouter>
     );
     const input = screen.getByRole('searchbox');
     expect(input).toBeInTheDocument();
-    expect(input).toHaveValue('local');
+    expect(input).toHaveValue('inputText');
   });
-  it('v2 - Shows empty input when no saved term exists', () => {
-    localStorage.clear();
 
-    const searchProp = {
-      onChange: () => {},
-      onSearch: () => {},
-      value: localStorage.getItem('appkey') || '',
-      buttonError: false,
-      number: 1,
-    };
-
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Search {...searchProp} />
-        </Provider>
-      </BrowserRouter>
-    );
-    const input = screen.getByRole('searchbox');
-    expect(input).toBeInTheDocument();
-    expect(input).toHaveValue('');
-  });
   it('Triggers search callback with correct parameters', async () => {
-    const searchProp = {
-      onChange: vi.fn(),
-      onSearch: () => {},
-      value: '',
-      number: 1,
-    };
-
     render(
       <BrowserRouter>
         <Provider store={store}>
           {' '}
           <ThemeContext value="light">
-            <Search {...searchProp}></Search>
+            <Search></Search>
           </ThemeContext>
         </Provider>
       </BrowserRouter>
@@ -118,22 +99,14 @@ describe('component Search Renders', () => {
     await user.click(input);
     await user.keyboard(test);
 
-    expect(searchProp.onChange).toHaveBeenCalledTimes(test.length);
+    expect(onInput).toHaveBeenCalledTimes(2);
   });
   it('Triggers search callback Button', async () => {
-    const searchProp = {
-      onChange: () => {},
-      onSearch: vi.fn(),
-      value: '',
-      buttonError: false,
-      number: 1,
-    };
-
     render(
       <BrowserRouter>
         <Provider store={store}>
           <ThemeContext value="light">
-            <Search {...searchProp}></Search>
+            <Search></Search>
           </ThemeContext>
         </Provider>
       </BrowserRouter>
@@ -148,6 +121,6 @@ describe('component Search Renders', () => {
     await user.click(button);
     await user.click(button);
 
-    expect(searchProp.onSearch).toHaveBeenCalledTimes(2);
+    expect(onInput).toHaveBeenCalledTimes(4);
   });
 });

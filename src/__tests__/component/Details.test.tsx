@@ -1,14 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import Details from '../../component/Details';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 describe('Details Component Tests', () => {
   it('Displays item name and description correctly', () => {
-    const page = 1;
+    // const page = 1;
 
     render(
       <BrowserRouter>
-        <Details page={page}></Details>
+        <Provider store={store}>
+          <Details></Details>
+        </Provider>
       </BrowserRouter>
     );
 

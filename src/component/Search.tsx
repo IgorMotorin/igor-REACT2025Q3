@@ -1,10 +1,12 @@
+'use client';
+
 import { useContext } from 'react';
 import { ThemeContext } from '../Context';
 import { onInput, type CheckState } from '../store/checkSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetBooksQuery } from '../services/booksApi';
 import { useLocalStorage } from '../hooks/hooks';
-import { useSearchParams } from 'react-router';
+// import { useSearchParams } from 'react-router';
 
 export default function Search() {
   const theme = useContext(ThemeContext);
@@ -24,7 +26,7 @@ export default function Search() {
     page: page,
     search: search,
   });
-  const [, setSearch] = useSearchParams();
+  // const [, setSearch] = useSearchParams();
 
   return (
     <div
@@ -55,12 +57,12 @@ export default function Search() {
               const inputParam = input.trim();
               dispatch(onInput(inputParam));
               setKey(inputParam);
-              setSearch((prev) => {
-                prev.set('search', inputParam);
-                prev.set('page', '1');
+              // setSearch((prev) => {
+              //   prev.set('search', inputParam);
+              //   prev.set('page', '1');
 
-                return prev;
-              });
+              //   return prev;
+              // });
             }}
           >
             Search

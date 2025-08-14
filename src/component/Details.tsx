@@ -1,42 +1,43 @@
-import { useContext, useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router';
-import MinSpinner from './MinSpinner';
-import { ThemeContext } from '../Context';
-import { useGetBookQuery } from '../services/booksApi';
-import { errorHandler } from '../function/errorHandler';
+// import { useContext, useEffect, useState } from 'react';
+// import { Link, useSearchParams } from 'react-router';
+// import MinSpinner from './MinSpinner';
+// import { ThemeContext } from '../Context';
+// import { useGetBookQuery } from '../services/booksApi';
+// import { errorHandler } from '../function/errorHandler';
 
-export default function Details() {
-  const theme = useContext(ThemeContext);
-  const [searchParam] = useSearchParams();
-  const [on, setOn] = useState(false);
-  const details = searchParam.get('details') || '';
-  const page = searchParam.get('page') || '';
-  const search = searchParam.get('search') || '';
-  const { data, error, isError, isFetching, refetch } = useGetBookQuery(
-    details,
-    {
-      skip: !details,
-    }
-  );
+// export default function Details() {
+// const theme = useContext(ThemeContext);
+// const [searchParam] = useSearchParams();
+// const [on, setOn] = useState(false);
+// const details = searchParam.get('details') || '';
+// const page = searchParam.get('page') || '';
+// const search = searchParam.get('search') || '';
+// const { data, error, isError, isFetching, refetch } = useGetBookQuery(
+//   details,
+//   {
+//     skip: !details,
+//   }
+// );
 
-  useEffect(() => {
-    if (!details) {
-      setOn(false);
-    } else {
-      setOn(true);
-    }
-  }, [details]);
+// useEffect(() => {
+//   if (!details) {
+//     setOn(false);
+//   } else {
+//     setOn(true);
+//   }
+// }, [details]);
 
-  const err = (
-    <div className="text-1xl p-5 text-red-500">{errorHandler(error)}</div>
-  );
+// const err = (
+//   <div className="text-1xl p-5 text-red-500">{errorHandler(error)}</div>
+// );
 
-  return (
-    <div
-      data-theme={theme}
-      className={`${on ? '' : 'hidden'} fixed overflow-y-scroll top-1 right-1  m-1 p-3 h-11/12 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 shadow-lg dark:bg-cyan-950 dark:text-white`}
-    >
-      {isFetching ? (
+// return (
+//   <div
+//     data-theme={theme}
+//     className={`${on ? '' : 'hidden'} fixed overflow-y-scroll top-1 right-1  m-1 p-3 h-11/12 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 shadow-lg dark:bg-cyan-950 dark:text-white`}
+//   >
+{
+  /* {isFetching ? (
         <MinSpinner></MinSpinner>
       ) : (
         <div className="">
@@ -68,7 +69,10 @@ export default function Details() {
             update cache
           </button>
         </div>
-      )}
-    </div>
+      )} */
+}
+{
+  /* </div>
   );
+} */
 }

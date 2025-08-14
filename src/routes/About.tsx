@@ -18,21 +18,21 @@ export default function About() {
         This course is aimed at the students of the RS School who have passed RS
         School Stage #2 and at the new students who have experience with:
       </p>
-      <ul>
-        <li>1. JavaScript</li>
-        <li>2. TypeScript</li>
-        <li>
+      <div>
+        <p>1. JavaScript</p>
+        <p>2. TypeScript</p>
+        <p>
           3. Git, GitHub (clone, add, commit, push, pull, merge, rebase, pull
           request flow)
-        </li>
-        <li>4. NPM, Webpack</li>
-        <li>5. CSS3 / HTML5</li>
-        <li>6. Chrome DevTools, Figma</li>
-        <li>
+        </p>
+        <p>4. NPM, Webpack</p>
+        <p>5. CSS3 / HTML5</p>
+        <p>6. Chrome DevTools, Figma</p>
+        <p>
           7. Understanding of how to interact with APIs (general understanding
           of REST and GraphQL)
-        </li>
-      </ul>
+        </p>
+      </div>
       <a
         href="https://github.com/rolling-scopes-school/tasks/blob/master/react/README.md"
         className="text-blue-800 m-3 mt-4"

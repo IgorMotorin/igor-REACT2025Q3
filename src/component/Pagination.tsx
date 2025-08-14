@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useSearchParams } from 'react-router';
+// import { useSearchParams } from 'react-router';
 import { ThemeContext } from '../Context';
 import { useGetBooksQuery } from '../services/booksApi';
 import { useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ export default function Pagination() {
 
   const num = Math.ceil(length / 32) || 0;
   const arr = new Array(num > 10 ? 10 : num).fill('');
-  const [, setSearch] = useSearchParams();
+  // const [, setSearch] = useSearchParams();
   const numPag = page % 10 ? page % 10 : 10;
 
   return (
@@ -33,16 +33,14 @@ export default function Pagination() {
       <li>
         <button
           onClick={() => {
-            setSearch((prev) => {
-              prev.set('page', String(page < 2 ? 1 : Number(page) - 1));
-              const searchParam = prev.get('search');
-
-              if (searchParam) {
-                prev.set('search', searchParam);
-              }
-
-              return prev;
-            });
+            // setSearch((prev) => {
+            //   prev.set('page', String(page < 2 ? 1 : Number(page) - 1));
+            //   const searchParam = prev.get('search');
+            //   if (searchParam) {
+            //     prev.set('search', searchParam);
+            //   }
+            //   return prev;
+            // });
           }}
           disabled={page < 2}
           className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${page < 2 ? '' : 'hover:bg-blue-200  active:text-white active:bg-blue-600 active:border-blue-600'} `}
@@ -66,18 +64,17 @@ export default function Pagination() {
           <li key={'f' + item + idx}>
             <button
               onClick={() => {
-                setSearch((prev) => {
-                  const searchParam = prev.get('search');
-                  prev.set(
-                    'page',
-                    String(Math.floor((page - 1) / 10) * 10 + idx + 1)
-                  );
-                  if (searchParam) {
-                    prev.set('search', searchParam);
-                  }
-
-                  return prev;
-                });
+                // setSearch((prev) => {
+                //   const searchParam = prev.get('search');
+                //   prev.set(
+                //     'page',
+                //     String(Math.floor((page - 1) / 10) * 10 + idx + 1)
+                //   );
+                //   if (searchParam) {
+                //     prev.set('search', searchParam);
+                //   }
+                //   return prev;
+                // });
               }}
               className={
                 idx + 1 == numPag
@@ -95,16 +92,14 @@ export default function Pagination() {
       <li>
         <button
           onClick={() => {
-            setSearch((prev) => {
-              prev.set('page', String(page > num - 1 ? num : Number(page) + 1));
-              const searchParam = prev.get('search');
-
-              if (searchParam) {
-                prev.set('search', searchParam);
-              }
-
-              return prev;
-            });
+            // setSearch((prev) => {
+            //   prev.set('page', String(page > num - 1 ? num : Number(page) + 1));
+            //   const searchParam = prev.get('search');
+            //   if (searchParam) {
+            //     prev.set('search', searchParam);
+            //   }
+            //   return prev;
+            // });
           }}
           disabled={page > num - 1}
           className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${page > num - 1 ? '' : 'hover:bg-blue-200 active:text-white active:bg-blue-600 active:border-blue-600'} `}

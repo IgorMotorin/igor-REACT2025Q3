@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo } from 'react';
 import Card from './Card';
-import Details from './Details';
+// import Details from './Details';
 import ErrorScreen from './ErrorScreen';
 import Spinner from './Spinner';
 import { ThemeContext } from '../Context';
@@ -66,7 +66,7 @@ export default function Result() {
           </div>
         )}
       </ul>
-      <Details></Details>
+      {/* <Details></Details> */}
       <Popup></Popup>
     </div>
   );

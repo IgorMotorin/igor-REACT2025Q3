@@ -1,14 +1,10 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import ButtonErr from '../component/ButtonErr';
 import { ThemeContext } from '../Context';
 
 export default function Home() {
-  const [buttonError, setButtonError] = useState(false);
   const theme = useContext(ThemeContext);
 
-  if (buttonError) {
-    throw new Error('I crashed!');
-  }
   return (
     <div className=" dark:bg-cyan-950 dark:text-white" data-theme={theme}>
       <h1 className="pt-5 self-center text-xl font-semibold whitespace-nowrap dark:bg-cyan-950 dark:text-white">
@@ -21,8 +17,8 @@ export default function Home() {
         modern querying libraries.
       </p>
       <h2 className="mt-5 ">🎯 Task Goals</h2>
-      <ul className="p-3">
-        <li>
+      <div className="p-3">
+        <p>
           1. API Integration:
           <p>
             1.1. Based on your state management choice from the previous task,
@@ -33,8 +29,8 @@ export default function Home() {
             1.3. For Zustand users: Implement TanStack Query (formerly React
             Query) for data fetching
           </p>
-        </li>
-        <li>
+        </p>
+        <p>
           2. Required Query Features:
           <p>2.1. Cache the results of API calls</p>
           <p>2.2. Display loading states while data is being fetched </p>
@@ -51,15 +47,15 @@ export default function Home() {
             All previous API calls from your application should be converted to
             use the chosen query solution
           </p>
-        </li>
-        <li>
+        </p>
+        <p>
           Specific Requirements: Data loading states should be visible to users
           (loading indicators) Error states should be properly handled and
           displayed to users The cached data should persist between page
           navigations
-        </li>
-      </ul>
-      <ButtonErr onError={() => setButtonError(true)}></ButtonErr>
+        </p>
+      </div>
+      <ButtonErr></ButtonErr>
     </div>
   );
 }

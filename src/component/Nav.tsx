@@ -11,7 +11,6 @@ import LocaleSwitcher from './LocaleSwitcher';
 
 export default function Nav({ params }: { params: 'en' | 'ru' }) {
   const pathname = usePathname();
-  console.log(pathname);
   const theme = useContext(ThemeContext);
   const t = useTranslations('nav');
   const classActLink =

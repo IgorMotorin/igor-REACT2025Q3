@@ -29,16 +29,16 @@ export default async function LocaleLayout({
         />
       </head>
       <body>
-        <NextIntlClientProvider>
-          <div id="root">
+        <div id="root">
+          <NextIntlClientProvider>
             <StoreProvider>
               <ThemeProvider>
                 <Nav params={locale}></Nav>
                 {children}
               </ThemeProvider>
             </StoreProvider>
-          </div>
-        </NextIntlClientProvider>
+          </NextIntlClientProvider>
+        </div>
       </body>
     </html>
   );

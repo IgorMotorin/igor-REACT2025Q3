@@ -2,12 +2,12 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "esnext"],
     "module": "ESNext",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -19,6 +19,7 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
+    "types": ["@testing-library/jest-dom"],
     "plugins": [
       {
         "name": "next"

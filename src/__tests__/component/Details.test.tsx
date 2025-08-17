@@ -22,8 +22,6 @@ vi.mock('next/navigation', async () => {
 });
 describe('Details Component Tests', () => {
   it('Displays item name and description correctly', () => {
-    // const page = 1;
-
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
         <Provider store={store}>

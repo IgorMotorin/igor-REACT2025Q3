@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 
-import App from '../../App';
+import App from '../../_App';
 
 describe('Search: User Interaction Tests', () => {
   it('v1 - Displays previously saved search term from localStorage on mount', async () => {

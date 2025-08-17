@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import About from '../../routes/About';
+import About from '../../routes/_About';
 
 describe('About Component Tests', () => {
   it('Renders About component', () => {

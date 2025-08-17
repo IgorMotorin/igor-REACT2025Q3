@@ -1,19 +1,15 @@
-import dynamic from 'next/dynamic';
+'use client';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Dispatch, SetStateAction } from 'react';
+import { useContext } from 'react';
+import { ThemeContext } from '../store/Context';
+import ButtonTheme from './ButtonTheme';
+import Logo from './logo';
 
-const Logo = dynamic(() => import('./logo'));
-const BtnTheme = dynamic(() => import('./btnTheme'));
-
-export default function Nav({
-  theme,
-  setTheme,
-}: Readonly<{
-  theme: string;
-  setTheme: Dispatch<SetStateAction<string>>;
-}>) {
+export default function Nav() {
   const pathname = usePathname();
+  const theme = useContext(ThemeContext);
   const classActLink =
     'block py-2 pl-3 pr-4 text-white rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white bg-purple-700';
   const classPendLink =
@@ -58,7 +54,7 @@ export default function Nav({
               </Link>
             </li>
             <li key={'btn'}>
-              <BtnTheme theme={theme} setTheme={setTheme}></BtnTheme>
+              <ButtonTheme theme={theme}></ButtonTheme>
             </li>
           </ul>
         </div>

@@ -1,18 +1,18 @@
-import { Dispatch, SetStateAction } from 'react';
+'use client';
 
-export default function BtnTheme({
+import { useDispatch } from 'react-redux';
+import { onTheme } from '../store/checkSlice';
+
+export default function ButtonTheme({
   theme,
-  setTheme,
 }: Readonly<{
   theme: string;
-  setTheme: Dispatch<SetStateAction<string>>;
 }>) {
+  const dispatch = useDispatch();
   return (
     <button
       className="ml-3"
-      onClick={() =>
-        setTheme((prev: string) => (prev === 'dark' ? 'light' : 'dark'))
-      }
+      onClick={() => dispatch(onTheme(theme === 'dark' ? 'light' : 'dark'))}
     >
       {theme === 'dark' ? (
         <svg

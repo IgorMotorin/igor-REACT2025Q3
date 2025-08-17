@@ -1,17 +1,21 @@
 'use client';
 
-import { useContext } from 'react';
-import { ThemeContext } from '../Context';
-import { onInput, type CheckState } from '../store/checkSlice';
+import { useCallback, useContext, useEffect } from 'react';
+import { ThemeContext } from '../store/Context';
+import {
+  onInput,
+  onPage,
+  onSearch,
+  type CheckState,
+} from '../store/checkSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetBooksQuery } from '../services/booksApi';
 import { useLocalStorage } from '../hooks/hooks';
-// import { useSearchParams } from 'react-router';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export default function Search() {
   const theme = useContext(ThemeContext);
   const dispatch = useDispatch();
-  const [key, setKey] = useLocalStorage('appKey', '');
   const input = useSelector(
     (state: { checkReducer: CheckState }) => state.checkReducer.input
   );
@@ -26,7 +30,26 @@ export default function Search() {
     page: page,
     search: search,
   });
-  // const [, setSearch] = useSearchParams();
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback((name: string, value: string) => {
+    const params = new URLSearchParams();
+    params.set(name, value);
+
+    return params.toString();
+  }, []);
+
+  const [key, setKey] = useLocalStorage('appKey', '');
+
+  useEffect(() => {
+    const searchParam = searchParams.get('search') || '';
+    const pageParam = searchParams.get('page') || '1';
+    dispatch(onPage(pageParam));
+    dispatch(onSearch(searchParam));
+  }, [searchParams, dispatch]);
 
   return (
     <div
@@ -56,13 +79,15 @@ export default function Search() {
               e.preventDefault();
               const inputParam = input.trim();
               dispatch(onInput(inputParam));
+              // dispatch(onSearch(inputParam));
               setKey(inputParam);
-              // setSearch((prev) => {
-              //   prev.set('search', inputParam);
-              //   prev.set('page', '1');
-
-              //   return prev;
-              // });
+              router.push(
+                pathname +
+                  '?' +
+                  createQueryString('search', inputParam) +
+                  '&' +
+                  createQueryString('page', '1')
+              );
             }}
           >
             Search

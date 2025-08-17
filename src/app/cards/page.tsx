@@ -1,7 +1,5 @@
-'use client';
-import dynamic from 'next/dynamic';
+import Cards from './Cards';
 
-const Result = dynamic(() => import('../../component/Result'), { ssr: false });
 export default function Page() {
-  return <Result></Result>;
+  return <Cards></Cards>;
 }

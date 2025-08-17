@@ -1,9 +1,11 @@
-import { Link } from 'react-router';
-import { ThemeContext } from '../Context';
+'use client';
+
+import { ThemeContext } from '../store/Context';
 import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { onCheck } from '../store/checkSlice';
 import { type CheckState } from '../store/checkSlice';
+import Link from 'next/link';
 
 export default function Card({
   name = '',
@@ -31,7 +33,7 @@ export default function Card({
       }`}
     >
       <Link
-        to={`?page=${page}&search=${search}&details=${id}`}
+        href={`?page=${page}&search=${search}&details=${id}`}
         data-theme={theme}
       >
         <div className="bg-white h-35 p-5 rounded-md dark:bg-cyan-950 dark:text-white">

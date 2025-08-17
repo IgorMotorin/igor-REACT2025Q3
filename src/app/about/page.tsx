@@ -1,7 +1,5 @@
-'use client';
-import dynamic from 'next/dynamic';
+import About from './About';
 
-const About = dynamic(() => import('../../routes/About'));
 export default function Page() {
   return <About></About>;
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { onCheck } from '../store/checkSlice';
 import { type CheckState } from '../store/checkSlice';

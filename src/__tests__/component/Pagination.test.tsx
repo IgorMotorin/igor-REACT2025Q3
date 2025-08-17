@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Pagination from '../../component/Pagination';
+import Pagination from '../../component/Pagination.tsx';
 import { BrowserRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';

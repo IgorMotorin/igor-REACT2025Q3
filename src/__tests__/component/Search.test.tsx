@@ -4,7 +4,7 @@ import Search from '../../component/Search';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
-import { ThemeContext } from '../../Context';
+import { ThemeContext } from '../../store/Context.tsx';
 import { onInput } from '../../store/checkSlice';
 import type { useSelector as OriginalUseSelector } from 'react-redux';
 import type { useGetBooksQuery } from '../../services/booksApi';

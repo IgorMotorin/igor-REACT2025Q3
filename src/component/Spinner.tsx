@@ -1,5 +1,7 @@
+'use client';
+
 import { useContext } from 'react';
-import { ThemeContext } from '../Context';
+import { ThemeContext } from '../store/Context';
 
 export default function Spinner({ run }: Readonly<{ run: boolean }>) {
   const theme = useContext(ThemeContext);

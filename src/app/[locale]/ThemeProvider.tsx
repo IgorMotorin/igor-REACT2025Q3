@@ -1,7 +1,7 @@
 'use client';
 
-import { ThemeContext } from '../store/Context';
-import { CheckState } from '../store/checkSlice';
+import { ThemeContext } from '../../store/Context';
+import { CheckState } from '../../store/checkSlice';
 import { useSelector } from 'react-redux';
 
 export function ThemeProvider({

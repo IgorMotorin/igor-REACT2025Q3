@@ -1,15 +1,18 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContext } from 'react';
 import { ThemeContext } from '../store/Context';
 import ButtonTheme from './ButtonTheme';
 import Logo from './logo';
+import { useTranslations } from 'next-intl';
+import { Link } from '../i18n/navigation';
+import LocaleSwitcher from './LocaleSwitcher';
 
 export default function Nav() {
   const pathname = usePathname();
   const theme = useContext(ThemeContext);
+  const t = useTranslations('nav');
   const classActLink =
     'block py-2 pl-3 pr-4 text-white rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white bg-purple-700';
   const classPendLink =
@@ -21,7 +24,7 @@ export default function Nav() {
       data-theme={theme}
     >
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-        <Logo href="/" text="API Querying in React"></Logo>
+        <Logo href="/" text="Next.js. Server Side Rendering"></Logo>
         <div className="flex items-center lg:order-2"></div>
         <div
           className="items-center justify-between w-full lg:flex lg:w-auto lg:order-1"
@@ -34,7 +37,7 @@ export default function Nav() {
                 className={pathname === '/' ? classActLink : classPendLink}
                 aria-current="page"
               >
-                Home
+                {t('home')}
               </Link>
             </li>
             <li key={'cards'}>
@@ -42,7 +45,7 @@ export default function Nav() {
                 href="/cards"
                 className={pathname === '/cards' ? classActLink : classPendLink}
               >
-                Cards
+                {t('cards')}
               </Link>
             </li>
             <li key={'about'}>
@@ -50,11 +53,14 @@ export default function Nav() {
                 href="/about"
                 className={pathname === '/about' ? classActLink : classPendLink}
               >
-                About
+                {t('about')}
               </Link>
             </li>
             <li key={'btn'}>
               <ButtonTheme theme={theme}></ButtonTheme>
+            </li>
+            <li key={'locale'}>
+              <LocaleSwitcher></LocaleSwitcher>
             </li>
           </ul>
         </div>

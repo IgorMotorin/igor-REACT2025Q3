@@ -1,9 +1,11 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 export default function ButtonError() {
   const [buttonError, setButtonError] = useState(false);
+  const t = useTranslations('home');
 
   if (buttonError) {
     throw new Error('I crashed!');
@@ -15,7 +17,7 @@ export default function ButtonError() {
         setButtonError(true);
       }}
     >
-      On Error
+      {t('button')}
     </button>
   );
 }

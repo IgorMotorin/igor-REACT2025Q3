@@ -6,8 +6,10 @@ import { useGetBooksQuery } from '../services/booksApi';
 import { useSelector } from 'react-redux';
 import type { CheckState } from '../store/checkSlice';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function Pagination() {
+  const t = useTranslations('cards');
   const theme = useContext(ThemeContext);
   const search = useSelector(
     (state: { checkReducer: CheckState }) => state.checkReducer.search
@@ -143,7 +145,7 @@ export default function Pagination() {
           }}
           className={`inline-flex p-1 items-center justify-center w-auto h-8 border border-gray-100 rounded hover:bg-blue-200 active:text-white active:bg-blue-600 active:border-blue-600`}
         >
-          update cache
+          {t('cache')}
         </button>
       </li>
     </ol>

@@ -5,10 +5,12 @@ import MinSpinner from './MinSpinner';
 import { ThemeContext } from '../store/Context';
 import { useGetBookQuery } from '../services/booksApi';
 import { errorHandler } from '../function/errorHandler';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { Link } from '../i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function Details() {
+  const t = useTranslations('cards');
   const theme = useContext(ThemeContext);
   const searchParam = useSearchParams();
   const [on, setOn] = useState(false);
@@ -37,7 +39,7 @@ export default function Details() {
   return (
     <div
       data-theme={theme}
-      className={`${on ? '' : 'hidden'} fixed overflow-y-scroll top-1 right-1  m-1 p-3 h-11/12 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 shadow-lg dark:bg-cyan-950 dark:text-white`}
+      className={`${on ? '' : 'hidden'} fixed overflow-y-scroll top-1 right-1 z-11 m-1 p-3 h-11/12 rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 shadow-lg dark:bg-cyan-950 dark:text-white`}
     >
       {isFetching ? (
         <MinSpinner></MinSpinner>
@@ -51,16 +53,17 @@ export default function Details() {
               <h2 className="font-medium text-2xl mb-2">
                 {data?.authors[0]?.name}
               </h2>
-              <p className="text-xl mb-2">{data?.title}</p>
+              <p className="text-xl mb-2">{data?.title.slice(0, 100)}</p>
               <p className="text-sm mb-2">{data?.summaries}</p>
             </div>
           )}
 
           <Link
+            scroll={false}
             href={`?page=${page}&search=${search}`}
             className="mt-3 flex-inline w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           >
-            Close
+            {t('close')}
           </Link>
           <button
             onClick={() => {
@@ -68,7 +71,7 @@ export default function Details() {
             }}
             className="mt-3 flex-inline w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           >
-            update cache
+            {t('cache')}
           </button>
         </div>
       )}

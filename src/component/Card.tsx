@@ -5,7 +5,8 @@ import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { onCheck } from '../store/checkSlice';
 import { type CheckState } from '../store/checkSlice';
-import Link from 'next/link';
+import { Link } from '../i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function Card({
   name = '',
@@ -20,6 +21,7 @@ export default function Card({
   id: number;
   search: string;
 }>) {
+  const t = useTranslations('cards');
   const theme = useContext(ThemeContext);
   const check = !useSelector(
     (state: { checkReducer: CheckState }) => state.checkReducer.value[id]
@@ -33,6 +35,7 @@ export default function Card({
       }`}
     >
       <Link
+        scroll={false}
         href={`?page=${page}&search=${search}&details=${id}`}
         data-theme={theme}
       >
@@ -55,7 +58,7 @@ export default function Card({
           onChange={() => dispatch(onCheck({ id: id }))}
           checked={!check}
         ></input>
-        <span className="ml-2">add cart</span>
+        <span className="ml-2">{t('cart')}</span>
       </label>
     </li>
   );

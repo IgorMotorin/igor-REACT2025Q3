@@ -12,8 +12,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetBooksQuery } from '../services/booksApi';
 import { useLocalStorage } from '../hooks/hooks';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function Search() {
+  const t = useTranslations('cards');
   const theme = useContext(ThemeContext);
   const dispatch = useDispatch();
   const input = useSelector(
@@ -62,7 +64,7 @@ export default function Search() {
             id="q"
             name="q"
             className="inline w-full rounded-md border border-gray-300 bg-white dark:text-black py-2 pl-3 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-            placeholder="Search..."
+            placeholder={t('search') + '...'}
             type="search"
             autoFocus={false}
             onChange={(e) => {
@@ -79,7 +81,6 @@ export default function Search() {
               e.preventDefault();
               const inputParam = input.trim();
               dispatch(onInput(inputParam));
-              // dispatch(onSearch(inputParam));
               setKey(inputParam);
               router.push(
                 pathname +
@@ -90,7 +91,7 @@ export default function Search() {
               );
             }}
           >
-            Search
+            {t('search')}
           </button>
 
           <div className="relative right-4 bottom-5 -mr-6 inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-400 text-white">

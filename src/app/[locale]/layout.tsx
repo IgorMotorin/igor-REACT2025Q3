@@ -1,0 +1,43 @@
+import './globals.css';
+import { StoreProvider } from './StoreProvider';
+import { ThemeProvider } from './ThemeProvider';
+import Nav from '../../component/Nav';
+import { NextIntlClientProvider, hasLocale } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { routing } from '../../i18n/routing';
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}>) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+  return (
+    <html lang={locale}>
+      <head>
+        <title>Task 6. Next.js. Server Side Rendering</title>
+        <meta
+          name="description"
+          content="Task 6. Next.js. Server Side Rendering"
+        />
+      </head>
+      <body>
+        <NextIntlClientProvider>
+          <div id="root">
+            <StoreProvider>
+              <ThemeProvider>
+                <Nav></Nav>
+                {children}
+              </ThemeProvider>
+            </StoreProvider>
+          </div>
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
+}

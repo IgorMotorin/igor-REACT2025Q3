@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { onCheck } from '../store/checkSlice';
 import { type CheckState } from '../store/checkSlice';
 import { useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function Popup() {
+  const t = useTranslations('cards');
   const check = useSelector(
     (state: { checkReducer: CheckState }) => state.checkReducer.value
   );
@@ -72,7 +74,7 @@ export default function Popup() {
                       className="inline-flex items-center mr-2"
                       htmlFor={'g' + idx}
                     >
-                      Book
+                      {t('book')}
                     </label>
 
                     <p className="font-bold">id: {item[0]}</p>
@@ -91,14 +93,14 @@ export default function Popup() {
             }}
             className=" hover:opacity-80 disabled:opacity-30 active:cursor-pointer m-1 rounded-full dark:bg-gray-800 dark:text-white bg-gray-200 px-4 py-2 text-black"
           >
-            Unselect all
+            {t('unselect')}
           </button>
           <a
             download={`${arr.length}-books.csv`}
             className="hover:opacity-80 disabled:opacity-30 active:cursor-pointer m-1 rounded-full dark:bg-gray-800 dark:text-white bg-gray-200 px-4 py-2 text-black"
             href={toCSV()}
           >
-            Download
+            {t('download')}
           </a>
         </div>
       </div>

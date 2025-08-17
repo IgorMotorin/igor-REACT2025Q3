@@ -13,7 +13,6 @@ describe('About Component Tests', () => {
     );
 
     const error = screen.getByText('About');
-    console.log(error);
     expect(error).toBeDefined();
     expect(error).toHaveTextContent('About');
   });

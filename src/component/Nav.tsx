@@ -9,8 +9,9 @@ import { useTranslations } from 'next-intl';
 import { Link } from '../i18n/navigation';
 import LocaleSwitcher from './LocaleSwitcher';
 
-export default function Nav() {
+export default function Nav({ params }: { params: 'en' | 'ru' }) {
   const pathname = usePathname();
+  console.log(pathname);
   const theme = useContext(ThemeContext);
   const t = useTranslations('nav');
   const classActLink =
@@ -34,7 +35,9 @@ export default function Nav() {
             <li key={'home'}>
               <Link
                 href="/"
-                className={pathname === '/' ? classActLink : classPendLink}
+                className={
+                  pathname === '/' + params ? classActLink : classPendLink
+                }
                 aria-current="page"
               >
                 {t('home')}
@@ -43,7 +46,11 @@ export default function Nav() {
             <li key={'cards'}>
               <Link
                 href="/cards"
-                className={pathname === '/cards' ? classActLink : classPendLink}
+                className={
+                  pathname === '/' + params + '/cards'
+                    ? classActLink
+                    : classPendLink
+                }
               >
                 {t('cards')}
               </Link>
@@ -51,7 +58,11 @@ export default function Nav() {
             <li key={'about'}>
               <Link
                 href="/about"
-                className={pathname === '/about' ? classActLink : classPendLink}
+                className={
+                  pathname === '/' + params + '/about'
+                    ? classActLink
+                    : classPendLink
+                }
               >
                 {t('about')}
               </Link>

@@ -9,7 +9,10 @@ export default function About() {
   const theme = useContext(ThemeContext);
 
   return (
-    <div className=" dark:bg-cyan-950 dark:text-white p-5" data-theme={theme}>
+    <div
+      className="h-screen dark:bg-cyan-950 dark:text-white p-5"
+      data-theme={theme}
+    >
       <h1 className="mt-5 self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
         {t('about')}
       </h1>

@@ -1,5 +1,5 @@
 import type { NextConfig } from 'next';
-// import NextBundleAnalyzer from '@next/bundle-analyzer';
+import NextBundleAnalyzer from '@next/bundle-analyzer';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
@@ -7,11 +7,9 @@ const nextConfig: NextConfig = {
   distDir: './dist', // Changes the build output directory to `./dist/`.
 };
 
-// const withBundleAnalyzer = NextBundleAnalyzer({
-//   enabled: true,
-// });
-
-// module.exports = withBundleAnalyzer(nextConfig);
+const withBundleAnalyzer = NextBundleAnalyzer({
+  enabled: true,
+});
 
 const withNextIntl = createNextIntlPlugin();
-export default withNextIntl(nextConfig);
+export default withNextIntl(withBundleAnalyzer(nextConfig));

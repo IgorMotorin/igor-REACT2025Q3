@@ -1,15 +1,23 @@
-import { useContext } from 'react';
-import { ThemeContext } from '../Context';
-import { onInput, type CheckState } from '../store/checkSlice';
+'use client';
+
+import { useCallback, useContext, useEffect } from 'react';
+import { ThemeContext } from '../store/Context';
+import {
+  onInput,
+  onPage,
+  onSearch,
+  type CheckState,
+} from '../store/checkSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetBooksQuery } from '../services/booksApi';
 import { useLocalStorage } from '../hooks/hooks';
-import { useSearchParams } from 'react-router';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function Search() {
+  const t = useTranslations('cards');
   const theme = useContext(ThemeContext);
   const dispatch = useDispatch();
-  const [key, setKey] = useLocalStorage('appKey', '');
   const input = useSelector(
     (state: { checkReducer: CheckState }) => state.checkReducer.input
   );
@@ -24,7 +32,26 @@ export default function Search() {
     page: page,
     search: search,
   });
-  const [, setSearch] = useSearchParams();
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback((name: string, value: string) => {
+    const params = new URLSearchParams();
+    params.set(name, value);
+
+    return params.toString();
+  }, []);
+
+  const [key, setKey] = useLocalStorage('appKey', '');
+
+  useEffect(() => {
+    const searchParam = searchParams.get('search') || '';
+    const pageParam = searchParams.get('page') || '1';
+    dispatch(onPage(pageParam));
+    dispatch(onSearch(searchParam));
+  }, [searchParams, dispatch]);
 
   return (
     <div
@@ -37,7 +64,7 @@ export default function Search() {
             id="q"
             name="q"
             className="inline w-full rounded-md border border-gray-300 bg-white dark:text-black py-2 pl-3 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-            placeholder="Search..."
+            placeholder={t('search') + '...'}
             type="search"
             autoFocus={false}
             onChange={(e) => {
@@ -55,15 +82,16 @@ export default function Search() {
               const inputParam = input.trim();
               dispatch(onInput(inputParam));
               setKey(inputParam);
-              setSearch((prev) => {
-                prev.set('search', inputParam);
-                prev.set('page', '1');
-
-                return prev;
-              });
+              router.push(
+                pathname +
+                  '?' +
+                  createQueryString('search', inputParam) +
+                  '&' +
+                  createQueryString('page', '1')
+              );
             }}
           >
-            Search
+            {t('search')}
           </button>
 
           <div className="relative right-4 bottom-5 -mr-6 inline-flex items-center px-1.5 py-0.5 border-2 border-white rounded-full text-xs font-semibold leading-4 bg-red-400 text-white">

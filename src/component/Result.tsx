@@ -1,13 +1,13 @@
+'use client';
+
 import { useContext, useEffect, useMemo } from 'react';
 import Card from './Card';
-import Details from './Details';
 import ErrorScreen from './ErrorScreen';
 import Spinner from './Spinner';
-import { ThemeContext } from '../Context';
+import { ThemeContext } from '../store/Context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetBooksQuery } from '../services/booksApi';
 import { onBooks, type CheckState, type type_books } from '../store/checkSlice';
-import Popup from './Popup';
 import { errorHandler } from '../function/errorHandler';
 
 export default function Result() {
@@ -66,8 +66,6 @@ export default function Result() {
           </div>
         )}
       </ul>
-      <Details></Details>
-      <Popup></Popup>
     </div>
   );
 }

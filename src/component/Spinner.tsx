@@ -1,5 +1,7 @@
+'use client';
+
 import { useContext } from 'react';
-import { ThemeContext } from '../Context';
+import { ThemeContext } from '../store/Context';
 
 export default function Spinner({ run }: Readonly<{ run: boolean }>) {
   const theme = useContext(ThemeContext);
@@ -9,8 +11,8 @@ export default function Spinner({ run }: Readonly<{ run: boolean }>) {
       data-theme={theme}
       className={
         run
-          ? 'absolute p-10 w-full h-full bg-white opacity-90 z-10 visible dark:bg-cyan-950 dark:text-white'
-          : 'absolute p-10 w-full h-full bg-white opacity-90 z-10 invisible dark:bg-cyan-950 dark:text-white'
+          ? 'absolute p-10 w-full h-full bg-white z-10 visible dark:bg-cyan-950 dark:text-white'
+          : 'absolute p-10 w-full h-full bg-white z-10 invisible dark:bg-cyan-950 dark:text-white'
       }
     >
       <div className="flex items-center justify-center">

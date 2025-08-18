@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "Home",
+    "cards": "Cards",
+    "about": "About"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, ru {RU} en {EN} other {Unknown}}"
+  },
+  "home": {
+    "technical": "🧠 Technical requirements",
+    "application": "🎯 Application Requirements",
+    "technical_text": "Create a separate branch for this task from the previous branch task. Branch name: nextjs-ssr. Next.js App Router Integration: Migrate your application from vite to the Next.js by using App Router. React-router should be removed. You must use file-based routing provided by next.js (App Router). You may need to adapt some existing libraries to work with next.js if necessary. (E.g., Redux).",
+    "application_text": "Application should function in accordance to the requirements provided in the previous modules, if they do not contradict with the new requirements provided in this module. Add internationalization via next-intl. Your application must support at least 2 languages. The language can be changed via switcher on the client. There is no need to translate the data that comes from the API. Add a shared layout for pages. Add 404 page. Images must be rendered via an Image component from next/image. Links must be rendered via a Link component from the next-intl createNavigation function. The 'createNavigation' function is a wrapper on top on Next.js navigation with supporting locales. All static requests must be done from the server. Example how to adopt searchParams to the next.js, Fetching data. Dynamic requests (depends on search params for example) still can be done from the client via rtk-query\tanstack-query etc. Move render of components to the server as much as possible. E.g., static markup, components without state/hooks usage. Csv file from the Redux task must be compiled on the server. The first loading page should come from the server, and saving requests from previous task can be left as is (no need to migrate).",
+    "button": "On Error"
+  },
+  "cards": {
+    "search": "Search",
+    "cache": "update cache",
+    "cart": "add cart",
+    "unselect": "Unselect all",
+    "download": "Download CSV",
+    "book": "Book",
+    "close": "Close"
+  },
+  "about": {
+    "about": "About",
+    "name": "Hi, my name is Igor!",
+    "text": "This course is aimed at the students of the RS School who have passed RS School Stage #2 and at the new students who have experience with: JavaScript, TypeScript, Git, GitHub (clone, add, commit, push, pull, merge, rebase, pull request flow), NPM, Webpack, CSS3 / HTML5, Chrome DevTools, Figma. Understanding of how to interact with APIs (general understanding of REST and GraphQL)"
+  }
+}

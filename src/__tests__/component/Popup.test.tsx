@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router';
 import Popup from '../../component/Popup';
 import { store } from '../../store/store';
 import { Provider } from 'react-redux';
 import type { useSelector as OriginalUseSelector } from 'react-redux';
+import { describe, expect, it, vi } from 'vitest';
+import { NextIntlClientProvider } from 'next-intl';
+import messages from '../../../messages/en.json';
 
 type Author = { name: string };
 type Book = { id: number; title: string; authors: Author[] };
@@ -31,11 +33,11 @@ vi.mock<typeof import('react-redux')>(
 describe('Popup Component Tests', () => {
   it('Displays item name and description correctly', () => {
     render(
-      <BrowserRouter>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <Provider store={store}>
           <Popup></Popup>
         </Provider>
-      </BrowserRouter>
+      </NextIntlClientProvider>
     );
 
     const listitem = screen.getAllByRole('listitem');
@@ -49,17 +51,17 @@ describe('Popup Component Tests', () => {
 
   it('Displays item name and description correctly', () => {
     render(
-      <BrowserRouter>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <Provider store={store}>
           <Popup></Popup>
         </Provider>
-      </BrowserRouter>
+      </NextIntlClientProvider>
     );
 
     const list = screen.getByRole('list');
     expect(list).toBeInTheDocument();
 
-    const button = screen.getByRole('link', { name: 'Download' });
+    const button = screen.getByRole('link', { name: 'Download CSV' });
 
     expect(button).toBeInTheDocument();
   });
@@ -68,11 +70,11 @@ describe('Popup Component Tests', () => {
 describe('user interaction', async () => {
   it('should', () => {
     render(
-      <BrowserRouter>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <Provider store={store}>
           <Popup></Popup>
         </Provider>
-      </BrowserRouter>
+      </NextIntlClientProvider>
     );
 
     const list = screen.getAllByRole('checkbox');

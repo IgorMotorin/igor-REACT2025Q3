@@ -1,5 +1,6 @@
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { errorHandler } from '../../function/errorHandler';
+import { describe, expect, it } from 'vitest';
 
 describe('group', () => {
   it('should', () => {

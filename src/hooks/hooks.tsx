@@ -5,7 +5,7 @@ export function useLocalStorage(
   initialValue: string
 ): [string, React.Dispatch<React.SetStateAction<string>>] {
   const [value, setValue] = useState<string>(() => {
-    const item = localStorage.getItem(key);
+    const item = localStorage.getItem(key) || '';
     return item ? JSON.parse(item) : initialValue;
   });
   useEffect(() => {

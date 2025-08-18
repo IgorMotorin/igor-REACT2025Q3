@@ -1,5 +1,7 @@
+'use client';
+
 import { useContext } from 'react';
-import { ThemeContext } from '../Context';
+import { ThemeContext } from '../store/Context';
 
 export default function MinSpinner() {
   const theme = useContext(ThemeContext);

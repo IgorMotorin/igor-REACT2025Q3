@@ -1,26 +1,9 @@
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router';
 import Card from '../../component/Card';
 import { Provider } from 'react-redux';
-import { store } from '../../../src/store/store';
-import { describe, expect, it, vi } from 'vitest';
-import { NextIntlClientProvider } from 'next-intl';
-import messages from '../../../messages/en.json';
-import { ThemeContext } from '../../store/Context';
+import { store } from '../../store/store';
 
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual('next/navigation');
-  return {
-    ...actual,
-    useRouter: vi.fn(() => ({
-      push: vi.fn(),
-      replace: vi.fn(),
-    })),
-    useSearchParams: vi.fn(() => ({
-      get: vi.fn(),
-    })),
-    usePathname: vi.fn(),
-  };
-});
 describe('Card/Item Component Tests', () => {
   it('Displays item name and description correctly', () => {
     const cardProp = {
@@ -31,13 +14,11 @@ describe('Card/Item Component Tests', () => {
       search: '',
     };
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
-          <ThemeContext value="light">
-            <Card {...cardProp}></Card>
-          </ThemeContext>
+          <Card {...cardProp}></Card>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const heading = screen.getByRole('heading');
@@ -58,11 +39,11 @@ describe('Card/Item Component Tests', () => {
     };
 
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
           <Card {...cardProp}></Card>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const heading = screen.getByRole('heading');
@@ -82,11 +63,11 @@ describe('Card/Item Component Tests', () => {
       search: '',
     };
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
           <Card {...cardProp}></Card>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const heading = screen.getByRole('heading');

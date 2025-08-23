@@ -1,10 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
-import Result from '../../component/Result';
+import Result from '../../component/Result.tsx';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import { store } from '../../store/store.tsx';
 import type { useGetBooksQuery } from '../../services/booksApi';
-import { describe, expect, it, vi } from 'vitest';
 
 type UseGetBooksQueryReturn = {
   data: {
@@ -16,7 +15,7 @@ type UseGetBooksQueryReturn = {
 };
 
 vi.mock<typeof import('../../services/booksApi')>(
-  import('../../services/booksApi'),
+  import('../../services/booksApi.tsx'),
   async (
     importOriginal: () => Promise<typeof import('../../services/booksApi')>
   ): Promise<Partial<typeof import('../../services/booksApi')>> => {
@@ -34,20 +33,6 @@ vi.mock<typeof import('../../services/booksApi')>(
     };
   }
 );
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual('next/navigation');
-  return {
-    ...actual,
-    useRouter: vi.fn(() => ({
-      push: vi.fn(),
-      replace: vi.fn(),
-    })),
-    useSearchParams: vi.fn(() => ({
-      get: vi.fn(),
-    })),
-    usePathname: vi.fn(),
-  };
-});
 describe('Results/CardList Component Tests', () => {
   describe('Rendering Tests', () => {
     it('Displays "no results" message when data array is empty', async () => {

@@ -1,27 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import Home from '../../app/[locale]/Home';
-import { describe, expect, it } from 'vitest';
-import messages from '../../../messages/en.json';
-import { NextIntlClientProvider } from 'next-intl';
+import Home from '../../routes/Home';
 
 describe('Loading Component Tests', () => {
   it('Renders Home component', () => {
-    render(
-      <NextIntlClientProvider locale="en" messages={messages}>
-        <Home></Home>
-      </NextIntlClientProvider>
-    );
+    render(<Home></Home>);
 
-    const home = screen.getByText('🧠 Technical requirements');
+    const home = screen.getByText('🧠 Task Description');
     expect(home).toBeInTheDocument();
-    expect(home).toHaveTextContent('🧠 Technical requirements');
+    expect(home).toHaveTextContent('🧠 Task Description');
   });
   it('Renders Home component', async () => {
-    render(
-      <NextIntlClientProvider locale="en" messages={messages}>
-        <Home></Home>
-      </NextIntlClientProvider>
-    );
+    render(<Home></Home>);
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();

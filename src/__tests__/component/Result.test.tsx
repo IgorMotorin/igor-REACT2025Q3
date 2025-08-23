@@ -1,11 +1,9 @@
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router';
 import Result from '../../component/Result';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { useGetBooksQuery } from '../../services/booksApi';
-import { describe, expect, it, vi } from 'vitest';
-import messages from '../../../messages/en.json';
-import { NextIntlClientProvider } from 'next-intl';
 
 type Author = { name: string };
 type Book = { id: number; title: string; authors: Author[] };
@@ -20,7 +18,7 @@ type UseGetBooksQueryReturn = {
 };
 
 vi.mock<typeof import('../../services/booksApi')>(
-  import('../../services/booksApi'),
+  import('../../services/booksApi.tsx'),
   async (
     importOriginal: () => Promise<typeof import('../../services/booksApi')>
   ): Promise<Partial<typeof import('../../services/booksApi')>> => {
@@ -42,29 +40,15 @@ vi.mock<typeof import('../../services/booksApi')>(
     };
   }
 );
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual('next/navigation');
-  return {
-    ...actual,
-    useRouter: vi.fn(() => ({
-      push: vi.fn(),
-      replace: vi.fn(),
-    })),
-    useSearchParams: vi.fn(() => ({
-      get: vi.fn(),
-    })),
-    usePathname: vi.fn(),
-  };
-});
 describe('Results/CardList Component Tests', () => {
   describe('Rendering Tests', () => {
     it('Renders correct number of items when data is provided', async () => {
       render(
-        <NextIntlClientProvider locale="en" messages={messages}>
+        <BrowserRouter>
           <Provider store={store}>
             <Result />
           </Provider>
-        </NextIntlClientProvider>
+        </BrowserRouter>
       );
 
       const input = await screen.findAllByRole('listitem');
@@ -73,11 +57,11 @@ describe('Results/CardList Component Tests', () => {
 
     it('Correctly displays item names and descriptions', async () => {
       render(
-        <NextIntlClientProvider locale="en" messages={messages}>
+        <BrowserRouter>
           <Provider store={store}>
             <Result />
           </Provider>
-        </NextIntlClientProvider>
+        </BrowserRouter>
       );
 
       const input = await screen.findAllByRole('listitem');
@@ -87,11 +71,11 @@ describe('Results/CardList Component Tests', () => {
 
     it('Handles missing or undefined data gracefully', async () => {
       render(
-        <NextIntlClientProvider locale="en" messages={messages}>
+        <BrowserRouter>
           <Provider store={store}>
             <Result />
           </Provider>
-        </NextIntlClientProvider>
+        </BrowserRouter>
       );
 
       const input = await screen.findAllByRole('link');

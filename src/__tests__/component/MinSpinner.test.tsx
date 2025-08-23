@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import MinSpinner from '../../component/MinSpinner';
-import { describe, expect, it } from 'vitest';
 
 describe('Loading Component Tests', () => {
   it('Renders loading indicator (spinner, skeleton, etc.)', () => {

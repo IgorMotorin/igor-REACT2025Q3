@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import checkReducer, {
   onCheck,
   onPage,
@@ -15,7 +14,6 @@ describe('postsSlice reducer', () => {
     search: '',
     input: '',
     books: { 0: { id: '0', title: '', authors: [{ name: '' }] } },
-    theme: 'light',
   };
 
   it('should handle initial state', () => {
@@ -34,7 +32,6 @@ describe('postsSlice reducer', () => {
       search: '',
       input: '',
       books: { 0: { id: '0', title: '', authors: [{ name: '' }] } },
-      theme: 'light',
     };
 
     expect(checkReducer(initialState, onCheck(newPost1))).toEqual(
@@ -49,7 +46,6 @@ describe('postsSlice reducer', () => {
       search: '',
       input: '',
       books: { 0: { id: '0', title: '', authors: [{ name: '' }] } },
-      theme: 'light',
     };
 
     expect(checkReducer(initialState, onPage(newPost1))).toEqual(
@@ -64,7 +60,6 @@ describe('postsSlice reducer', () => {
       search: 'search',
       input: '',
       books: { 0: { id: '0', title: '', authors: [{ name: '' }] } },
-      theme: 'light',
     };
 
     expect(checkReducer(initialState, onSearch(newPost1))).toEqual(
@@ -79,7 +74,6 @@ describe('postsSlice reducer', () => {
       search: '',
       input: 'input',
       books: { 0: { id: '0', title: '', authors: [{ name: '' }] } },
-      theme: 'light',
     };
 
     expect(checkReducer(initialState, onInput(newPost1))).toEqual(
@@ -97,7 +91,6 @@ describe('postsSlice reducer', () => {
         0: { id: '0', title: '', authors: [{ name: '' }] },
         1: { id: '0', title: '', authors: [{ name: '' }] },
       },
-      theme: 'light',
     };
 
     expect(checkReducer(initialState, onBooks(newPost1))).toEqual(

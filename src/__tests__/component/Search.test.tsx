@@ -1,20 +1,18 @@
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router';
 import Search from '../../component/Search';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
-import { ThemeContext } from '../../store/Context';
+import { ThemeContext } from '../../Context';
 import { onInput } from '../../store/checkSlice';
 import type { useSelector as OriginalUseSelector } from 'react-redux';
 import type { useGetBooksQuery } from '../../services/booksApi';
-import { describe, expect, it, vi } from 'vitest';
-import { NextIntlClientProvider } from 'next-intl';
-import messages from '../../../messages/en.json';
 
 const onInputMock = vi.fn();
 
 vi.mock<typeof import('../../store/checkSlice')>(
-  import('../../store/checkSlice'),
+  import('../../store/checkSlice.tsx'),
   async (importOriginal) => {
     const actual = await importOriginal();
     return {
@@ -34,7 +32,7 @@ type UseGetBooksQueryReturn = {
 };
 
 vi.mock<typeof import('../../services/booksApi')>(
-  import('../../services/booksApi'),
+  import('../../services/booksApi.tsx'),
   async (
     importOriginal: () => Promise<typeof import('../../services/booksApi')>
   ): Promise<Partial<typeof import('../../services/booksApi')>> => {
@@ -60,38 +58,21 @@ vi.mock<typeof import('react-redux')>(
   }
 );
 
-vi.mock(import('../../hooks/hooks'), async (importOriginal) => {
+vi.mock(import('../../hooks/hooks.tsx'), async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,
     useLocalStorage: () => ['inputText', () => {}],
   };
 });
-
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual('next/navigation');
-  return {
-    ...actual,
-    useRouter: vi.fn(() => ({
-      push: vi.fn(),
-      replace: vi.fn(),
-    })),
-    useSearchParams: vi.fn(() => ({
-      get: vi.fn(),
-    })),
-    usePathname: vi.fn(),
-  };
-});
 describe('component Search Renders', () => {
   it('should Renders search input', () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
-          <ThemeContext value="light">
-            <Search></Search>
-          </ThemeContext>
+          <Search />
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const input = screen.getByRole('searchbox');
@@ -102,13 +83,11 @@ describe('component Search Renders', () => {
 
   it('should Renders search button', () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
-          <ThemeContext value="light">
-            <Search></Search>
-          </ThemeContext>
+          <Search />
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const button = screen.getByRole('button');
@@ -118,13 +97,11 @@ describe('component Search Renders', () => {
 
   it('v2 - Displays previously saved search term from localStorage on mount', () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
-          <ThemeContext value="light">
-            <Search></Search>
-          </ThemeContext>
+          <Search />
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
     const input = screen.getByRole('searchbox');
     expect(input).toBeInTheDocument();
@@ -133,13 +110,14 @@ describe('component Search Renders', () => {
 
   it('Triggers search callback with correct parameters', async () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
+          {' '}
           <ThemeContext value="light">
             <Search></Search>
           </ThemeContext>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const input = screen.getByRole('searchbox');
@@ -153,13 +131,13 @@ describe('component Search Renders', () => {
   });
   it('Triggers search callback Button', async () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
           <ThemeContext value="light">
             <Search></Search>
           </ThemeContext>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const button = screen.getByRole('button');

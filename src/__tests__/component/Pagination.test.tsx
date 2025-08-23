@@ -1,12 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import Pagination from '../../component/Pagination';
+import { BrowserRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { useGetBooksQuery } from '../../services/booksApi';
-import { describe, expect, it, vi } from 'vitest';
-import { NextIntlClientProvider } from 'next-intl';
-import messages from '../../../messages/en.json';
 
 type UseGetBooksQueryReturn = {
   data: {
@@ -18,7 +16,7 @@ type UseGetBooksQueryReturn = {
 };
 
 vi.mock<typeof import('../../services/booksApi')>(
-  import('../../services/booksApi'),
+  import('../../services/booksApi.tsx'),
   async (importOriginal) => {
     const actual = await importOriginal();
     return {
@@ -31,30 +29,14 @@ vi.mock<typeof import('../../services/booksApi')>(
   }
 );
 
-const push = vi.fn();
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual('next/navigation');
-  return {
-    ...actual,
-    useRouter: vi.fn(() => ({
-      push: push,
-      replace: vi.fn(),
-    })),
-    useSearchParams: vi.fn(() => ({
-      get: vi.fn(),
-    })),
-    usePathname: vi.fn(),
-  };
-});
-
 describe('Pagination Component Tests', () => {
   it('Renders Pagination', () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
           <Pagination></Pagination>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const button = screen.getAllByRole('button');
@@ -63,11 +45,11 @@ describe('Pagination Component Tests', () => {
   });
   it('Renders Pagination', () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
           <Pagination></Pagination>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const button = screen.getAllByRole('button');
@@ -75,11 +57,11 @@ describe('Pagination Component Tests', () => {
   });
   it('Route test', async () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
           <Pagination></Pagination>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const button = screen.getAllByRole('button');
@@ -88,15 +70,15 @@ describe('Pagination Component Tests', () => {
     const user = userEvent.setup();
     await user.click(button[1]);
 
-    expect(push).toBeCalled();
+    expect(window.location.search).toMatch('?page=1');
   });
   it('Route test', async () => {
     render(
-      <NextIntlClientProvider locale="en" messages={messages}>
+      <BrowserRouter>
         <Provider store={store}>
           <Pagination></Pagination>
         </Provider>
-      </NextIntlClientProvider>
+      </BrowserRouter>
     );
 
     const button = screen.getAllByRole('button');
@@ -105,6 +87,6 @@ describe('Pagination Component Tests', () => {
     const user = userEvent.setup();
     await user.click(button[2]);
 
-    expect(push).toBeCalled();
+    expect(window.location.search).toMatch('?page=2');
   });
 });

@@ -1,3 +1,18 @@
 @import 'tailwindcss';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .radio-group-wrapper {
+    @apply flex flex-row flex-wrap bg-white dark:bg-gray-700;
+    @apply lg:rounded-full p-2 border-b lg:border border-gray-200 mb-6 mb-2;
+  }
+
+  .radio-group-option {
+    @apply text-sm whitespace-nowrap peer-checked:text-white peer-checked:bg-gray-400 peer-checked:shadow-sm peer-checked:font-medium px-3 py-1 rounded-full;
+  }
+}
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

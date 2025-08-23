@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ThemeContext } from './Context';
 import Modal from './component/Modal.tsx';
+import UncontrolledForm from './component/UncontrolledForm.tsx';
 
 // import { useDispatch } from 'react-redux';
 // import { onPage, onSearch } from './store/checkSlice';
@@ -32,7 +33,7 @@ export default function App() {
             isShowing={isOpenUncontrolled}
             handleClose={() => setIsOpenUncontrolled(false)}
           >
-            {<div>test1</div>}
+            {<UncontrolledForm></UncontrolledForm>}
           </Modal>
           <Modal
             isShowing={isOpenControlled}

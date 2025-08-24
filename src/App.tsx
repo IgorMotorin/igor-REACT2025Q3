@@ -43,14 +43,14 @@ export default function App() {
           <Modal
             isShowing={uncontrolForm}
             handleClose={() => {
-              dispatch(onUncontrolFormChange(!uncontrolForm));
+              dispatch(onUncontrolFormChange(false));
             }}
           >
             {<UncontrolledForm></UncontrolledForm>}
           </Modal>
           <Modal
             isShowing={controlForm}
-            handleClose={() => dispatch(onControlFormChange(!controlForm))}
+            handleClose={() => dispatch(onControlFormChange(false))}
           >
             {<ControlledForm></ControlledForm>}
           </Modal>

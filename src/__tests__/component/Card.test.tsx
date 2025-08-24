@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
-import Card from '../../component/Card';
+import { Card } from '../../component/Card';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 

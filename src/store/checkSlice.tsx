@@ -1,64 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
+import type { FormFieldsState } from '../component/UncontrolledForm.tsx';
 
 export interface CheckState {
-  value: { [id: string]: boolean };
-  page: string;
-  search: string;
-  input: string;
-  books: Ibooks;
-}
-
-export type type_books = {
-  id: string;
-  title: string;
-  authors: [{ name: string }];
-};
-
-export interface Ibooks {
-  [key: number]: type_books;
+  value: FormFieldsState[];
+  controlForm: boolean;
+  uncontrolForm: boolean;
 }
 
 const initialState: CheckState = {
-  value: {},
-  page: '1',
-  search: '',
-  input: '',
-  books: { 0: { id: '0', title: '', authors: [{ name: '' }] } },
+  value: [],
+  controlForm: false,
+  uncontrolForm: false,
 };
 
 export const checkSlice = createSlice({
   name: 'check',
   initialState,
   reducers: {
-    onCheck: (state, action) => {
-      if (state.value[action.payload.id]) {
-        const arr = Object.entries(state.value);
-        const arrFilter = arr.filter(
-          (item) => item[0] !== String(action.payload.id)
-        );
-
-        state.value = Object.fromEntries(arrFilter);
-        return;
-      }
-      state.value[action.payload.id] = !state.value[action.payload.id];
+    onSubmitData: (state, action) => {
+      state.value = [...state.value, action.payload.submitDataState];
     },
-
-    onPage: (state, action) => {
-      state.page = action.payload;
+    onControlFormChange: (state, action) => {
+      state.controlForm = action.payload;
     },
-    onSearch: (state, action) => {
-      state.search = action.payload;
-    },
-    onInput: (state, action) => {
-      state.input = action.payload;
-    },
-    onBooks: (state, action) => {
-      state.books = { ...state.books, ...action.payload };
+    onUncontrolFormChange: (state, action) => {
+      state.uncontrolForm = action.payload;
     },
   },
 });
 
-export const { onCheck, onPage, onSearch, onInput, onBooks } =
+export const { onSubmitData, onControlFormChange, onUncontrolFormChange } =
   checkSlice.actions;
 
 export default checkSlice.reducer;

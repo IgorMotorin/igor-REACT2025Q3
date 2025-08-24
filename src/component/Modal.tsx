@@ -1,20 +1,19 @@
 import ReactDOM from 'react-dom';
-import React from 'react';
-import { useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 
 const Modal = ({
   isShowing,
-  children = null,
+  children,
   handleClose,
 }: {
   isShowing: boolean;
-  children: HTMLElement;
-  handleClose: () => (value: React.SetStateAction<boolean>) => void;
+  children: ReactNode;
+  handleClose: () => void;
 }) => {
-  const ref = useRef();
+  const ref = useRef(null);
 
   useEffect(() => {
-    const checkIfClickedOutside = (e) => {
+    const checkIfClickedOutside = (e: MouseEvent) => {
       if (ref.current === e.target) {
         handleClose();
       }
@@ -26,7 +25,8 @@ const Modal = ({
   }, [handleClose]);
 
   useEffect(() => {
-    const closeOnEscapeKey = (e) => (e.key === 'Escape' ? handleClose() : null);
+    const closeOnEscapeKey = (e: KeyboardEvent) =>
+      e.key === 'Escape' ? handleClose() : null;
     document.body.addEventListener('keydown', closeOnEscapeKey);
     return () => {
       document.body.removeEventListener('keydown', closeOnEscapeKey);

@@ -56,7 +56,7 @@ const UncontrolledForm = () => {
   const arrCountry = country.map((country) => country.name);
 
   const validateForm = async (
-    form: HTMLFormElement
+    form: FormData
   ): Promise<{ errors: ErrorList } | { submitData: FormFields }> => {
     try {
       const submitData = await userSchema.validate(
@@ -77,7 +77,10 @@ const UncontrolledForm = () => {
     }
   };
 
-  const handleAction = (form: HTMLFormElement) => {
+  const handleAction:
+    | string
+    | ((formData: FormData) => void | Promise<void>)
+    | undefined = (form) => {
     validateForm(form)
       .then(async (result) => {
         if ('errors' in result) {

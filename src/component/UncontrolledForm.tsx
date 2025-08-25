@@ -10,6 +10,7 @@ import { ValidationError } from 'yup';
 import { fileToBase64 } from '../function/fileToBase64.tsx';
 import { onSubmitData, onUncontrolFormChange } from '../store/checkSlice.tsx';
 import AutocompleteForm from './AutocompleteForm.tsx';
+import InputPasswordForm from './InputPasswordForm.tsx';
 
 interface ErrorMessage {
   message: string;
@@ -131,20 +132,20 @@ const UncontrolledForm = () => {
           ></InputForm>
 
           <div className={'flex flex-row gap-2'}>
-            <InputForm
+            <InputPasswordForm
               name="password"
               placeholder={'••••••••'}
               type={'password'}
               label={'Password'}
               error={errors.password}
-            ></InputForm>
-            <InputForm
+            ></InputPasswordForm>
+            <InputPasswordForm
               name="password-confirm"
               placeholder={'••••••••'}
               type={'password'}
               label={'Confirm Password'}
               error={errors['password-confirm']}
-            ></InputForm>
+            ></InputPasswordForm>
           </div>
 
           <div className={'flex flex-row gap-2'}>

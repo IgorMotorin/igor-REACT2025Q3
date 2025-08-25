@@ -105,10 +105,14 @@ export const ControlledForm: FC = () => {
                 placeholder={'Enter name'}
                 id={'name'}
                 autoComplete="on"
+                aria-invalid={!!errors.name}
               />
-              <span className="text-red-500 text-xs">
-                {errors.name?.message || ' '}
-              </span>
+
+              {errors.name && (
+                <div role="alert" className="text-red-500 text-xs absolute">
+                  {errors.name?.message}
+                </div>
+              )}
             </div>
             <div className="mb-3 flex-1">
               <label
@@ -126,9 +130,14 @@ export const ControlledForm: FC = () => {
                 autoComplete="on"
               />
 
-              <span className="text-red-500 text-xs ">
-                {errors.age?.message}
-              </span>
+              {errors.age && (
+                <div
+                  role="alert"
+                  className="text-red-500 text-xs absolute max-w-60"
+                >
+                  {errors.age?.message}
+                </div>
+              )}
             </div>
           </div>
           <div className="mb-3">
@@ -146,12 +155,13 @@ export const ControlledForm: FC = () => {
               placeholder={'Enter e-mail'}
               autoComplete="on"
             />
-
-            <span className="text-red-500 text-xs">
-              {errors.email?.message}
-            </span>
+            {errors.email && (
+              <div role="alert" className="text-red-500 text-xs absolute">
+                {errors.email?.message}
+              </div>
+            )}
           </div>
-          <div className={'flex flex-row gap-2'}>
+          <div className={'flex flex-row gap-2 mb-3'}>
             <div className="mb-3 flex-1">
               <label
                 htmlFor={'password'}
@@ -167,11 +177,16 @@ export const ControlledForm: FC = () => {
                 id={'password'}
               />
 
-              <span className="text-red-500 text-xs">
-                {errors.password?.message}
-              </span>
+              {errors.password && (
+                <div
+                  role="alert"
+                  className="text-red-500 text-xs absolute w-60"
+                >
+                  {errors.password?.message}
+                </div>
+              )}
               {passwordStrength && (
-                <div className="mt-2">
+                <div className="mt-4">
                   <div
                     className={`h-2 rounded-xl ${
                       passwordStrength === 'weak'
@@ -215,9 +230,12 @@ export const ControlledForm: FC = () => {
                 id={'password-confirm'}
               />
               {!!errors['password-confirm'] && (
-                <span className="text-red-500 text-xs">
+                <div
+                  role="alert"
+                  className="text-red-500 text-xs absolute w-60"
+                >
                   {errors['password-confirm']?.message}
-                </span>
+                </div>
               )}
             </div>
           </div>
@@ -255,10 +273,11 @@ export const ControlledForm: FC = () => {
                   id="country"
                   autoComplete="on"
                 />
+
                 {errors.country && (
-                  <p className="text-red-500 text-sm">
-                    {errors.country.message}
-                  </p>
+                  <div role="alert" className="text-red-500 text-xs absolute">
+                    {errors.country?.message}
+                  </div>
                 )}
                 {suggestions.length > 0 && (
                   <ul className="absolute bg-white border rounded-xl mt-1 w-full max-h-40 overflow-y-auto shadow-lg z-10">
@@ -311,13 +330,13 @@ export const ControlledForm: FC = () => {
               </div>
             </label>
 
-            {!!errors.file && (
-              <span className="text-red-500 text-xs flex flex-wrap">
+            {errors.file && (
+              <div role="alert" className="text-red-500 text-xs absolute">
                 {errors.file.message}
-              </span>
+              </div>
             )}
           </div>
-          <div className={'mb-3'}>
+          <div className={'mb-5'}>
             <div className="flex items-start">
               <div className="flex items-center h-5">
                 <input
@@ -340,10 +359,11 @@ export const ControlledForm: FC = () => {
                 </label>
               </div>
             </div>
+
             {!!errors.terms && (
-              <span className="text-red-500 text-xs flex flex-wrap">
-                {errors.terms.message}
-              </span>
+              <div role="alert" className="text-red-500 text-xs absolute">
+                {errors.terms?.message}
+              </div>
             )}
           </div>
 

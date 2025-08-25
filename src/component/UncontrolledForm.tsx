@@ -104,7 +104,7 @@ const UncontrolledForm = () => {
   return (
     <div className="flex items-center justify-center p-4">
       <div className="mx-auto w-full max-w-[850px] bg-white">
-        <form action={handleAction}>
+        <form action={handleAction} autoComplete="on">
           <div className={'flex flex-row gap-2'}>
             <InputForm
               name="name"

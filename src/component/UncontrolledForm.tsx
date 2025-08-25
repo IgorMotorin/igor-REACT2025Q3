@@ -9,6 +9,7 @@ import { userSchema } from '../validation/userSchema.tsx';
 import { ValidationError } from 'yup';
 import { fileToBase64 } from '../function/fileToBase64.tsx';
 import { onSubmitData, onUncontrolFormChange } from '../store/checkSlice.tsx';
+import AutocompleteForm from './AutocompleteForm.tsx';
 
 interface ErrorMessage {
   message: string;
@@ -154,13 +155,13 @@ const UncontrolledForm = () => {
               options={['Male', 'Female']}
               error={errors.gender}
             ></SelectForm>
-            <SelectForm
+            <AutocompleteForm
               name={'country'}
               placeholder={'Select country'}
               label={'Country'}
               options={arrCountry}
               error={errors.country}
-            ></SelectForm>
+            ></AutocompleteForm>
           </div>
           <FileForm error={errors.file}></FileForm>
           <CheckboxForm error={errors.terms}></CheckboxForm>

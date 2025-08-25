@@ -12,7 +12,7 @@ const InputForm = ({
   error: { message: string } | undefined;
 }) => {
   return (
-    <div className="mb-3">
+    <div className="mb-5">
       <label
         htmlFor={name}
         className="mb-1 block text-base font-medium text-[#07074D]"
@@ -27,7 +27,11 @@ const InputForm = ({
         placeholder={placeholder}
         className="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
       />
-      {!!error && <span className="text-red-500 text-xs">{error.message}</span>}
+      {!!error && (
+        <div className="text-red-500 text-xs absolute w-60">
+          {error.message}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
-import InputPasswordForm, {
-  checkStrength,
-} from '../component/InputPasswordForm.tsx';
+import InputPasswordForm from '../component/InputPasswordForm.tsx';
+import { checkStrength } from '../function/checkStrenght.tsx';
 
 describe('InputPasswordForm Component', () => {
   // Базовый рендер компонента

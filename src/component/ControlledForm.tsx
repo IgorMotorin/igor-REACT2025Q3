@@ -7,6 +7,7 @@ import { userSchema } from '../validation/userSchema.tsx';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { fileToBase64 } from '../function/fileToBase64.tsx';
 import { onControlFormChange, onSubmitData } from '../store/checkSlice.tsx';
+import { checkStrength } from '../function/checkStrenght.tsx';
 
 export const ControlledForm: FC = () => {
   const {
@@ -46,21 +47,6 @@ export const ControlledForm: FC = () => {
     'weak' | 'medium' | 'strong' | null
   >(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-
-  const checkStrength = (password: string) => {
-    if (!password) return null;
-    const hasLetters = /[A-Za-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecial = /[@$!%*?&]/.test(password);
-
-    if (password.length >= 8 && hasLetters && hasNumbers && hasSpecial) {
-      return 'strong';
-    }
-    if (password.length >= 6 && hasLetters && hasNumbers) {
-      return 'medium';
-    }
-    return 'weak';
-  };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

@@ -42,6 +42,7 @@ const Modal = ({
     >
       <div
         ref={ref}
+        data-testid="modal-overlay"
         className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"
       ></div>
 

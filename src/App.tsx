@@ -8,7 +8,7 @@ import {
   onControlFormChange,
   onUncontrolFormChange,
 } from './store/checkSlice.tsx';
-import { Card } from './component/Card.tsx';
+import Card from './component/Card.tsx';
 import { ControlledForm } from './component/ControlledForm.tsx';
 
 export default function App() {

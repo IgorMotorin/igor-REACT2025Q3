@@ -1,4 +1,4 @@
-export function Card({
+export default function Card({
   name,
   age,
   email,
@@ -22,7 +22,7 @@ export function Card({
   lost: boolean;
 }>) {
   return (
-    <div
+    <fieldset
       className={`flex m-1  rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300  p-1 shadow-lg hover:opacity-80 ${lost ? 'from-pink-700 to-blue-700' : ''}`}
     >
       <div className="bg-white p-5 rounded-md dark:bg-cyan-950 dark:text-white">
@@ -37,6 +37,6 @@ export function Card({
         <img src={file} width={'100px'} alt={''}></img>
         <p>Terms: {terms}</p>
       </div>
-    </div>
+    </fieldset>
   );
 }

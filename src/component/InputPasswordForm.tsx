@@ -1,5 +1,20 @@
 import { useState } from 'react';
 
+export const checkStrength = (password: string) => {
+  if (!password) return null;
+  const hasLetters = /[A-Za-z]/.test(password);
+  const hasNumbers = /\d/.test(password);
+  const hasSpecial = /[@$!%*?&]/.test(password);
+
+  if (password.length >= 8 && hasLetters && hasNumbers && hasSpecial) {
+    return 'strong';
+  }
+  if (password.length >= 6 && hasLetters && hasNumbers) {
+    return 'medium';
+  }
+  return 'weak';
+};
+
 const InputPasswordForm = ({
   name,
   placeholder,
@@ -16,20 +31,7 @@ const InputPasswordForm = ({
   const [passwordStrength, setPasswordStrength] = useState<
     'weak' | 'medium' | 'strong' | null
   >(null);
-  const checkStrength = (password: string) => {
-    if (!password) return null;
-    const hasLetters = /[A-Za-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecial = /[@$!%*?&]/.test(password);
 
-    if (password.length >= 8 && hasLetters && hasNumbers && hasSpecial) {
-      return 'strong';
-    }
-    if (password.length >= 6 && hasLetters && hasNumbers) {
-      return 'medium';
-    }
-    return 'weak';
-  };
   return (
     <div className="mb-5">
       <label
@@ -55,6 +57,7 @@ const InputPasswordForm = ({
       {passwordStrength && (
         <div className="mt-6">
           <div
+            data-testid="strength-bar"
             className={`h-2 rounded-xl ${
               passwordStrength === 'weak'
                 ? 'bg-red-500 w-1/3'

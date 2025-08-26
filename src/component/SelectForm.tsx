@@ -25,7 +25,9 @@ const SelectForm = ({
         className="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
         required
       >
-        <option value="">{placeholder}</option>
+        <option data-testid="option" value="">
+          {placeholder}
+        </option>
         {options.map((option) => (
           <option key={option.toLowerCase()} value={option.toLowerCase()}>
             {option}

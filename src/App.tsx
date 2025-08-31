@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
 import Table from './component/Table.tsx';
@@ -16,9 +16,10 @@ const App = () => {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const [headers, setHeaders] = useState(getHeaders(data));
-  const [allCountry, setAllCountry] = useState(getAllCountry(data));
+  const getHeadersData = useMemo(() => getHeaders(data), [data]);
+  const [headers, setHeaders] = useState(getHeadersData);
+  const getAllCountryData = useMemo(() => getAllCountry(data), [data]);
+  const [allCountry, setAllCountry] = useState(getAllCountryData);
   const [country, setCountry] = useState(allCountry);
   const [year, setYear] = useState<number>(2023);
   const [isShowing, setIsShowing] = useState(false);
@@ -75,10 +76,10 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    setAllCountry(getAllCountry(data));
-    setHeaders(getHeaders(data));
-    setCountry(getAllCountry(data));
-  }, [data]);
+    setAllCountry(getAllCountryData);
+    setHeaders(getHeadersData);
+    setCountry(getAllCountryData);
+  }, [getAllCountryData, getHeadersData]);
 
   if (error) return <div>Error: {error}</div>;
 

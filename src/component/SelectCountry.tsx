@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import * as React from 'react';
 export type tCountry = { [country: string]: boolean };
 
@@ -9,8 +9,17 @@ const SelectCountry = ({
   country: tCountry;
   setCountry: React.Dispatch<React.SetStateAction<tCountry>>;
 }) => {
-  const arr = Object.keys(country).sort();
+  const arr = useMemo(() => Object.keys(country).sort(), [country]);
   const [see, setSee] = useState(false);
+
+  const handleChange = useCallback(
+    (select: string) => {
+      const obj = { ...country };
+      obj[select] = !obj[select];
+      setCountry(obj);
+    },
+    [country, setCountry]
+  );
 
   return (
     <div className="relative">
@@ -50,9 +59,7 @@ const SelectCountry = ({
                 checked={country[select]}
                 type="checkbox"
                 onChange={() => {
-                  const obj = { ...country };
-                  obj[select] = !obj[select];
-                  setCountry(obj);
+                  handleChange(select);
                 }}
                 className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
               />

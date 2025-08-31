@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 export type tSelects = { [selects: string]: boolean };
 
 const SelectHeaders = ({
@@ -8,8 +9,15 @@ const SelectHeaders = ({
   selects: tSelects;
   setSelects: React.Dispatch<React.SetStateAction<{ [p: string]: boolean }>>;
 }) => {
-  const arr = Object.keys(selects).sort();
-  // const [see, setSee] = useState(false);
+  const arr = useMemo(() => Object.keys(selects).sort(), [selects]);
+  const handleChange = useCallback(
+    (select: string) => {
+      const obj = { ...selects };
+      obj[select] = !obj[select];
+      setSelects(obj);
+    },
+    [setSelects, selects]
+  );
 
   return (
     <ul
@@ -24,9 +32,7 @@ const SelectHeaders = ({
               checked={selects[select]}
               type="checkbox"
               onChange={() => {
-                const obj = { ...selects };
-                obj[select] = !obj[select];
-                setSelects(obj);
+                handleChange(select);
               }}
               className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
             />

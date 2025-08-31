@@ -1,6 +1,6 @@
 import TableHeader from './TableHeader.tsx';
 import TableData from './TableData.tsx';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { tData } from './SelectYears.tsx';
 
 const Table = ({
@@ -14,11 +14,34 @@ const Table = ({
   year: number;
   country: string[];
 }) => {
-  const arr = Object.keys(headers).filter((item) => headers[item]);
+  const arr = useMemo(
+    () => Object.keys(headers).filter((item) => headers[item]),
+    [headers]
+  );
 
   const [sortFlag, setSortFlag] = useState(false);
   const [arrCountry, setArrCountry] = useState(country);
   const [sortBy, setSortBy] = useState('');
+
+  const tableDataFunction = useCallback(
+    (itm: string, item: string, index: number) => {
+      const tmp = data[item].data.filter((el) => el.year == year);
+
+      return <TableData key={itm + index} tmp={tmp} itm={itm}></TableData>;
+    },
+    [data, year]
+  );
+
+  const CountryDataFunction = useCallback(
+    (item: string, index: number) => (
+      <tr key={'tr' + index}>
+        <td className="border px-4 py-2">{item}</td>
+        <td className="border px-4 py-2">{data[item]?.iso_code || 'N/A'}</td>
+        {arr.map((itm, index) => tableDataFunction(itm, item, index))}
+      </tr>
+    ),
+    [arr, data, tableDataFunction]
+  );
 
   useEffect(() => {
     setArrCountry(country);
@@ -118,21 +141,7 @@ const Table = ({
         </tr>
       </thead>
       <tbody>
-        {arrCountry.map((item, index) => (
-          <tr key={'tr' + index}>
-            <td className="border px-4 py-2">{item}</td>
-            <td className="border px-4 py-2">
-              {data[item]?.iso_code || 'N/A'}
-            </td>
-            {arr.map((itm, index) => {
-              const tmp = data[item].data.filter((el) => el.year == year);
-
-              return (
-                <TableData key={itm + index} tmp={tmp} itm={itm}></TableData>
-              );
-            })}
-          </tr>
-        ))}
+        {arrCountry.map((item, index) => CountryDataFunction(item, index))}
       </tbody>
     </table>
   );

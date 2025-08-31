@@ -1,5 +1,6 @@
 import getYears from '../function/getYears.tsx';
 import * as React from 'react';
+import { useMemo } from 'react';
 
 export type tData = {
   [country: string]: {
@@ -16,7 +17,7 @@ const SelectYears = ({
   year: number;
   setYear: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  const years = getYears(data);
+  const years = useMemo(() => getYears(data), [data]);
   return (
     <div className=" relative flex items-center ">
       <label

@@ -1,10 +1,8 @@
-import { StrictMode } from 'react';
+import { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import ErrorBoundary from './component/ErrorBoundary.tsx';
-import { store } from './store/store';
-import { Provider } from 'react-redux';
 
 const container = document.getElementById('root');
 
@@ -14,9 +12,9 @@ if (container) {
   root.render(
     <StrictMode>
       <ErrorBoundary>
-        <Provider store={store}>
+        <Suspense fallback={<div>Loading...</div>}>
           <App />
-        </Provider>
+        </Suspense>
       </ErrorBoundary>
     </StrictMode>
   );

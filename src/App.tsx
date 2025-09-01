@@ -18,10 +18,13 @@ const App = () => {
   const getHeadersData = useMemo(() => getHeaders(data), [data]);
   const [headers, setHeaders] = useState(getHeadersData);
   const allCountry = useMemo(() => getAllCountry(data), [data]);
-  // const [allCountry] = useState(getAllCountryData);
   const [country, setCountry] = useState(allCountry);
   const [year, setYear] = useState<number>(2023);
   const [isShowing, setIsShowing] = useState(false);
+  const countryData = useMemo(
+    () => Object.keys(country).filter((itm) => country[itm]),
+    [country]
+  );
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -44,12 +47,7 @@ const App = () => {
         <Search country={allCountry} setCountry={setCountry} />
       </div>
 
-      <Table
-        data={data}
-        headers={headers}
-        year={year}
-        country={Object.keys(country).filter((itm) => country[itm])}
-      />
+      <Table data={data} headers={headers} year={year} country={countryData} />
     </div>
   );
 };

@@ -18,6 +18,15 @@ const SelectYears = ({
   setYear: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const years = useMemo(() => getYears(data), [data]);
+  const yearsElement = useMemo(
+    () =>
+      years.map((select, idx) => (
+        <option key={'opt' + idx} value={select}>
+          {select}
+        </option>
+      )),
+    [years]
+  );
   return (
     <div className=" relative flex items-center ">
       <label
@@ -30,11 +39,7 @@ const SelectYears = ({
         id="small"
         className="block w-full bg-none font-medium text-xs bg-white border-none rounded-md py-2 pl-3 pr-10  text-black focus:outline-none focus:ring-white focus:border-black sm:text-sm"
       >
-        {years.map((select, idx) => (
-          <option key={'opt' + idx} value={select}>
-            {select}
-          </option>
-        ))}
+        {yearsElement}
       </select>
     </div>
   );

@@ -9,7 +9,7 @@ import SelectCountry from './component/SelectCountry.tsx';
 import Search from './component/Search.tsx';
 import Modal from './component/Modal.tsx';
 import ModalButton from './component/ModalButton.tsx';
-import fetchData from './function/fetchData.tsx';
+import { fetchData } from './function/fetchData.tsx';
 const userResource = fetchData();
 
 const App = () => {
@@ -17,8 +17,8 @@ const App = () => {
 
   const getHeadersData = useMemo(() => getHeaders(data), [data]);
   const [headers, setHeaders] = useState(getHeadersData);
-  const getAllCountryData = useMemo(() => getAllCountry(data), [data]);
-  const [allCountry] = useState(getAllCountryData);
+  const allCountry = useMemo(() => getAllCountry(data), [data]);
+  // const [allCountry] = useState(getAllCountryData);
   const [country, setCountry] = useState(allCountry);
   const [year, setYear] = useState<number>(2023);
   const [isShowing, setIsShowing] = useState(false);

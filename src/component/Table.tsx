@@ -43,6 +43,19 @@ const Table = ({
     [arr, data, tableDataFunction]
   );
 
+  const tbodyData = useMemo(
+    () => arrCountry.map((item, index) => CountryDataFunction(item, index)),
+    [arrCountry, CountryDataFunction]
+  );
+
+  const thData = useMemo(
+    () =>
+      arr.map((item, index) => (
+        <TableHeader key={index} item={item}></TableHeader>
+      )),
+    [arr]
+  );
+
   useEffect(() => {
     setArrCountry(country);
     setArrCountry((prev) =>
@@ -135,14 +148,10 @@ const Table = ({
               </span>
             </button>
           </th>
-          {arr.map((item, index) => (
-            <TableHeader key={index} item={item}></TableHeader>
-          ))}
+          {thData}
         </tr>
       </thead>
-      <tbody>
-        {arrCountry.map((item, index) => CountryDataFunction(item, index))}
-      </tbody>
+      <tbody>{tbodyData}</tbody>
     </table>
   );
 };

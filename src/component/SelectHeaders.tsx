@@ -19,12 +19,9 @@ const SelectHeaders = ({
     [setSelects, selects]
   );
 
-  return (
-    <ul
-      className={` z-[1000] float-left m-0 p-2 overflow-y-scroll h-120 min-w-max list-none rounded-lg border-none bg-gray-200 bg-clip-padding text-base shadow-lg dark:bg-surface-dark`}
-      aria-labelledby="dropdownMenuButton1"
-    >
-      {arr.map((select) => (
+  const headersData = useMemo(
+    () =>
+      arr.map((select) => (
         <li key={select}>
           <label className="flex items-center space-x-3 cursor-pointer">
             <input
@@ -39,7 +36,16 @@ const SelectHeaders = ({
             <span className="text-black ">{select}</span>
           </label>
         </li>
-      ))}
+      )),
+    [arr, handleChange, selects]
+  );
+
+  return (
+    <ul
+      className={` z-[1000] float-left m-0 p-2 overflow-y-scroll h-120 min-w-max list-none rounded-lg border-none bg-gray-200 bg-clip-padding text-base shadow-lg dark:bg-surface-dark`}
+      aria-labelledby="dropdownMenuButton1"
+    >
+      {headersData}
     </ul>
   );
 };

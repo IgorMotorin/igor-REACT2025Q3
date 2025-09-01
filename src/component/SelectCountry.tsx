@@ -21,6 +21,27 @@ const SelectCountry = ({
     [country, setCountry]
   );
 
+  const countryData = useMemo(
+    () =>
+      arr.map((select) => (
+        <li key={select}>
+          <label className="flex items-center space-x-3 cursor-pointer">
+            <input
+              id={select}
+              checked={country[select]}
+              type="checkbox"
+              onChange={() => {
+                handleChange(select);
+              }}
+              className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
+            />
+            <span className="text-black ">{select}</span>
+          </label>
+        </li>
+      )),
+    [arr, country, handleChange]
+  );
+
   return (
     <div className="relative">
       <button
@@ -51,22 +72,7 @@ const SelectCountry = ({
         className={`absolute z-[1000] float-left pl-2 m-1 ${see ? '' : 'hidden'} overflow-y-scroll h-120 min-w-max list-none rounded-lg border-none bg-white bg-clip-padding text-base shadow-lg dark:bg-surface-dark`}
         aria-labelledby="dropdownMenuButton1"
       >
-        {arr.map((select) => (
-          <li key={select}>
-            <label className="flex items-center space-x-3 cursor-pointer">
-              <input
-                id={select}
-                checked={country[select]}
-                type="checkbox"
-                onChange={() => {
-                  handleChange(select);
-                }}
-                className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
-              />
-              <span className="text-black ">{select}</span>
-            </label>
-          </li>
-        ))}
+        {countryData}
       </ul>
     </div>
   );

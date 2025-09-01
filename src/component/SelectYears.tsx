@@ -1,6 +1,6 @@
 import getYears from '../function/getYears.tsx';
 import * as React from 'react';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 export type tData = {
   [country: string]: {
@@ -40,4 +40,4 @@ const SelectYears = ({
   );
 };
 
-export default SelectYears;
+export default memo(SelectYears);

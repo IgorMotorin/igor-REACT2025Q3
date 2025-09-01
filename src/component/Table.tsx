@@ -1,6 +1,6 @@
 import TableHeader from './TableHeader.tsx';
 import TableData from './TableData.tsx';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import type { tData } from './SelectYears.tsx';
 
 const Table = ({
@@ -27,7 +27,7 @@ const Table = ({
     (itm: string, item: string, index: number) => {
       const tmp = data[item].data.filter((el) => el.year == year);
 
-      return <TableData key={itm + index} tmp={tmp} itm={itm}></TableData>;
+      return <TableData key={item + index} tmp={tmp} itm={itm}></TableData>;
     },
     [data, year]
   );
@@ -147,4 +147,4 @@ const Table = ({
   );
 };
 
-export default Table;
+export default memo(Table);

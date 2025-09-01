@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 const TableHeader = ({ item }: { item: string }) => {
   const [isUpdated, setIsUpdated] = useState(false);
@@ -40,4 +40,4 @@ const TableHeader = ({ item }: { item: string }) => {
   );
 };
 
-export default TableHeader;
+export default memo(TableHeader);

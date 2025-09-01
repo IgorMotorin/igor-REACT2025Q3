@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import * as React from 'react';
 export type tCountry = { [country: string]: boolean };
 
@@ -72,4 +72,4 @@ const SelectCountry = ({
   );
 };
 
-export default SelectCountry;
+export default memo(SelectCountry);

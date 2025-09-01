@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 const TableData = ({
   tmp,
@@ -24,4 +24,4 @@ const TableData = ({
   );
 };
 
-export default TableData;
+export default memo(TableData);

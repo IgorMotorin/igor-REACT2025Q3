@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 export type tSelects = { [selects: string]: boolean };
 
 const SelectHeaders = ({
@@ -44,4 +44,4 @@ const SelectHeaders = ({
   );
 };
 
-export default SelectHeaders;
+export default memo(SelectHeaders);

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import ErrorBoundary from './component/ErrorBoundary.tsx';
+import Loading from './component/Loading.tsx';
 
 const container = document.getElementById('root');
 
@@ -12,7 +13,7 @@ if (container) {
   root.render(
     <StrictMode>
       <ErrorBoundary>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading></Loading>}>
           <App />
         </Suspense>
       </ErrorBoundary>

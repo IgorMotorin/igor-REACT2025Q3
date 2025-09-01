@@ -5,7 +5,6 @@ async function fetchData() {
     url: 'https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.json',
     method: 'GET',
   });
-  console.log(response);
   return response.data;
 }
 

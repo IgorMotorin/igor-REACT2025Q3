@@ -56,9 +56,8 @@ const Table = ({
     [arr]
   );
 
-  useEffect(() => {
-    setArrCountry(country);
-    setArrCountry((prev) =>
+  const setArrCountryFun = useCallback(
+    (prev: string[], sortBy: string, sortFlag: boolean, data: tData) =>
       [...prev].sort((a, b) => {
         if (sortBy === 'country') {
           if (sortFlag) {
@@ -80,9 +79,14 @@ const Table = ({
         } else {
           return 0;
         }
-      })
-    );
-  }, [sortFlag, sortBy, data, country]);
+      }),
+    []
+  );
+
+  useEffect(() => {
+    setArrCountry(country);
+    setArrCountry((prev) => setArrCountryFun(prev, sortBy, sortFlag, data));
+  }, [country, data, setArrCountryFun, sortBy, sortFlag]);
 
   return (
     <table id="example" className="table-auto w-full">

@@ -25,17 +25,29 @@ const App = () => {
     () => Object.keys(country).filter((itm) => country[itm]),
     [country]
   );
+  const modalButton = useMemo(
+    () => <ModalButton setIsShowing={setIsShowing}></ModalButton>,
+    [setIsShowing]
+  );
+  const selectCountry = useMemo(
+    () => (
+      <SelectCountry country={country} setCountry={setCountry}></SelectCountry>
+    ),
+    [country, setCountry]
+  );
+  const table = useMemo(
+    () => (
+      <Table data={data} headers={headers} year={year} country={countryData} />
+    ),
+    [data, headers, year, countryData]
+  );
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className={'flex items-center'}>
         <h2 className="text-2xl font-bold mb-4">Data on CO2</h2>
-
-        <ModalButton setIsShowing={setIsShowing}></ModalButton>
-        <SelectCountry
-          country={country}
-          setCountry={setCountry}
-        ></SelectCountry>
+        {modalButton}
+        {selectCountry}
         <Modal isShowing={isShowing} handleClose={() => setIsShowing(false)}>
           <SelectHeaders
             selects={headers}
@@ -47,7 +59,7 @@ const App = () => {
         <Search country={allCountry} setCountry={setCountry} />
       </div>
 
-      <Table data={data} headers={headers} year={year} country={countryData} />
+      {table}
     </div>
   );
 };

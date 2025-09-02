@@ -13,7 +13,7 @@ const TableData = ({
     setIsUpdated(true);
     const timer = setTimeout(() => {
       setIsUpdated(false);
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [itm, tmp]);

@@ -7,7 +7,7 @@ const TableHeader = ({ item }: { item: string }) => {
     setIsUpdated(true);
     const timer = setTimeout(() => {
       setIsUpdated(false);
-    }, 2000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [item]);

@@ -1,21 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import App from '../../App';
+
+const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+beforeEach(() => {
+  // Start each test with a clean slate
+  localStorage.clear();
+  getItemSpy.mockClear();
+  setItemSpy.mockClear();
+});
 
 describe('Search: User Interaction Tests', () => {
   it('v1 - Displays previously saved search term from localStorage on mount', () => {
-    // Set up our spies
-    const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
-    const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
-
-    beforeEach(() => {
-      // Start each test with a clean slate
-      localStorage.clear();
-      getItemSpy.mockClear();
-      setItemSpy.mockClear();
-    });
-
     getItemSpy.mockReturnValue('dark');
 
     render(<App />);
@@ -26,17 +23,6 @@ describe('Search: User Interaction Tests', () => {
   });
 
   it('v1 - Shows empty input when no saved term exists', () => {
-    // Set up our spies
-    const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
-    const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
-
-    beforeEach(() => {
-      // Start each test with a clean slate
-      localStorage.clear();
-      getItemSpy.mockClear();
-      setItemSpy.mockClear();
-    });
-
     getItemSpy.mockReturnValue('');
 
     render(<App />);
@@ -58,16 +44,6 @@ describe('Search: User Interaction Tests', () => {
     expect(input).toHaveValue('userinput');
   });
   it('Saves search term to localStorage when search button is clicked', async () => {
-    const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
-    const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
-
-    beforeEach(() => {
-      // Start each test with a clean slate
-      localStorage.clear();
-      getItemSpy.mockClear();
-      setItemSpy.mockClear();
-    });
-
     render(<App />);
 
     const input = screen.getByRole('searchbox');

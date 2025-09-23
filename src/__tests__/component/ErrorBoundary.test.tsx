@@ -1,12 +1,24 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ErrorBoundary from '../../component/ErrorBoundary';
+const ThrowingComponent = () => {
+  throw new Error('Test Error');
+};
+
+const ChildComponent = () => <div>Это нормальный контент</div>;
 
 describe('Error Boundary Tests', () => {
-  it('Catches and handles JavaScript errors in child components', () => {
-    const ThrowingComponent = () => {
-      throw new Error('Test Error');
-    };
+  it('нормально рендерится при отсутствии ошибок', () => {
+    render(
+      <ErrorBoundary>
+        <ChildComponent />
+      </ErrorBoundary>
+    );
 
+    const normalContent = screen.getByText('Это нормальный контент');
+    expect(normalContent).toBeInTheDocument();
+  });
+
+  it('Catches and handles JavaScript errors in child components', () => {
     expect(() =>
       render(
         <ErrorBoundary>
@@ -18,10 +30,6 @@ describe('Error Boundary Tests', () => {
   });
 
   it('Displays fallback UI when error occurs', () => {
-    const ThrowingComponent = () => {
-      throw new Error('Test Error');
-    };
-
     render(
       <ErrorBoundary>
         <ThrowingComponent />
@@ -33,15 +41,7 @@ describe('Error Boundary Tests', () => {
   });
 
   it('Logs error to console', async () => {
-    const spy = vi.spyOn(console, 'log');
-
-    afterAll(() => {
-      spy.mockReset();
-    });
-
-    const ThrowingComponent = () => {
-      throw new Error('Test Error');
-    };
+    vi.spyOn(console, 'error');
 
     render(
       <ErrorBoundary>
@@ -49,6 +49,25 @@ describe('Error Boundary Tests', () => {
       </ErrorBoundary>
     );
 
-    expect(spy).toHaveBeenCalledTimes(0);
+    expect(console.error).toHaveBeenCalledTimes(1);
+  });
+
+  it('обновляет страницу при клике на кнопку', () => {
+    const reloadMock = vi.fn();
+
+    vi.stubGlobal('location', {
+      reload: reloadMock,
+    });
+
+    render(
+      <ErrorBoundary>
+        <ThrowingComponent />
+      </ErrorBoundary>
+    );
+
+    const refreshButton = screen.getByText('Обновить страницу');
+    fireEvent.click(refreshButton);
+
+    expect(reloadMock).toHaveBeenCalled();
   });
 });

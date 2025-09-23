@@ -81,6 +81,7 @@ class App extends Component {
         <Error run={this.state.error} text={this.state.errorText}></Error>
         <Spinner run={this.state.spinner}></Spinner>
         <Search
+          data-testid="app-root"
           onChange={this.inputChange}
           onSearch={this.inputSearch}
           value={this.state.inputSearch}

@@ -15,24 +15,14 @@ describe('component Search Renders', () => {
     const input = screen.getByRole('searchbox');
     expect(input).toBeInTheDocument();
     expect(input).toHaveValue('inputText');
-  });
-
-  it('should Renders search button', () => {
-    const searchProp = {
-      onChange: () => {},
-      onSearch: () => {},
-      value: 'inputText',
-      buttonError: false,
-    };
-    render(<Search {...searchProp} />);
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent(/поиск/i);
   });
-
   it('v2 - Displays previously saved search term from localStorage on mount', () => {
-    localStorage.setItem('appkey', 'local');
+    const testText = 'testText';
+    localStorage.setItem('appkey', testText);
     const searchProp = {
       onChange: () => {},
       onSearch: () => {},
@@ -43,7 +33,7 @@ describe('component Search Renders', () => {
     render(<Search {...searchProp} />);
     const input = screen.getByRole('searchbox');
     expect(input).toBeInTheDocument();
-    expect(input).toHaveValue('local');
+    expect(input).toHaveValue(testText);
   });
   it('v2 - Shows empty input when no saved term exists', () => {
     localStorage.clear();
@@ -61,9 +51,11 @@ describe('component Search Renders', () => {
     expect(input).toHaveValue('');
   });
   it('Triggers search callback with correct parameters', async () => {
+    const onChange = vi.fn();
+    const onClick = vi.fn();
     const searchProp = {
-      onChange: vi.fn(),
-      onSearch: () => {},
+      onChange: onChange,
+      onSearch: onClick,
       value: '',
       buttonError: false,
     };
@@ -71,33 +63,38 @@ describe('component Search Renders', () => {
     render(app.render());
 
     const input = screen.getByRole('searchbox');
-
-    const user = userEvent.setup();
-    const test = 'ut';
-    await user.click(input);
-    await user.keyboard(test);
-
-    expect(app.props.onChange).toHaveBeenCalledTimes(test.length);
-  });
-  it('Triggers search callback Button', async () => {
-    const searchProp = {
-      onChange: () => {},
-      onSearch: vi.fn(),
-      value: '',
-      buttonError: false,
-    };
-    const app = new Search(searchProp);
-    render(app.render());
+    expect(input).toBeInTheDocument();
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent(/поиск/i);
 
     const user = userEvent.setup();
+    const test = 'ut';
+    await user.click(input);
+    await user.keyboard(test);
+
+    expect(onChange).toHaveBeenCalledTimes(test.length);
 
     await user.click(button);
     await user.click(button);
 
-    expect(app.props.onSearch).toHaveBeenCalledTimes(2);
+    expect(onClick).toHaveBeenCalledTimes(2);
+  });
+  it('Проверка ошибки', async () => {
+    const onChange = vi.fn();
+    const onSearch = vi.fn();
+
+    // ожидайте выброс исключения
+    expect(() => {
+      render(
+        <Search
+          onChange={onChange}
+          onSearch={onSearch}
+          value=""
+          buttonError={true}
+        />
+      );
+    }).toThrow('I crashed!');
   });
 });

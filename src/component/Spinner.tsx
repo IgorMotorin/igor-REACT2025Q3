@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 class Spinner extends Component<{ run: boolean }> {
   render() {
-    return (
+    const spinner = (
       <div
         data-testid="spinner"
         className={
@@ -36,6 +36,7 @@ class Spinner extends Component<{ run: boolean }> {
         </div>
       </div>
     );
+    return this.props.run ? spinner : null;
   }
 }
 

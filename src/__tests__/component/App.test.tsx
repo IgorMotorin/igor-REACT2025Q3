@@ -79,4 +79,18 @@ describe('Search: User Interaction Tests', () => {
     expect(button[0]).toBeInTheDocument();
     expect(input).toHaveValue('user input text1');
   });
+
+  it('button error', async () => {
+    try {
+      render(<App />);
+
+      const button = screen.getByTestId('btn-error');
+      const user = userEvent.setup();
+      await user.click(button);
+    } catch (error) {
+      if (error instanceof Error) {
+        expect(error?.message).toMatch(/I crashed!/i); // проверяем содержимое ошибки
+      }
+    }
+  });
 });

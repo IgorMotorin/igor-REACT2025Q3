@@ -40,11 +40,7 @@ class App extends Component {
       .then((req) => {
         this.setState({
           pets: req.data.filter((item: { fact: string }) => {
-            if (regex.test(item.fact?.toLowerCase())) {
-              return true;
-            } else {
-              return false;
-            }
+            return regex.test(item.fact?.toLowerCase());
           }),
         });
       })

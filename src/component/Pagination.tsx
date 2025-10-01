@@ -12,25 +12,55 @@ export default function Pagination({
   const [, setSearch] = useSearchParams();
   const numPag = numPagination % 10 ? numPagination % 10 : 10;
 
+  const handleDec = () => {
+    setSearch((prev) => {
+      prev.set('page', String(numPagination < 2 ? 1 : numPagination - 1));
+      const searchParam = prev.get('search');
+
+      if (searchParam) {
+        prev.set('search', searchParam);
+      }
+
+      return prev;
+    });
+  };
+
+  const handlePage = (idx: number) => {
+    setSearch((prev) => {
+      const searchParam = prev.get('search');
+      prev.set(
+        'page',
+        String(Math.floor((numPagination - 1) / 10) * 10 + idx + 1)
+      );
+      if (searchParam) {
+        prev.set('search', searchParam);
+      }
+
+      return prev;
+    });
+  };
+
+  const handleInc = () => {
+    setSearch((prev) => {
+      prev.set(
+        'page',
+        String(numPagination > num - 1 ? num : numPagination + 1)
+      );
+      const searchParam = prev.get('search');
+
+      if (searchParam) {
+        prev.set('search', searchParam);
+      }
+
+      return prev;
+    });
+  };
+
   return (
     <ol className="flex justify-center text-xs font-medium space-x-1 mb-6">
       <li>
         <button
-          onClick={() => {
-            setSearch((prev) => {
-              prev.set(
-                'page',
-                String(numPagination < 2 ? 1 : numPagination - 1)
-              );
-              const searchParam = prev.get('search');
-
-              if (searchParam) {
-                prev.set('search', searchParam);
-              }
-
-              return prev;
-            });
-          }}
+          onClick={handleDec}
           disabled={numPagination < 2}
           className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${numPagination < 2 ? '' : 'hover:bg-blue-200  active:text-white active:bg-blue-600 active:border-blue-600'} `}
         >
@@ -52,20 +82,7 @@ export default function Pagination({
         return (
           <li key={'f' + item + idx}>
             <button
-              onClick={() => {
-                setSearch((prev) => {
-                  const searchParam = prev.get('search');
-                  prev.set(
-                    'page',
-                    String(Math.floor((numPagination - 1) / 10) * 10 + idx + 1)
-                  );
-                  if (searchParam) {
-                    prev.set('search', searchParam);
-                  }
-
-                  return prev;
-                });
-              }}
+              onClick={() => handlePage(idx)}
               className={
                 idx + 1 == numPag
                   ? // idx + 1 == numPagination % 10 || idx + 1 == 10
@@ -82,21 +99,7 @@ export default function Pagination({
 
       <li>
         <button
-          onClick={() => {
-            setSearch((prev) => {
-              prev.set(
-                'page',
-                String(numPagination > num - 1 ? num : numPagination + 1)
-              );
-              const searchParam = prev.get('search');
-
-              if (searchParam) {
-                prev.set('search', searchParam);
-              }
-
-              return prev;
-            });
-          }}
+          onClick={handleInc}
           disabled={numPagination > num - 1}
           className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${numPagination > num - 1 ? '' : 'hover:bg-blue-200 active:text-white active:bg-blue-600 active:border-blue-600'} `}
         >

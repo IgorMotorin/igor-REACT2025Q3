@@ -20,6 +20,7 @@ export default function Result({
     <div className="flex ">
       <ErrorScreen run={error} text={errorText}></ErrorScreen>
       <Spinner run={spinner}></Spinner>
+
       <ul className="flex justify-center content-start flex-wrap">
         {cards.length > 0 ? (
           cards.map((itm, idx) => {
@@ -34,13 +35,6 @@ export default function Result({
             );
           })
         ) : (
-          // <Card
-          //   key={'a1'}
-          //   name={'no result'}
-          //   text={'no result'}
-          //   page={1}
-          //   id={0}
-          // ></Card>
           <div className=" items-center p-5 rounded-md w-80">
             <h1 className="font-bold text-xl mb-2">No result...</h1>
           </div>

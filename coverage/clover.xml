@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1754231120019" clover="3.2.0">
-  <project timestamp="1754231120019" name="All files">
-    <metrics statements="656" coveredstatements="567" conditionals="73" coveredconditionals="51" methods="29" coveredmethods="23" elements="758" coveredelements="641" complexity="0" loc="656" ncloc="656" packages="3" files="18" classes="18"/>
+<coverage generated="1759088126848" clover="3.2.0">
+  <project timestamp="1759088126848" name="All files">
+    <metrics statements="656" coveredstatements="562" conditionals="69" coveredconditionals="47" methods="29" coveredmethods="23" elements="754" coveredelements="632" complexity="0" loc="656" ncloc="656" packages="3" files="18" classes="18"/>
     <package name="src">
-      <metrics statements="125" coveredstatements="95" conditionals="22" coveredconditionals="15" methods="5" coveredmethods="4"/>
+      <metrics statements="125" coveredstatements="90" conditionals="18" coveredconditionals="11" methods="5" coveredmethods="4"/>
       <file name="App.tsx" path="C:\Users\igorm\OneDrive\Документы\JS Coding 2025\02_React\rs-react2025\rs-react-app\src\App.tsx">
-        <metrics statements="109" coveredstatements="95" conditionals="21" coveredconditionals="15" methods="4" coveredmethods="4"/>
+        <metrics statements="109" coveredstatements="90" conditionals="17" coveredconditionals="11" methods="4" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -30,13 +30,13 @@
         <line num="24" count="64" type="stmt"/>
         <line num="26" count="64" type="cond" truecount="1" falsecount="0"/>
         <line num="27" count="10" type="stmt"/>
-        <line num="28" count="10" type="cond" truecount="1" falsecount="0"/>
-        <line num="29" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="28" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="29" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="cond" truecount="1" falsecount="0"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="34" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
@@ -52,10 +52,10 @@
         <line num="48" count="10" type="stmt"/>
         <line num="49" count="10" type="cond" truecount="2" falsecount="0"/>
         <line num="50" count="10" type="stmt"/>
-        <line num="52" count="10" type="cond" truecount="1" falsecount="0"/>
-        <line num="53" count="1" type="stmt"/>
-        <line num="54" count="10" type="cond" truecount="0" falsecount="1"/>
-        <line num="55" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="52" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="54" count="10" type="stmt"/>
+        <line num="55" count="10" type="cond" truecount="0" falsecount="1"/>
         <line num="56" count="10" type="stmt"/>
         <line num="57" count="10" type="cond" truecount="0" falsecount="1"/>
         <line num="58" count="0" type="stmt"/>
